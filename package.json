@@ -114,7 +114,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.0",
     "@gfx/zopfli": "^1.0.11",
-    "@types/chai": "^4.1.7",
+    "@types/chai": "^4.2.3",
     "@types/chromecast-caf-receiver": "^3.0.12",
     "@types/chromecast-caf-sender": "^1.0.1",
     "@types/hls.js": "^0.12.3",
