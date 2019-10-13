@@ -924,7 +924,6 @@
             "header": "Script Editor",
             "introduction": "The script editor allows you to create and edit scripts. Please follow the link below to read the instructions to make sure that you have configured Home Assistant correctly.",
             "learn_more": "Learn more about scripts",
-            "pick_script": "Pick script to edit",
             "no_scripts": "We couldn’t find any editable scripts",
             "add_script": "Add script"
           },
@@ -1149,6 +1148,9 @@
             "name_error_msg": "Name is required",
             "linked_user": "Linked User",
             "device_tracker_intro": "Select the devices that belong to this person.",
+            "no_device_tracker_available_intro": "When you have devices that indicate the presence of a person, you will be able to assign them to a person here. You can add your first device by adding a presence-detection integration from the integrations page.",
+            "link_presence_detection_integrations": "Presence Detection Integrations",
+            "link_integrations_page": "Integrations page",
             "device_tracker_picked": "Track Device",
             "device_tracker_pick": "Pick device to track",
             "delete": "Delete",
