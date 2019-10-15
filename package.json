@@ -24,7 +24,7 @@
     "@material/mwc-checkbox": "^0.8.0",
     "@material/mwc-fab": "^0.8.0",
     "@material/mwc-ripple": "^0.8.0",
-    "@material/mwc-switch": "^0.8.0",
+    "@material/mwc-switch": "^0.10.0",
     "@mdi/svg": "4.5.95",
     "@polymer/app-layout": "^3.0.2",
     "@polymer/app-localize-behavior": "^3.0.1",
