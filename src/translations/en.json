@@ -402,6 +402,13 @@
         "currently": "Currently",
         "on_off": "On / off",
         "target_temperature": "Target temperature",
+        "target_temperature_entity": "{name} target temperature",
+        "target_temperature_mode": "{name} target temperature {mode}",
+        "current_temperature": "{name} current temperature",
+        "heating": "{name} heating",
+        "cooling": "{name} cooling",
+        "high": "high",
+        "low": "low",
         "target_humidity": "Target humidity",
         "operation": "Operation",
         "fan_mode": "Fan mode",
@@ -1779,7 +1786,22 @@
             "title": "Logs"
           },
           "events": {
-            "title": "Events"
+            "title": "Events",
+            "description": "Fire an event on the event bus.",
+            "documentation": "Events Documentation.",
+            "type": "Event Type",
+            "data": "Event Data (YAML, optional)",
+            "fire_event": "Fire Event",
+            "event_fired": "Event {name} fired",
+            "available_events": "Available Events",
+            "count_listeners": " ({count}  listeners)",
+            "listen_to_events": "Listen to events",
+            "listening_to": "Listening to",
+            "subscribe_to": "Event to subscribe to",
+            "start_listening": "Start listening",
+            "stop_listening": "Stop listening",
+            "alert_event_type": "Event type is a mandatory field",
+            "notification_event_fired": "Event {type} successful fired!"
           },
           "mqtt": {
             "title": "MQTT"
