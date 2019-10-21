@@ -1,5 +1,5 @@
-const {createDemoConfig} = require("../build-scripts/webpack.js");
-const {isProdBuild, isStatsBuild} = require("../build-scripts/env.js");
+const { createDemoConfig } = require("../build-scripts/webpack.js");
+const { isProdBuild, isStatsBuild } = require("../build-scripts/env.js");
 
 // File just used for stats builds
 
