@@ -151,7 +151,7 @@
     "lodash.template": "^4.5.0",
     "map-stream": "^0.0.7",
     "merge-stream": "^1.0.1",
-    "mocha": "^6.0.2",
+    "mocha": "^6.2.2",
     "parse5": "^5.1.0",
     "prettier": "^1.16.4",
     "raw-loader": "^2.0.0",
