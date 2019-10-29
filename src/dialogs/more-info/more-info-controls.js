@@ -1,28 +1,28 @@
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../components/state-history-charts";
 import "../../data/ha-state-history-data";
 import "../../resources/ha-style";
 import "../../state-summary/state-card-content";
-
 import "./controls/more-info-content";
 
-import { computeStateName } from "../../common/entity/compute_state_name";
-import { computeStateDomain } from "../../common/entity/compute_state_domain";
-import { isComponentLoaded } from "../../common/config/is_component_loaded";
-import { DOMAINS_MORE_INFO_NO_HISTORY } from "../../common/const";
-import { EventsMixin } from "../../mixins/events-mixin";
-import { computeRTL } from "../../common/util/compute_rtl";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
-const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
+import {isComponentLoaded} from "../../common/config/is_component_loaded";
+import {DOMAINS_MORE_INFO_NO_HISTORY} from "../../common/const";
+import {computeStateDomain} from "../../common/entity/compute_state_domain";
+import {computeStateName} from "../../common/entity/compute_state_name";
+import {computeRTL} from "../../common/util/compute_rtl";
+import {EventsMixin} from "../../mixins/events-mixin";
+
+const DOMAINS_NO_INFO = [ "camera", "configurator", "history_graph" ];
 /*
  * @appliesMixin EventsMixin
  */
-class MoreInfoControls extends EventsMixin(PolymerElement) {
+class MoreInfoControls extends EventsMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style-dialog">
@@ -121,50 +121,48 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      hass : Object,
 
-      stateObj: {
-        type: Object,
-        observer: "_stateObjChanged",
+      stateObj : {
+        type : Object,
+        observer : "_stateObjChanged",
       },
 
-      dialogElement: Object,
-      canConfigure: Boolean,
+      dialogElement : Object,
+      canConfigure : Boolean,
 
-      domain: {
-        type: String,
-        reflectToAttribute: true,
-        computed: "_computeDomain(stateObj)",
+      domain : {
+        type : String,
+        reflectToAttribute : true,
+        computed : "_computeDomain(stateObj)",
       },
 
-      _stateHistory: Object,
-      _stateHistoryLoading: Boolean,
+      _stateHistory : Object,
+      _stateHistoryLoading : Boolean,
 
-      large: {
-        type: Boolean,
-        value: false,
-        notify: true,
+      large : {
+        type : Boolean,
+        value : false,
+        notify : true,
       },
 
-      _cacheConfig: {
-        type: Object,
-        value: {
-          refresh: 60,
-          cacheKey: null,
-          hoursToShow: 24,
+      _cacheConfig : {
+        type : Object,
+        value : {
+          refresh : 60,
+          cacheKey : null,
+          hoursToShow : 24,
         },
       },
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+      rtl : {
+        type : Boolean,
+        reflectToAttribute : true,
+        computed : "_computeRTL(hass)",
       },
     };
   }
 
-  enlarge() {
-    this.large = !this.large;
-  }
+  enlarge() { this.large = !this.large; }
 
   _computeShowStateInfo(stateObj) {
     return !stateObj || !DOMAINS_NO_INFO.includes(computeStateDomain(stateObj));
@@ -172,11 +170,8 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
 
   _computeShowHistoryComponent(hass, stateObj) {
     return (
-      hass &&
-      stateObj &&
-      isComponentLoaded(hass, "history") &&
-      !DOMAINS_MORE_INFO_NO_HISTORY.includes(computeStateDomain(stateObj))
-    );
+        hass && stateObj && isComponentLoaded(hass, "history") &&
+        !DOMAINS_MORE_INFO_NO_HISTORY.includes(computeStateDomain(stateObj)));
   }
 
   _computeDomain(stateObj) {
@@ -195,17 +190,13 @@ class MoreInfoControls extends EventsMixin(PolymerElement) {
     if (this._cacheConfig.cacheKey !== `more_info.${newVal.entity_id}`) {
       this._cacheConfig = {
         ...this._cacheConfig,
-        cacheKey: `more_info.${newVal.entity_id}`,
+        cacheKey : `more_info.${newVal.entity_id}`,
       };
     }
   }
 
-  _gotoSettings() {
-    this.fire("more-info-page", { page: "settings" });
-  }
+  _gotoSettings() { this.fire("more-info-page", {page : "settings"}); }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
-  }
+  _computeRTL(hass) { return computeRTL(hass); }
 }
 customElements.define("more-info-controls", MoreInfoControls);
