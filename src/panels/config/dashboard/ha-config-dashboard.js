@@ -10,18 +10,17 @@ import "../../../components/ha-icon-next";
 import "../ha-config-section";
 import "./ha-config-navigation";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {isComponentLoaded} from "../../../common/config/is_component_loaded";
+import { isComponentLoaded } from "../../../common/config/is_component_loaded";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaConfigDashboard extends NavigateMixin
-(LocalizeMixin(PolymerElement)) {
+class HaConfigDashboard extends NavigateMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
     <style include="iron-flex ha-style">
@@ -135,11 +134,11 @@ class HaConfigDashboard extends NavigateMixin
 
   static get properties() {
     return {
-      hass : Object,
-      narrow : Boolean,
-      isWide : Boolean,
-      cloudStatus : Object,
-      showAdvanced : Boolean,
+      hass: Object,
+      narrow: Boolean,
+      isWide: Boolean,
+      cloudStatus: Object,
+      showAdvanced: Boolean,
     };
   }
 
