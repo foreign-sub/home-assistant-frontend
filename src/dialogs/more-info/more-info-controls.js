@@ -1,22 +1,21 @@
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../components/state-history-charts";
 import "../../data/ha-state-history-data";
 import "../../resources/ha-style";
 import "../../state-summary/state-card-content";
-
 import "./controls/more-info-content";
 
-import { computeStateName } from "../../common/entity/compute_state_name";
-import { computeStateDomain } from "../../common/entity/compute_state_domain";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
+
 import { isComponentLoaded } from "../../common/config/is_component_loaded";
 import { DOMAINS_MORE_INFO_NO_HISTORY } from "../../common/const";
-import { EventsMixin } from "../../mixins/events-mixin";
+import { computeStateDomain } from "../../common/entity/compute_state_domain";
+import { computeStateName } from "../../common/entity/compute_state_name";
 import { computeRTL } from "../../common/util/compute_rtl";
+import { EventsMixin } from "../../mixins/events-mixin";
 
 const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
 /*

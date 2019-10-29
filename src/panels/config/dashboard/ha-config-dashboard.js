@@ -4,15 +4,14 @@ import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/iron-icon/iron-icon";
 import "@polymer/paper-item/paper-item-body";
 import "@polymer/paper-item/paper-item";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../../components/ha-card";
 import "../../../components/ha-menu-button";
 import "../../../components/ha-icon-next";
-
 import "../ha-config-section";
 import "./ha-config-navigation";
+
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import { isComponentLoaded } from "../../../common/config/is_component_loaded";
 import LocalizeMixin from "../../../mixins/localize-mixin";

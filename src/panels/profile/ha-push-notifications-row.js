@@ -1,14 +1,13 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/iron-label/iron-label";
+import "./ha-settings-row";
+
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import { isComponentLoaded } from "../../common/config/is_component_loaded";
 import { pushSupported } from "../../components/ha-push-notifications-toggle";
-
 import LocalizeMixin from "../../mixins/localize-mixin";
-
-import "./ha-settings-row";
 
 /*
  * @appliesMixin LocalizeMixin

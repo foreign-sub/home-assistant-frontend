@@ -1,5 +1,3 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "@polymer/app-layout/app-header/app-header";
 import "@polymer/app-layout/app-scroll-effects/effects/waterfall";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
@@ -8,22 +6,23 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/iron-pages/iron-pages";
 import "@polymer/paper-tabs/paper-tab";
 import "@polymer/paper-tabs/paper-tabs";
-
 import "../../components/ha-cards";
 import "../../components/ha-icon";
 import "../../components/ha-menu-button";
-
 import "../../layouts/ha-app-layout";
 
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
+
+import { isComponentLoaded } from "../../common/config/is_component_loaded";
+import computeLocationName from "../../common/config/location_name";
+import { computeStateDomain } from "../../common/entity/compute_state_domain";
+import { computeStateName } from "../../common/entity/compute_state_name";
 import { extractViews } from "../../common/entity/extract_views";
 import { getViewEntities } from "../../common/entity/get_view_entities";
-import { computeStateName } from "../../common/entity/compute_state_name";
-import { computeStateDomain } from "../../common/entity/compute_state_domain";
-import computeLocationName from "../../common/config/location_name";
-import NavigateMixin from "../../mixins/navigate-mixin";
-import { EventsMixin } from "../../mixins/events-mixin";
 import { showVoiceCommandDialog } from "../../dialogs/voice-command-dialog/show-ha-voice-command-dialog";
-import { isComponentLoaded } from "../../common/config/is_component_loaded";
+import { EventsMixin } from "../../mixins/events-mixin";
+import NavigateMixin from "../../mixins/navigate-mixin";
 
 const DEFAULT_VIEW_ENTITY_ID = "group.default_view";
 const ALWAYS_SHOW_DOMAIN = ["persistent_notification", "configurator"];
@@ -271,16 +270,19 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
    *
    * @method scroll
    * @param {number} top The coordinate to scroll to, along the y-axis.
-   * @param {boolean} smooth true if the scroll position should be smoothly adjusted.
+   * @param {boolean} smooth true if the scroll position should be smoothly
+   *     adjusted.
    */
   scrollToTop() {
     // the scroll event will trigger _updateScrollState directly,
-    // However, _updateScrollState relies on the previous `scrollTop` to update the states.
-    // Calling _updateScrollState will ensure that the states are synced correctly.
+    // However, _updateScrollState relies on the previous `scrollTop` to update
+    // the states. Calling _updateScrollState will ensure that the states are
+    // synced correctly.
     var top = 0;
     var scroller = this.$.layout.header.scrollTarget;
     var easingFn = function easeOutQuad(t, b, c, d) {
-      /* eslint-disable no-param-reassign, space-infix-ops, no-mixed-operators */
+      /* eslint-disable no-param-reassign, space-infix-ops, no-mixed-operators
+       */
       t /= d;
       return -c * t * (t - 2) + b;
       /* eslint-enable no-param-reassign, space-infix-ops, no-mixed-operators */

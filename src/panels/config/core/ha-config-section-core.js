@@ -1,19 +1,17 @@
 import "@material/mwc-button";
 import "@polymer/paper-input/paper-input";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../../components/ha-card";
 import "../../../components/buttons/ha-call-service-button";
 import "../../../resources/ha-style";
-
 import "../ha-config-section";
+import "./ha-config-name-form";
+import "./ha-config-core-form";
+
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import { isComponentLoaded } from "../../../common/config/is_component_loaded";
 import LocalizeMixin from "../../../mixins/localize-mixin";
-
-import "./ha-config-name-form";
-import "./ha-config-core-form";
 
 /*
  * @appliesMixin LocalizeMixin

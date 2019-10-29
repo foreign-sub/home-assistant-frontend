@@ -1,16 +1,14 @@
 import "@polymer/paper-dialog-behavior/paper-dialog-shared-styles";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../resources/ha-style";
-
 import "./more-info/more-info-controls";
 import "./more-info/more-info-settings";
 
-import { computeStateDomain } from "../common/entity/compute_state_domain";
-import { isComponentLoaded } from "../common/config/is_component_loaded";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
+import { isComponentLoaded } from "../common/config/is_component_loaded";
+import { computeStateDomain } from "../common/entity/compute_state_domain";
 import DialogMixin from "../mixins/dialog-mixin";
 
 /*
@@ -163,8 +161,8 @@ class HaMoreInfoDialog extends DialogMixin(PolymerElement) {
 
     requestAnimationFrame(() =>
       requestAnimationFrame(() => {
-        // allow dialog to render content before showing it so it will be
-        // positioned correctly.
+        // allow dialog to render content before showing it
+        // so it will be positioned correctly.
         this.opened = true;
       })
     );

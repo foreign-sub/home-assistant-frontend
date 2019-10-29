@@ -9,14 +9,15 @@ import "@polymer/paper-item/paper-item-body";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
 import "@polymer/paper-menu-button/paper-menu-button";
+import "../../components/ha-menu-button";
+import "../../components/ha-card";
+
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../components/ha-menu-button";
-import "../../components/ha-card";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import { isComponentLoaded } from "../../common/config/is_component_loaded";
 import { showVoiceCommandDialog } from "../../dialogs/voice-command-dialog/show-ha-voice-command-dialog";
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin

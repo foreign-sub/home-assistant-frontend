@@ -3,18 +3,18 @@ import "@polymer/iron-icon/iron-icon";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
+import "../../../components/ha-paper-slider";
+import "../../../components/ha-paper-dropdown-menu";
+
 import { html } from "@polymer/polymer/lib/utils/html-tag";
 import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import "../../../components/ha-paper-slider";
-import "../../../components/ha-paper-dropdown-menu";
-import HassMediaPlayerEntity from "../../../util/hass-media-player-model";
-
-import { attributeClassNames } from "../../../common/entity/attribute_class_names";
 import { isComponentLoaded } from "../../../common/config/is_component_loaded";
+import { attributeClassNames } from "../../../common/entity/attribute_class_names";
+import { computeRTLDirection } from "../../../common/util/compute_rtl";
 import { EventsMixin } from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
-import { computeRTLDirection } from "../../../common/util/compute_rtl";
+import HassMediaPlayerEntity from "../../../util/hass-media-player-model";
 
 /*
  * @appliesMixin LocalizeMixin
