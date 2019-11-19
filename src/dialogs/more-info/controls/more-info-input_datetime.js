@@ -1,13 +1,15 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-input/paper-input";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "@vaadin/vaadin-date-picker/theme/material/vaadin-date-picker";
-
 import "../../../components/ha-relative-time";
 import "../../../components/paper-time-input";
 
-import { attributeClassNames } from "../../../common/entity/attribute_class_names";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {
+  attributeClassNames
+} from "../../../common/entity/attribute_class_names";
 
 class DatetimeInput extends PolymerElement {
   static get template() {
@@ -43,28 +45,28 @@ class DatetimeInput extends PolymerElement {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
+      hass : {
+        type : Object,
       },
 
-      stateObj: {
-        type: Object,
-        observer: "stateObjChanged",
+      stateObj : {
+        type : Object,
+        observer : "stateObjChanged",
       },
 
-      selectedDate: {
-        type: String,
-        observer: "dateTimeChanged",
+      selectedDate : {
+        type : String,
+        observer : "dateTimeChanged",
       },
 
-      selectedHour: {
-        type: Number,
-        observer: "dateTimeChanged",
+      selectedHour : {
+        type : Number,
+        observer : "dateTimeChanged",
       },
 
-      selectedMinute: {
-        type: Number,
-        observer: "dateTimeChanged",
+      selectedMinute : {
+        type : Number,
+        observer : "dateTimeChanged",
       },
     };
   }
@@ -74,7 +76,8 @@ class DatetimeInput extends PolymerElement {
     this.is_ready = true;
   }
 
-  /* Convert the date in the stateObj into a string useable by vaadin-date-picker */
+  /* Convert the date in the stateObj into a string useable by
+   * vaadin-date-picker */
   getDateString(stateObj) {
     if (stateObj.state === "unknown") {
       return "";
@@ -93,15 +96,9 @@ class DatetimeInput extends PolymerElement {
       dayFiller = "";
     }
 
-    return (
-      stateObj.attributes.year +
-      "-" +
-      monthFiller +
-      stateObj.attributes.month +
-      "-" +
-      dayFiller +
-      stateObj.attributes.day
-    );
+    return (stateObj.attributes.year + "-" + monthFiller +
+            stateObj.attributes.month + "-" + dayFiller +
+            stateObj.attributes.day);
   }
 
   /* Should fire when any value was changed *by the user*, not b/c of setting
@@ -116,12 +113,12 @@ class DatetimeInput extends PolymerElement {
     let minuteFiller;
 
     const serviceData = {
-      entity_id: this.stateObj.entity_id,
+      entity_id : this.stateObj.entity_id,
     };
 
     if (this.stateObj.attributes.has_time) {
       changed |=
-        parseInt(this.selectedMinute) !== this.stateObj.attributes.minute;
+          parseInt(this.selectedMinute) !== this.stateObj.attributes.minute;
       changed |= parseInt(this.selectedHour) !== this.stateObj.attributes.hour;
       if (this.selectedMinute < 10) {
         minuteFiller = "0";
@@ -129,7 +126,7 @@ class DatetimeInput extends PolymerElement {
         minuteFiller = "";
       }
       var timeStr =
-        this.selectedHour + ":" + minuteFiller + this.selectedMinute;
+          this.selectedHour + ":" + minuteFiller + this.selectedMinute;
       serviceData.time = timeStr;
     }
 
@@ -139,11 +136,9 @@ class DatetimeInput extends PolymerElement {
       }
 
       const dateValInput = new Date(this.selectedDate);
-      const dateValState = new Date(
-        this.stateObj.attributes.year,
-        this.stateObj.attributes.month - 1,
-        this.stateObj.attributes.day
-      );
+      const dateValState = new Date(this.stateObj.attributes.year,
+                                    this.stateObj.attributes.month - 1,
+                                    this.stateObj.attributes.day);
 
       changed |= dateValState !== dateValInput;
 
@@ -171,19 +166,13 @@ class DatetimeInput extends PolymerElement {
     this.is_ready = true;
   }
 
-  doesHaveDate(stateObj) {
-    return stateObj.attributes.has_date;
-  }
+  doesHaveDate(stateObj) { return stateObj.attributes.has_date; }
 
-  doesHaveTime(stateObj) {
-    return stateObj.attributes.has_time;
-  }
+  doesHaveTime(stateObj) { return stateObj.attributes.has_time; }
 
   computeClassNames(stateObj) {
-    return (
-      "more-info-input_datetime " +
-      attributeClassNames(stateObj, ["has_time", "has_date"])
-    );
+    return ("more-info-input_datetime " +
+            attributeClassNames(stateObj, [ "has_time", "has_date" ]));
   }
 }
 
