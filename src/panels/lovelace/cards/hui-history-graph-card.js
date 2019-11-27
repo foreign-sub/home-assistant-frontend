@@ -1,23 +1,21 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../../components/ha-card";
 import "../../../components/state-history-charts";
 import "../../../data/ha-state-history-data";
 
-import { processConfigEntities } from "../common/process-config-entities";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {processConfigEntities} from "../common/process-config-entities";
 
 class HuiHistoryGraphCard extends PolymerElement {
   static async getConfigElement() {
     await import(
-      /* webpackChunkName: "hui-history-graph-card-editor" */ "../editor/config-elements/hui-history-graph-card-editor"
-    );
+        /* webpackChunkName: "hui-history-graph-card-editor" */
+        "../editor/config-elements/hui-history-graph-card-editor");
     return document.createElement("hui-history-graph-card-editor");
   }
 
-  static getStubConfig() {
-    return { entities: [] };
-  }
+  static getStubConfig() { return {entities : []}; }
 
   static get template() {
     return html`
@@ -55,20 +53,18 @@ class HuiHistoryGraphCard extends PolymerElement {
 
   static get properties() {
     return {
-      hass: Object,
-      _config: Object,
-      _names: Object,
-      _entities: Array,
+      hass : Object,
+      _config : Object,
+      _names : Object,
+      _entities : Array,
 
-      _stateHistory: Object,
-      _stateHistoryLoading: Boolean,
-      _cacheConfig: Object,
+      _stateHistory : Object,
+      _stateHistoryLoading : Boolean,
+      _cacheConfig : Object,
     };
   }
 
-  getCardSize() {
-    return 4;
-  }
+  getCardSize() { return 4; }
 
   setConfig(config) {
     const entities = processConfigEntities(config.entities);
@@ -85,10 +81,10 @@ class HuiHistoryGraphCard extends PolymerElement {
     });
 
     this.setProperties({
-      _cacheConfig: {
-        cacheKey: _entities.join(),
-        hoursToShow: config.hours_to_show || 24,
-        refresh: config.refresh_interval || 0,
+      _cacheConfig : {
+        cacheKey : _entities.join(),
+        hoursToShow : config.hours_to_show || 24,
+        refresh : config.refresh_interval || 0,
       },
       _entities,
       _names,

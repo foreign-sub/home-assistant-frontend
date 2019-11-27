@@ -1,13 +1,14 @@
 import "@polymer/iron-image/iron-image";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
-import { EventsMixin } from "../../mixins/events-mixin";
+import {EventsMixin} from "../../mixins/events-mixin";
 
 /*
  * @appliesMixin EventsMixin
  */
-class HaEntityMarker extends EventsMixin(PolymerElement) {
+class HaEntityMarker extends EventsMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-positioning"></style>
@@ -48,23 +49,23 @@ class HaEntityMarker extends EventsMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
+      hass : {
+        type : Object,
       },
 
-      entityId: {
-        type: String,
-        value: "",
+      entityId : {
+        type : String,
+        value : "",
       },
 
-      entityName: {
-        type: String,
-        value: null,
+      entityName : {
+        type : String,
+        value : null,
       },
 
-      entityPicture: {
-        type: String,
-        value: null,
+      entityPicture : {
+        type : String,
+        value : null,
       },
     };
   }
@@ -77,7 +78,7 @@ class HaEntityMarker extends EventsMixin(PolymerElement) {
   badgeTap(ev) {
     ev.stopPropagation();
     if (this.entityId) {
-      this.fire("hass-more-info", { entityId: this.entityId });
+      this.fire("hass-more-info", {entityId : this.entityId});
     }
   }
 }
