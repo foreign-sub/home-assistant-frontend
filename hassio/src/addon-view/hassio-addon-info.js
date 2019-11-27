@@ -9,70 +9,67 @@ import "../../../src/components/ha-switch";
 import "../../../src/resources/ha-style";
 import "../components/hassio-card-content";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {navigate} from "../../../src/common/navigate";
-import {EventsMixin} from "../../../src/mixins/events-mixin";
-import {
-  showHassioMarkdownDialog
-} from "../dialogs/markdown/show-dialog-hassio-markdown";
+import { navigate } from "../../../src/common/navigate";
+import { EventsMixin } from "../../../src/mixins/events-mixin";
+import { showHassioMarkdownDialog } from "../dialogs/markdown/show-dialog-hassio-markdown";
 
 const PERMIS_DESC = {
-  rating : {
-    title : "Add-on Security Rating",
-    description :
-        "Hass.io provides a security rating to each of the add-ons, which indicates the risks involved when using this add-on. The more access an add-on requires on your system, the lower the score, thus raising the possible security risks.\n\nA score is on a scale from 1 to 6. Where 1 is the lowest score (considered the most insecure and highest risk) and a score of 6 is the highest score (considered the most secure and lowest risk).",
+  rating: {
+    title: "Add-on Security Rating",
+    description:
+      "Hass.io provides a security rating to each of the add-ons, which indicates the risks involved when using this add-on. The more access an add-on requires on your system, the lower the score, thus raising the possible security risks.\n\nA score is on a scale from 1 to 6. Where 1 is the lowest score (considered the most insecure and highest risk) and a score of 6 is the highest score (considered the most secure and lowest risk).",
   },
-  host_network : {
-    title : "Host Network",
-    description :
-        "Add-ons usually run in their own isolated network layer, which prevents them from accessing the network of the host operating system. In some cases, this network isolation can limit add-ons in providing their services and therefore, the isolation can be lifted by the add-on author, giving the add-on full access to the network capabilities of the host machine. This gives the add-on more networking capabilities but lowers the security, hence, the security rating of the add-on will be lowered when this option is used by the add-on.",
+  host_network: {
+    title: "Host Network",
+    description:
+      "Add-ons usually run in their own isolated network layer, which prevents them from accessing the network of the host operating system. In some cases, this network isolation can limit add-ons in providing their services and therefore, the isolation can be lifted by the add-on author, giving the add-on full access to the network capabilities of the host machine. This gives the add-on more networking capabilities but lowers the security, hence, the security rating of the add-on will be lowered when this option is used by the add-on.",
   },
-  homeassistant_api : {
-    title : "Home Assistant API Access",
-    description :
-        "This add-on is allowed to access your running Home Assistant instance directly via the Home Assistant API. This mode handles authentication for the add-on as well, which enables an add-on to interact with Home Assistant without the need for additional authentication tokens.",
+  homeassistant_api: {
+    title: "Home Assistant API Access",
+    description:
+      "This add-on is allowed to access your running Home Assistant instance directly via the Home Assistant API. This mode handles authentication for the add-on as well, which enables an add-on to interact with Home Assistant without the need for additional authentication tokens.",
   },
-  full_access : {
-    title : "Full Hardware Access",
-    description :
-        "This add-on is given full access to the hardware of your system, by request of the add-on author. Access is comparable to the privileged mode in Docker. Since this opens up possible security risks, this feature impacts the add-on security score negatively.\n\nThis level of access is not granted automatically and needs to be confirmed by you. To do this, you need to disable the protection mode on the add-on manually. Only disable the protection mode if you know, need AND trust the source of this add-on.",
+  full_access: {
+    title: "Full Hardware Access",
+    description:
+      "This add-on is given full access to the hardware of your system, by request of the add-on author. Access is comparable to the privileged mode in Docker. Since this opens up possible security risks, this feature impacts the add-on security score negatively.\n\nThis level of access is not granted automatically and needs to be confirmed by you. To do this, you need to disable the protection mode on the add-on manually. Only disable the protection mode if you know, need AND trust the source of this add-on.",
   },
-  hassio_api : {
-    title : "Hass.io API Access",
-    description :
-        "The add-on was given access to the Hass.io API, by request of the add-on author. By default, the add-on can access general version information of your system. When the add-on requests 'manager' or 'admin' level access to the API, it will gain access to control multiple parts of your Hass.io system. This permission is indicated by this badge and will impact the security score of the addon negatively.",
+  hassio_api: {
+    title: "Hass.io API Access",
+    description:
+      "The add-on was given access to the Hass.io API, by request of the add-on author. By default, the add-on can access general version information of your system. When the add-on requests 'manager' or 'admin' level access to the API, it will gain access to control multiple parts of your Hass.io system. This permission is indicated by this badge and will impact the security score of the addon negatively.",
   },
-  docker_api : {
-    title : "Full Docker Access",
-    description :
-        "The add-on author has requested the add-on to have management access to the Docker instance running on your system. This mode gives the add-on full access and control to your entire Hass.io system, which adds security risks, and could damage your system when misused. Therefore, this feature impacts the add-on security score negatively.\n\nThis level of access is not granted automatically and needs to be confirmed by you. To do this, you need to disable the protection mode on the add-on manually. Only disable the protection mode if you know, need AND trust the source of this add-on.",
+  docker_api: {
+    title: "Full Docker Access",
+    description:
+      "The add-on author has requested the add-on to have management access to the Docker instance running on your system. This mode gives the add-on full access and control to your entire Hass.io system, which adds security risks, and could damage your system when misused. Therefore, this feature impacts the add-on security score negatively.\n\nThis level of access is not granted automatically and needs to be confirmed by you. To do this, you need to disable the protection mode on the add-on manually. Only disable the protection mode if you know, need AND trust the source of this add-on.",
   },
-  host_pid : {
-    title : "Host Processes Namespace",
-    description :
-        "Usually, the processes the add-on runs, are isolated from all other system processes. The add-on author has requested the add-on to have access to the system processes running on the host system instance, and allow the add-on to spawn processes on the host system as well. This mode gives the add-on full access and control to your entire Hass.io system, which adds security risks, and could damage your system when misused. Therefore, this feature impacts the add-on security score negatively.\n\nThis level of access is not granted automatically and needs to be confirmed by you. To do this, you need to disable the protection mode on the add-on manually. Only disable the protection mode if you know, need AND trust the source of this add-on.",
+  host_pid: {
+    title: "Host Processes Namespace",
+    description:
+      "Usually, the processes the add-on runs, are isolated from all other system processes. The add-on author has requested the add-on to have access to the system processes running on the host system instance, and allow the add-on to spawn processes on the host system as well. This mode gives the add-on full access and control to your entire Hass.io system, which adds security risks, and could damage your system when misused. Therefore, this feature impacts the add-on security score negatively.\n\nThis level of access is not granted automatically and needs to be confirmed by you. To do this, you need to disable the protection mode on the add-on manually. Only disable the protection mode if you know, need AND trust the source of this add-on.",
   },
-  apparmor : {
-    title : "AppArmor",
-    description :
-        "AppArmor ('Application Armor') is a Linux kernel security module that restricts add-ons capabilities like network access, raw socket access, and permission to read, write, or execute specific files.\n\nAdd-on authors can provide their security profiles, optimized for the add-on, or request it to be disabled. If AppArmor is disabled, it will raise security risks and therefore, has a negative impact on the security score of the add-on.",
+  apparmor: {
+    title: "AppArmor",
+    description:
+      "AppArmor ('Application Armor') is a Linux kernel security module that restricts add-ons capabilities like network access, raw socket access, and permission to read, write, or execute specific files.\n\nAdd-on authors can provide their security profiles, optimized for the add-on, or request it to be disabled. If AppArmor is disabled, it will raise security risks and therefore, has a negative impact on the security score of the add-on.",
   },
-  auth_api : {
-    title : "Home Assistant Authentication",
-    description :
-        "An add-on can authenticate users against Home Assistant, allowing add-ons to give users the possibility to log into applications running inside add-ons, using their Home Assistant username/password. This badge indicates if the add-on author requests this capability.",
+  auth_api: {
+    title: "Home Assistant Authentication",
+    description:
+      "An add-on can authenticate users against Home Assistant, allowing add-ons to give users the possibility to log into applications running inside add-ons, using their Home Assistant username/password. This badge indicates if the add-on author requests this capability.",
   },
-  ingress : {
-    title : "Ingress",
-    description :
-        "This add-on is using Ingress to embed its interface securely into Home Assistant.",
+  ingress: {
+    title: "Ingress",
+    description:
+      "This add-on is using Ingress to embed its interface securely into Home Assistant.",
   },
 };
 
-class HassioAddonInfo extends EventsMixin
-(PolymerElement) {
+class HassioAddonInfo extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -473,23 +470,31 @@ class HassioAddonInfo extends EventsMixin
 
   static get properties() {
     return {
-      hass : Object,
-      addon : Object,
-      addonSlug : String,
-      isRunning : {type : Boolean, computed : "computeIsRunning(addon)"},
+      hass: Object,
+      addon: Object,
+      addonSlug: String,
+      isRunning: { type: Boolean, computed: "computeIsRunning(addon)" },
     };
   }
 
-  computeIsRunning(addon) { return addon && addon.state === "started"; }
+  computeIsRunning(addon) {
+    return addon && addon.state === "started";
+  }
 
   computeUpdateAvailable(addon) {
-    return (addon && !addon.detached && addon.version &&
-            addon.version !== addon.last_version);
+    return (
+      addon &&
+      !addon.detached &&
+      addon.version &&
+      addon.version !== addon.last_version
+    );
   }
 
   computeHassioApi(addon) {
-    return (addon.hassio_api &&
-            (addon.hassio_role === "manager" || addon.hassio_role === "admin"));
+    return (
+      addon.hassio_api &&
+      (addon.hassio_role === "manager" || addon.hassio_role === "admin")
+    );
   }
 
   computeApparmorClassName(apparmor) {
@@ -510,11 +515,17 @@ class HassioAddonInfo extends EventsMixin
     return !ingress && webui && isRunning;
   }
 
-  openIngress() { navigate(this, `/hassio/ingress/${this.addon.slug}`); }
+  openIngress() {
+    navigate(this, `/hassio/ingress/${this.addon.slug}`);
+  }
 
-  computeShowIngressUI(ingress, isRunning) { return ingress && isRunning; }
+  computeShowIngressUI(ingress, isRunning) {
+    return ingress && isRunning;
+  }
 
-  computeStartOnBoot(state) { return state === "auto"; }
+  computeStartOnBoot(state) {
+    return state === "auto";
+  }
 
   computeSecurityClassName(rating) {
     if (rating > 4) {
@@ -527,43 +538,44 @@ class HassioAddonInfo extends EventsMixin
   }
 
   startOnBootToggled() {
-    const data = {boot : this.addon.boot === "auto" ? "manual" : "auto"};
+    const data = { boot: this.addon.boot === "auto" ? "manual" : "auto" };
     this.hass.callApi("POST", `hassio/addons/${this.addonSlug}/options`, data);
   }
 
   autoUpdateToggled() {
-    const data = {auto_update : !this.addon.auto_update};
+    const data = { auto_update: !this.addon.auto_update };
     this.hass.callApi("POST", `hassio/addons/${this.addonSlug}/options`, data);
   }
 
   protectionToggled() {
-    const data = {protected : !this.addon.protected};
+    const data = { protected: !this.addon.protected };
     this.hass.callApi("POST", `hassio/addons/${this.addonSlug}/security`, data);
     this.set("addon.protected", !this.addon.protected);
   }
 
   panelToggled() {
-    const data = {ingress_panel : !this.addon.ingress_panel};
+    const data = { ingress_panel: !this.addon.ingress_panel };
     this.hass.callApi("POST", `hassio/addons/${this.addonSlug}/options`, data);
   }
 
   showMoreInfo(e) {
     const id = e.target.getAttribute("id");
     showHassioMarkdownDialog(this, {
-      title : PERMIS_DESC[id].title,
-      content : PERMIS_DESC[id].description,
+      title: PERMIS_DESC[id].title,
+      content: PERMIS_DESC[id].description,
     });
   }
 
   openChangelog() {
-    this.hass.callApi("get", `hassio/addons/${this.addonSlug}/changelog`)
-        .then((resp) => resp, () => "Error getting changelog")
-        .then((content) => {
-          showHassioMarkdownDialog(this, {
-            title : "Changelog",
-            content : content,
-          });
+    this.hass
+      .callApi("get", `hassio/addons/${this.addonSlug}/changelog`)
+      .then((resp) => resp, () => "Error getting changelog")
+      .then((content) => {
+        showHassioMarkdownDialog(this, {
+          title: "Changelog",
+          content: content,
         });
+      });
   }
 
   _unistallClicked() {
@@ -572,19 +584,23 @@ class HassioAddonInfo extends EventsMixin
     }
     const path = `hassio/addons/${this.addonSlug}/uninstall`;
     const eventData = {
-      path : path,
+      path: path,
     };
-    this.hass.callApi("post", path)
-        .then(
-            (resp) => {
-              eventData.success = true;
-              eventData.response = resp;
-            },
-            (resp) => {
-              eventData.success = false;
-              eventData.response = resp;
-            })
-        .then(() => { this.fire("hass-api-called", eventData); });
+    this.hass
+      .callApi("post", path)
+      .then(
+        (resp) => {
+          eventData.success = true;
+          eventData.response = resp;
+        },
+        (resp) => {
+          eventData.success = false;
+          eventData.response = resp;
+        }
+      )
+      .then(() => {
+        this.fire("hass-api-called", eventData);
+      });
   }
 
   _computeCannotIngressSidebar(hass, addon) {

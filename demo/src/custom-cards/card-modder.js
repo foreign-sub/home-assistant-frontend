@@ -1,12 +1,13 @@
 import "./card-tools";
 
-import {LitElement} from "lit-element";
+import { LitElement } from "lit-element";
 
 class CardModder extends LitElement {
   setConfig(config) {
     if (!window.cardTools)
       throw new Error(
-          `Can't find card-tools. See https://github.com/thomasloven/lovelace-card-tools`);
+        `Can't find card-tools. See https://github.com/thomasloven/lovelace-card-tools`
+      );
     window.cardTools.checkVersion(0.2);
 
     if (!config || !config.card) {
@@ -27,19 +28,23 @@ class CardModder extends LitElement {
     `;
   }
 
-  firstUpdated() { this._cardMod(); }
+  firstUpdated() {
+    this._cardMod();
+  }
 
   _cardMod() {
-    if (!this._config.style)
-      return;
+    if (!this._config.style) return;
 
     let target = null;
     target = target || this.card.querySelector("ha-card");
-    target = target || (this.card.shadowRoot &&
-                        this.card.shadowRoot.querySelector("ha-card"));
     target =
-        target || (this.card.firstChild && this.card.firstChild.shadowRoot &&
-                   this.card.firstChild.shadowRoot.querySelector("ha-card"));
+      target ||
+      (this.card.shadowRoot && this.card.shadowRoot.querySelector("ha-card"));
+    target =
+      target ||
+      (this.card.firstChild &&
+        this.card.firstChild.shadowRoot &&
+        this.card.firstChild.shadowRoot.querySelector("ha-card"));
     if (!target && !this.attempts)
       // Try twice
       setTimeout(() => this._cardMod(), 100);
@@ -51,18 +56,21 @@ class CardModder extends LitElement {
         this.templated.push(k);
       this.card.style.setProperty(k, "");
       target.style.setProperty(
-          k, window.cardTools.parseTemplate(this._config.style[k]));
+        k,
+        window.cardTools.parseTemplate(this._config.style[k])
+      );
     }
     this.target = target;
   }
 
   set hass(hass) {
-    if (this.card)
-      this.card.hass = hass;
+    if (this.card) this.card.hass = hass;
     if (this.templated)
       this.templated.forEach((k) => {
         this.target.style.setProperty(
-            k, window.cardTools.parseTemplate(this._config.style[k], ""));
+          k,
+          window.cardTools.parseTemplate(this._config.style[k], "")
+        );
       });
   }
 
@@ -71,8 +79,8 @@ class CardModder extends LitElement {
       return this._config.report_size;
     if (this.card)
       return typeof this.card.getCardSize === "function"
-                 ? this.card.getCardSize()
-                 : 1;
+        ? this.card.getCardSize()
+        : 1;
     return 1;
   }
 }
