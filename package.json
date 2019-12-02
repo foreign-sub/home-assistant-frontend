@@ -170,7 +170,7 @@
     "typescript": "^3.7.2",
     "web-component-tester": "^6.9.2",
     "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.8.1",
     "webpack-manifest-plugin": "^2.0.4",
     "workbox-webpack-plugin": "^4.1.1",
