@@ -84,7 +84,7 @@
     "google-timezones-json": "^1.0.2",
     "hls.js": "^0.12.4",
     "home-assistant-js-websocket": "^4.4.0",
-    "intl-messageformat": "^2.2.0",
+    "intl-messageformat": "^7.7.0",
     "js-yaml": "^3.13.1",
     "leaflet": "^1.4.0",
     "lit-element": "^2.2.1",
