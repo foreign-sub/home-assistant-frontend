@@ -2319,10 +2319,10 @@
   resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-3.0.12.tgz#0172edc5e43a0b4f426b21a614a58e04e3df009d"
   integrity sha512-GdR9nGOENDWYhF40FasB0Xnsy3c+e68K90sGVBZx1W1N3LP1NGOmCtaxgUpxk4IuHYmzGrW7I57zWZIbT3D5BQ==
 
-"@types/chromecast-caf-sender@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-sender/-/chromecast-caf-sender-1.0.1.tgz#da0047c41c2a7ecf2d5348715b27c4542ed9b579"
-  integrity sha512-/JuG+zrS+KCPwEiOrK9O7WrIMyiUEF7Ev9ywbzXcCOPkXin9tLX7w9zxCmxtnOPdgH9lZbtOvgo5IA4cEJknRg==
+"@types/chromecast-caf-sender@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-sender/-/chromecast-caf-sender-1.0.2.tgz#c308e4f72c5c2eb4620c7c6afdc116b973a47570"
+  integrity sha512-kOStKggYt+ipex3rj8g5sTtX09E02oGV5bpIERpYqai043AsB/HjZ0OUJARO/71MCiRqB5pqhPurjm9CCYGIGA==
 
 "@types/clean-css@*":
   version "4.2.1"
