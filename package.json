@@ -22,7 +22,7 @@
     "@material/mwc-base": "^0.10.0",
     "@material/mwc-button": "^0.10.0",
     "@material/mwc-checkbox": "^0.10.0",
-    "@material/mwc-dialog": "^0.10.0",
+    "@material/mwc-dialog": "^0.11.1",
     "@material/mwc-fab": "^0.10.0",
     "@material/mwc-ripple": "^0.10.0",
     "@material/mwc-switch": "^0.10.0",
