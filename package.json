@@ -98,7 +98,7 @@
     "react-big-calendar": "^0.20.4",
     "regenerator-runtime": "^0.13.2",
     "roboto-fontface": "^0.10.0",
-    "superstruct": "^0.6.1",
+    "superstruct": "^0.8.2",
     "tslib": "^1.10.0",
     "unfetch": "^4.1.0",
     "web-animations-js": "^2.3.1",
