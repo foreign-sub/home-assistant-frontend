@@ -9326,10 +9326,10 @@ md5@^2.2.1:
     crypt "~0.0.1"
     is-buffer "~1.1.1"
 
-mdn-polyfills@^5.16.0:
-  version "5.17.0"
-  resolved "https://registry.yarnpkg.com/mdn-polyfills/-/mdn-polyfills-5.17.0.tgz#462b3e34d5c6ba769a32fda2b270e711da634a05"
-  integrity sha512-KntYq3r7jQ3lqjGvQ+1zIv6Yvlt+G3Y3TngDZqzSB7SNBjW7IZ8WyrhHM4LyLWzgUVX53DrC2XR7cymQqbTFkw==
+mdn-polyfills@^5.19.0:
+  version "5.19.0"
+  resolved "https://registry.yarnpkg.com/mdn-polyfills/-/mdn-polyfills-5.19.0.tgz#5c2bef9015f53ecab35ec6169d3662a2671d032b"
+  integrity sha512-wtZ6NtGbQFbp8H3ZG+hKIHtFxWgdxYI4hhnb7jG9RR9/SzC1Olf+lAlxEDd5PLlNSbtLaVtYFP2PP9QD5Wvl3Q==
 
 media-typer@0.3.0:
   version "0.3.0"
