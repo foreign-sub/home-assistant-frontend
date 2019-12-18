@@ -21,7 +21,7 @@ fi
 [ -z "${LOKALISE_TOKEN-}" ] && LOKALISE_TOKEN="$(<.lokalise_token)"
 
 PROJECT_ID="3420425759f6d6d241f598.13594006"
-LOCAL_FILE="$(pwd)/src/translations/en.json"
+LOCAL_FILE="$PWD/src/translations/en.json"
 LANG_ISO=en
 
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -32,12 +32,12 @@ if [ "${CURRENT_BRANCH-}" != "master" ] && [ "${AZURE_BRANCH-}" != "master" ] ; 
 fi
 
 docker run \
-    -v ${LOCAL_FILE}:/opt/src/${LOCAL_FILE} \
+    -v "$LOCAL_FILE:/opt/src/$LOCAL_FILE" \
      lokalise/lokalise-cli-2@sha256:f1860b26be22fa73b8c93bc5f8690f2afc867610a42de6fc27adc790e5d4425d lokalise2 \
-    --token ${LOKALISE_TOKEN} \
-    --project-id ${PROJECT_ID} \
+    --token "$LOKALISE_TOKEN" \
+    --project-id "$PROJECT_ID" \
     file upload \
-    --file /opt/src/${LOCAL_FILE} \
-    --lang-iso ${LANG_ISO} \
+    --file /opt/src/"$LOCAL_FILE" \
+    --lang-iso "$LANG_ISO" \
     --convert-placeholders=false \
     --replace-modified=true
