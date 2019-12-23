@@ -67,7 +67,7 @@
     "@polymer/paper-tabs": "^3.0.1",
     "@polymer/paper-toast": "^3.0.1",
     "@polymer/paper-tooltip": "^3.0.1",
-    "@polymer/polymer": "3.1.0",
+    "@polymer/polymer": "3.3.1",
     "@thomasloven/round-slider": "0.3.7",
     "@vaadin/vaadin-combo-box": "^5.0.6",
     "@vaadin/vaadin-date-picker": "^4.0.3",
@@ -180,7 +180,7 @@
   "_comment_2": "Fix in https://github.com/Polymer/polymer/pull/5569",
   "resolutions": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
-    "@polymer/polymer": "3.1.0",
+    "@polymer/polymer": "3.3.1",
     "lit-html": "^1.1.2"
   },
   "main": "src/home-assistant.js",

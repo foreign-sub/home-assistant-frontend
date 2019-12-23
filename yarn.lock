@@ -2193,12 +2193,12 @@
     "@polymer/paper-styles" "^3.0.0-pre.26"
     "@polymer/polymer" "^3.0.0"
 
-"@polymer/polymer@3.1.0", "@polymer/polymer@^3.0.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.1.0.tgz#3e1b7447a1e350fd654e1823def655d0f0828a70"
-  integrity sha512-hwN8IMERsFATz/9dSMxYHL+84J9uBkPuuarxJWlTsppZ4CAYTZKnepBfNrKoyNsafBmA3yXBiiKPPf+fJtza7A==
+"@polymer/polymer@3.3.1", "@polymer/polymer@^3.0.0":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.3.1.tgz#9ad48992d2a96775f80b0673f3a615d6df8a3dfc"
+  integrity sha512-8KaB48tzyMjdsHdxo5KvCAaqmTe7rYDzQAoj/pyEfq9Fp4YfUaS+/xqwYj0GbiDAUNzwkmEQ7dw9cgnRNdKO8A==
   dependencies:
-    "@webcomponents/shadycss" "^1.5.2"
+    "@webcomponents/shadycss" "^1.9.1"
 
 "@polymer/sinonjs@^1.14.1":
   version "1.17.1"
@@ -2940,10 +2940,10 @@
     "@webassemblyjs/wast-parser" "1.8.5"
     "@xtuc/long" "4.2.2"
 
-"@webcomponents/shadycss@^1.5.2", "@webcomponents/shadycss@^1.9.0":
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.9.1.tgz#d769fbadfa504f11b84caeef26701f89070ec49a"
-  integrity sha512-IaZOnWOKXHghqk/WfPNDRIgDBi3RsVPY2IFAw6tYiL9UBGvQRy5R6uC+Fk7qTZsReTJ0xh5MTT8yAcb3MUR4mQ==
+"@webcomponents/shadycss@^1.9.0", "@webcomponents/shadycss@^1.9.1":
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.9.3.tgz#74ee4be13f5374724aecb3d2c2de77523e01ada9"
+  integrity sha512-fRuET+UGrH84hG0UF4iHbFqWZKUoan4/ki+iCOJ/vnKltPSHv/ZVbcA6sT/pRreznt8aKEGqN2KdHvgRxn4xjA==
 
 "@webcomponents/webcomponentsjs@^1.0.7", "@webcomponents/webcomponentsjs@^2.2.10", "@webcomponents/webcomponentsjs@^2.2.7":
   version "2.2.10"
