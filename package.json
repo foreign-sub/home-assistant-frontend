@@ -93,7 +93,7 @@
     "mdn-polyfills": "^5.16.0",
     "memoize-one": "^5.0.2",
     "moment": "^2.24.0",
-    "preact": "^8.4.2",
+    "preact": "^10.1.1",
     "preact-compat": "^3.18.4",
     "react-big-calendar": "^0.20.4",
     "regenerator-runtime": "^0.13.2",
