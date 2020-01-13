@@ -5,16 +5,15 @@ import "../../../layouts/hass-subpage";
 import "../../../resources/ha-style";
 import "./ha-config-section-core";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaConfigCore extends LocalizeMixin
-(PolymerElement) {
+class HaConfigCore extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -50,13 +49,15 @@ class HaConfigCore extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      isWide : Boolean,
-      showAdvanced : Boolean,
+      hass: Object,
+      isWide: Boolean,
+      showAdvanced: Boolean,
     };
   }
 
-  computeClasses(isWide) { return isWide ? "content" : "content narrow"; }
+  computeClasses(isWide) {
+    return isWide ? "content" : "content narrow";
+  }
 }
 
 customElements.define("ha-config-core", HaConfigCore);
