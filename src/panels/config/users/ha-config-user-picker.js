@@ -1,18 +1,17 @@
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-item/paper-item-body";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../../layouts/hass-subpage";
 import "../../../components/ha-icon-next";
 import "../../../components/ha-card";
 import "../../../components/ha-fab";
 
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {computeRTL} from "../../../common/util/compute_rtl";
+import {EventsMixin} from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 import NavigateMixin from "../../../mixins/navigate-mixin";
-import { EventsMixin } from "../../../mixins/events-mixin";
-
-import { computeRTL } from "../../../common/util/compute_rtl";
 
 let registeredDialog = false;
 
@@ -21,9 +20,8 @@ let registeredDialog = false;
  * @appliesMixin NavigateMixin
  * @appliesMixin EventsMixin
  */
-class HaUserPicker extends EventsMixin(
-  NavigateMixin(LocalizeMixin(PolymerElement))
-) {
+class HaUserPicker extends EventsMixin
+(NavigateMixin(LocalizeMixin(PolymerElement))) {
   static get template() {
     return html`
       <style>
@@ -95,13 +93,13 @@ class HaUserPicker extends EventsMixin(
 
   static get properties() {
     return {
-      hass: Object,
-      users: Array,
-      isWide: Boolean,
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+      hass : Object,
+      users : Array,
+      isWide : Boolean,
+      rtl : {
+        type : Boolean,
+        reflectToAttribute : true,
+        computed : "_computeRTL(hass)",
       },
     };
   }
@@ -112,38 +110,32 @@ class HaUserPicker extends EventsMixin(
     if (!registeredDialog) {
       registeredDialog = true;
       this.fire("register-dialog", {
-        dialogShowEvent: "show-add-user",
-        dialogTag: "ha-dialog-add-user",
-        dialogImport: () =>
-          import(
-            /* webpackChunkName: "ha-dialog-add-user" */ "./ha-dialog-add-user"
-          ),
+        dialogShowEvent : "show-add-user",
+        dialogTag : "ha-dialog-add-user",
+        dialogImport : () => import(
+            /* webpackChunkName: "ha-dialog-add-user" */
+            "./ha-dialog-add-user"),
       });
     }
   }
 
-  _withDefault(value, defaultValue) {
-    return value || defaultValue;
-  }
+  _withDefault(value, defaultValue) { return value || defaultValue; }
 
-  _computeUrl(user) {
-    return `/config/users/${user.id}`;
-  }
+  _computeUrl(user) { return `/config/users/${user.id}`; }
 
   _computeGroup(localize, user) {
     return localize(`groups.${user.group_ids[0]}`);
   }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
-  }
+  _computeRTL(hass) { return computeRTL(hass); }
 
   _addUser() {
     this.fire("show-add-user", {
-      hass: this.hass,
-      dialogClosedCallback: async ({ userId }) => {
+      hass : this.hass,
+      dialogClosedCallback : async ({userId}) => {
         this.fire("reload-users");
-        if (userId) this.navigate(`/config/users/${userId}`);
+        if (userId)
+          this.navigate(`/config/users/${userId}`);
       },
     });
   }

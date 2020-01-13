@@ -1,20 +1,20 @@
 import "@polymer/app-layout/app-header/app-header";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../../layouts/hass-subpage";
 import "../../../resources/ha-style";
-
 import "./ha-config-section-server-control";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaConfigServerControl extends LocalizeMixin(PolymerElement) {
+class HaConfigServerControl extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -50,15 +50,13 @@ class HaConfigServerControl extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
-      isWide: Boolean,
-      showAdvanced: Boolean,
+      hass : Object,
+      isWide : Boolean,
+      showAdvanced : Boolean,
     };
   }
 
-  computeClasses(isWide) {
-    return isWide ? "content" : "content narrow";
-  }
+  computeClasses(isWide) { return isWide ? "content" : "content narrow"; }
 }
 
 customElements.define("ha-config-server-control", HaConfigServerControl);
