@@ -1,5 +1,3 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "@polymer/app-layout/app-header/app-header";
 import "@polymer/app-layout/app-scroll-effects/effects/waterfall";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
@@ -8,33 +6,36 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/iron-pages/iron-pages";
 import "@polymer/paper-tabs/paper-tab";
 import "@polymer/paper-tabs/paper-tabs";
-
 import "@material/mwc-button/mwc-button";
-
 import "../../components/ha-cards";
 import "../../components/ha-icon";
 import "../../components/ha-menu-button";
-
 import "../../layouts/ha-app-layout";
 
-import { extractViews } from "../../common/entity/extract_views";
-import { getViewEntities } from "../../common/entity/get_view_entities";
-import { computeStateName } from "../../common/entity/compute_state_name";
-import { computeStateDomain } from "../../common/entity/compute_state_domain";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {isComponentLoaded} from "../../common/config/is_component_loaded";
 import computeLocationName from "../../common/config/location_name";
+import {computeStateDomain} from "../../common/entity/compute_state_domain";
+import {computeStateName} from "../../common/entity/compute_state_name";
+import {extractViews} from "../../common/entity/extract_views";
+import {getViewEntities} from "../../common/entity/get_view_entities";
+import {
+  showVoiceCommandDialog
+} from "../../dialogs/voice-command-dialog/show-ha-voice-command-dialog";
+import {EventsMixin} from "../../mixins/events-mixin";
 import NavigateMixin from "../../mixins/navigate-mixin";
-import { EventsMixin } from "../../mixins/events-mixin";
-import { showVoiceCommandDialog } from "../../dialogs/voice-command-dialog/show-ha-voice-command-dialog";
-import { isComponentLoaded } from "../../common/config/is_component_loaded";
 
 const DEFAULT_VIEW_ENTITY_ID = "group.default_view";
-const ALWAYS_SHOW_DOMAIN = ["persistent_notification", "configurator"];
+const ALWAYS_SHOW_DOMAIN = [ "persistent_notification", "configurator" ];
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin NavigateMixin
  */
-class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
+class PartialCards extends EventsMixin
+(NavigateMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex iron-positioning ha-style">
@@ -170,81 +171,81 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
-        value: null,
-        observer: "hassChanged",
+      hass : {
+        type : Object,
+        value : null,
+        observer : "hassChanged",
       },
 
-      narrow: {
-        type: Boolean,
-        value: false,
+      narrow : {
+        type : Boolean,
+        value : false,
       },
 
-      panelVisible: {
-        type: Boolean,
-        value: false,
+      panelVisible : {
+        type : Boolean,
+        value : false,
       },
 
-      route: Object,
-      routeData: Object,
-      routeMatch: Boolean,
+      route : Object,
+      routeData : Object,
+      routeMatch : Boolean,
 
-      _columns: {
-        type: Number,
-        value: 1,
+      _columns : {
+        type : Number,
+        value : 1,
       },
 
-      conversation: {
-        type: Boolean,
-        computed: "_computeConversation(hass)",
+      conversation : {
+        type : Boolean,
+        computed : "_computeConversation(hass)",
       },
 
-      locationName: {
-        type: String,
-        value: "",
-        computed: "_computeLocationName(hass)",
+      locationName : {
+        type : String,
+        value : "",
+        computed : "_computeLocationName(hass)",
       },
 
-      currentView: {
-        type: String,
-        computed: "_computeCurrentView(hass, routeMatch, routeData)",
+      currentView : {
+        type : String,
+        computed : "_computeCurrentView(hass, routeMatch, routeData)",
       },
 
-      views: {
-        type: Array,
+      views : {
+        type : Array,
       },
 
-      defaultView: {
-        type: Object,
+      defaultView : {
+        type : Object,
       },
 
-      viewStates: {
-        type: Object,
-        computed: "computeViewStates(currentView, hass, defaultView)",
+      viewStates : {
+        type : Object,
+        computed : "computeViewStates(currentView, hass, defaultView)",
       },
 
-      orderedGroupEntities: {
-        type: Array,
-        computed: "computeOrderedGroupEntities(currentView, hass, defaultView)",
+      orderedGroupEntities : {
+        type : Array,
+        computed :
+            "computeOrderedGroupEntities(currentView, hass, defaultView)",
       },
 
-      showTabs: {
-        type: Boolean,
-        value: true,
+      showTabs : {
+        type : Boolean,
+        value : true,
       },
     };
   }
 
   static get observers() {
-    return ["_updateColumns(narrow, hass.dockedSidebar)"];
+    return [ "_updateColumns(narrow, hass.dockedSidebar)" ];
   }
 
   ready() {
     this._updateColumns = this._updateColumns.bind(this);
-    this.mqls = [300, 600, 900, 1200].map((width) =>
-      matchMedia(`(min-width: ${width}px)`)
-    );
+    this.mqls = [ 300, 600, 900, 1200 ].map(
+        (width) => matchMedia(`(min-width: ${width}px)`));
     super.ready();
   }
 
@@ -261,19 +262,14 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
   _updateColumns() {
     const matchColumns = this.mqls.reduce((cols, mql) => cols + mql.matches, 0);
     // Do -1 column if the menu is docked and open
-    this._columns = Math.max(
-      1,
-      matchColumns - (!this.narrow && this.hass.dockedSidebar === "docked")
-    );
+    this._columns =
+        Math.max(1, matchColumns -
+                        (!this.narrow && this.hass.dockedSidebar === "docked"));
   }
 
-  _computeConversation(hass) {
-    return isComponentLoaded(hass, "conversation");
-  }
+  _computeConversation(hass) { return isComponentLoaded(hass, "conversation"); }
 
-  _showVoiceCommandDialog() {
-    showVoiceCommandDialog(this);
-  }
+  _showVoiceCommandDialog() { showVoiceCommandDialog(this); }
 
   areTabsHidden(views, showTabs) {
     return !views || !views.length || !showTabs;
@@ -286,16 +282,19 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
    *
    * @method scroll
    * @param {number} top The coordinate to scroll to, along the y-axis.
-   * @param {boolean} smooth true if the scroll position should be smoothly adjusted.
+   * @param {boolean} smooth true if the scroll position should be smoothly
+   *     adjusted.
    */
   scrollToTop() {
     // the scroll event will trigger _updateScrollState directly,
-    // However, _updateScrollState relies on the previous `scrollTop` to update the states.
-    // Calling _updateScrollState will ensure that the states are synced correctly.
+    // However, _updateScrollState relies on the previous `scrollTop` to update
+    // the states. Calling _updateScrollState will ensure that the states are
+    // synced correctly.
     var top = 0;
     var scroller = this.$.layout.header.scrollTarget;
     var easingFn = function easeOutQuad(t, b, c, d) {
-      /* eslint-disable no-param-reassign, space-infix-ops, no-mixed-operators */
+      /* eslint-disable no-param-reassign, space-infix-ops, no-mixed-operators
+       */
       t /= d;
       return -c * t * (t - 2) + b;
       /* eslint-enable no-param-reassign, space-infix-ops, no-mixed-operators */
@@ -312,12 +311,8 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
       if (elapsedTime > duration) {
         scroller.scrollTop = top;
       } else if (this._currentAnimationId === animationId) {
-        scroller.scrollTop = easingFn(
-          elapsedTime,
-          currentScrollTop,
-          deltaScrollTop,
-          duration
-        );
+        scroller.scrollTop =
+            easingFn(elapsedTime, currentScrollTop, deltaScrollTop, duration);
         requestAnimationFrame(updateFrame.bind(this));
       }
     }.call(this));
@@ -336,36 +331,30 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
   }
 
   _computeCurrentView(hass, routeMatch, routeData) {
-    if (!routeMatch) return "";
-    if (
-      !hass.states[routeData.view] ||
-      !hass.states[routeData.view].attributes.view
-    ) {
+    if (!routeMatch)
+      return "";
+    if (!hass.states[routeData.view] ||
+        !hass.states[routeData.view].attributes.view) {
       return "";
     }
     return routeData.view;
   }
 
   computeTitle(views, defaultView, locationName) {
-    return (views &&
-      views.length > 0 &&
-      !defaultView &&
-      locationName === "Home") ||
-      !locationName
-      ? "Home Assistant"
-      : locationName;
+    return (views && views.length > 0 && !defaultView &&
+            locationName === "Home") ||
+                   !locationName
+               ? "Home Assistant"
+               : locationName;
   }
 
-  _computeStateName(stateObj) {
-    return computeStateName(stateObj);
-  }
+  _computeStateName(stateObj) { return computeStateName(stateObj); }
 
-  _computeLocationName(hass) {
-    return computeLocationName(hass);
-  }
+  _computeLocationName(hass) { return computeLocationName(hass); }
 
   hassChanged(hass) {
-    if (!hass) return;
+    if (!hass)
+      return;
     const views = extractViews(hass.states);
     let defaultView = null;
     // If default view present, it's in first index.
@@ -373,14 +362,12 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
       defaultView = views.shift();
     }
 
-    this.setProperties({ views, defaultView });
+    this.setProperties({views, defaultView});
   }
 
   isView(currentView, defaultView) {
-    return (
-      (currentView || defaultView) &&
-      this.hass.states[currentView || DEFAULT_VIEW_ENTITY_ID]
-    );
+    return ((currentView || defaultView) &&
+            this.hass.states[currentView || DEFAULT_VIEW_ENTITY_ID]);
   }
 
   _defaultViewFilter(hass, entityId) {
@@ -390,11 +377,8 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
 
   _computeDefaultViewStates(hass, entityIds) {
     const states = {};
-    entityIds
-      .filter(this._defaultViewFilter.bind(null, hass))
-      .forEach((entityId) => {
-        states[entityId] = hass.states[entityId];
-      });
+    entityIds.filter(this._defaultViewFilter.bind(null, hass))
+        .forEach((entityId) => { states[entityId] = hass.states[entityId]; });
     return states;
   }
 
@@ -415,10 +399,8 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
     if (currentView) {
       states = getViewEntities(hass.states, hass.states[currentView]);
     } else {
-      states = getViewEntities(
-        hass.states,
-        hass.states[DEFAULT_VIEW_ENTITY_ID]
-      );
+      states =
+          getViewEntities(hass.states, hass.states[DEFAULT_VIEW_ENTITY_ID]);
     }
 
     // Make sure certain domains are always shown.
@@ -443,7 +425,7 @@ class PartialCards extends EventsMixin(NavigateMixin(PolymerElement)) {
 
     var orderedGroupEntities = {};
     var entitiesList =
-      hass.states[currentView || DEFAULT_VIEW_ENTITY_ID].attributes.entity_id;
+        hass.states[currentView || DEFAULT_VIEW_ENTITY_ID].attributes.entity_id;
 
     for (var i = 0; i < entitiesList.length; i++) {
       orderedGroupEntities[entitiesList[i]] = i;
