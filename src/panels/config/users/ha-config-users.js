@@ -2,20 +2,19 @@ import "@polymer/app-route/app-route";
 import "./ha-config-user-picker";
 import "./ha-user-editor";
 
-import {timeOut} from "@polymer/polymer/lib/utils/async";
-import {Debouncer} from "@polymer/polymer/lib/utils/debounce";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { timeOut } from "@polymer/polymer/lib/utils/async";
+import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {fireEvent} from "../../../common/dom/fire_event";
-import {fetchUsers} from "../../../data/user";
+import { fireEvent } from "../../../common/dom/fire_event";
+import { fetchUsers } from "../../../data/user";
 import NavigateMixin from "../../../mixins/navigate-mixin";
 
 /*
  * @appliesMixin NavigateMixin
  */
-class HaConfigUsers extends NavigateMixin
-(PolymerElement) {
+class HaConfigUsers extends NavigateMixin(PolymerElement) {
   static get template() {
     return html`
       <app-route
@@ -50,21 +49,21 @@ class HaConfigUsers extends NavigateMixin
 
   static get properties() {
     return {
-      hass : Object,
-      isWide : Boolean,
-      narrow : Boolean,
-      route : {
-        type : Object,
-        observer : "_checkRoute",
+      hass: Object,
+      isWide: Boolean,
+      narrow: Boolean,
+      route: {
+        type: Object,
+        observer: "_checkRoute",
       },
-      _routeData : Object,
-      _user : {
-        type : Object,
-        value : null,
+      _routeData: Object,
+      _user: {
+        type: Object,
+        value: null,
       },
-      _users : {
-        type : Array,
-        value : null,
+      _users: {
+        type: Array,
+        value: null,
       },
     };
   }
@@ -75,27 +74,36 @@ class HaConfigUsers extends NavigateMixin
     this.addEventListener("reload-users", () => this._loadData());
   }
 
-  _handlePickUser(ev) { this._user = ev.detail.user; }
+  _handlePickUser(ev) {
+    this._user = ev.detail.user;
+  }
 
   _checkRoute(route) {
     // prevent list getting under toolbar
     fireEvent(this, "iron-resize");
 
-    this._debouncer =
-        Debouncer.debounce(this._debouncer, timeOut.after(0), () => {
-          if (route.path === "") {
-            this.navigate(`${route.prefix}/picker`, true);
-          }
-        });
+    this._debouncer = Debouncer.debounce(
+      this._debouncer,
+      timeOut.after(0),
+      () => {
+        if (route.path === "") {
+          this.navigate(`${route.prefix}/picker`, true);
+        }
+      }
+    );
   }
 
   _computeUser(users, userId) {
     return users && users.filter((u) => u.id === userId)[0];
   }
 
-  _equals(a, b) { return a === b; }
+  _equals(a, b) {
+    return a === b;
+  }
 
-  async _loadData() { this._users = await fetchUsers(this.hass); }
+  async _loadData() {
+    this._users = await fetchUsers(this.hass);
+  }
 }
 
 customElements.define("ha-config-users", HaConfigUsers);

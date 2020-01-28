@@ -2,11 +2,11 @@ import "@polymer/app-route/app-route";
 import "./ha-script-editor";
 import "./ha-script-picker";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {computeStateDomain} from "../../../common/entity/compute_state_domain";
-import {computeStateName} from "../../../common/entity/compute_state_name";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 
 class HaConfigScript extends PolymerElement {
   static get template() {
@@ -54,28 +54,28 @@ class HaConfigScript extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
-      route : Object,
-      isWide : Boolean,
-      narrow : Boolean,
-      _routeData : Object,
-      _routeMatches : Boolean,
-      _creatingNew : Boolean,
-      _edittingScript : Boolean,
+      hass: Object,
+      route: Object,
+      isWide: Boolean,
+      narrow: Boolean,
+      _routeData: Object,
+      _routeMatches: Boolean,
+      _creatingNew: Boolean,
+      _edittingScript: Boolean,
 
-      scripts : {
-        type : Array,
-        computed : "computeScripts(hass)",
+      scripts: {
+        type: Array,
+        computed: "computeScripts(hass)",
       },
 
-      script : {
-        type : Object,
-        computed : "computeScript(scripts, _edittingScript, _routeData)",
+      script: {
+        type: Object,
+        computed: "computeScript(scripts, _edittingScript, _routeData)",
       },
 
-      showEditor : {
-        type : Boolean,
-        computed : "computeShowEditor(_edittingScript, _creatingNew)",
+      showEditor: {
+        type: Boolean,
+        computed: "computeShowEditor(_edittingScript, _creatingNew)",
       },
     };
   }

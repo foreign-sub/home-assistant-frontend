@@ -2,10 +2,10 @@ import "@polymer/app-route/app-route";
 import "./ha-automation-editor";
 import "./ha-automation-picker";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {computeStateDomain} from "../../../common/entity/compute_state_domain";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
 
 class HaConfigAutomation extends PolymerElement {
   static get template() {
@@ -53,36 +53,36 @@ class HaConfigAutomation extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
-      route : Object,
-      isWide : Boolean,
-      narrow : Boolean,
-      _routeData : Object,
-      _routeMatches : Boolean,
-      _creatingNew : Boolean,
-      _edittingAutomation : Boolean,
+      hass: Object,
+      route: Object,
+      isWide: Boolean,
+      narrow: Boolean,
+      _routeData: Object,
+      _routeMatches: Boolean,
+      _creatingNew: Boolean,
+      _edittingAutomation: Boolean,
 
-      automations : {
-        type : Array,
-        computed : "computeAutomations(hass)",
+      automations: {
+        type: Array,
+        computed: "computeAutomations(hass)",
       },
 
-      automation : {
-        type : Object,
-        computed :
-            "computeAutomation(automations, _edittingAutomation, _routeData)",
+      automation: {
+        type: Object,
+        computed:
+          "computeAutomation(automations, _edittingAutomation, _routeData)",
       },
 
-      showEditor : {
-        type : Boolean,
-        computed : "computeShowEditor(_edittingAutomation, _creatingNew)",
+      showEditor: {
+        type: Boolean,
+        computed: "computeShowEditor(_edittingAutomation, _creatingNew)",
       },
     };
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.route = {path : "", prefix : ""};
+    this.route = { path: "", prefix: "" };
   }
 
   computeAutomation(automations, edittingAddon, routeData) {
