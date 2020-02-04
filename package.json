@@ -20,7 +20,7 @@
   "dependencies": {
     "@material/chips": "^3.2.0",
     "@material/data-table": "^3.2.0",
-    "@material/mwc-base": "^0.10.0",
+    "@material/mwc-base": "^0.13.0",
     "@material/mwc-button": "^0.10.0",
     "@material/mwc-checkbox": "^0.10.0",
     "@material/mwc-dialog": "^0.10.0",
