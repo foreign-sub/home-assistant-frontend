@@ -1,20 +1,19 @@
 import "@polymer/paper-dialog-behavior/paper-dialog-shared-styles";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../resources/ha-style";
-
 import "./more-info/more-info-controls";
 
-import { computeStateDomain } from "../common/entity/compute_state_domain";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
+import {computeStateDomain} from "../common/entity/compute_state_domain";
 import DialogMixin from "../mixins/dialog-mixin";
 
 /*
  * @appliesMixin DialogMixin
  */
-class HaMoreInfoDialog extends DialogMixin(PolymerElement) {
+class HaMoreInfoDialog extends DialogMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style-dialog paper-dialog-shared-styles">
@@ -87,72 +86,60 @@ class HaMoreInfoDialog extends DialogMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: {
-        type: Object,
-        computed: "_computeStateObj(hass)",
-        observer: "_stateObjChanged",
+      hass : Object,
+      stateObj : {
+        type : Object,
+        computed : "_computeStateObj(hass)",
+        observer : "_stateObjChanged",
       },
 
-      large: {
-        type: Boolean,
-        reflectToAttribute: true,
-        observer: "_largeChanged",
+      large : {
+        type : Boolean,
+        reflectToAttribute : true,
+        observer : "_largeChanged",
       },
 
-      dataDomain: {
-        computed: "_computeDomain(stateObj)",
-        reflectToAttribute: true,
+      dataDomain : {
+        computed : "_computeDomain(stateObj)",
+        reflectToAttribute : true,
       },
     };
   }
 
-  static get observers() {
-    return ["_dialogOpenChanged(opened)"];
-  }
+  static get observers() { return [ "_dialogOpenChanged(opened)" ]; }
 
-  _dialogElement() {
-    return this;
-  }
+  _dialogElement() { return this; }
 
   _computeDomain(stateObj) {
     return stateObj ? computeStateDomain(stateObj) : "";
   }
 
-  _computeStateObj(hass) {
-    return hass.states[hass.moreInfoEntityId] || null;
-  }
+  _computeStateObj(hass) { return hass.states[hass.moreInfoEntityId] || null; }
 
   async _stateObjChanged(newVal) {
     if (!newVal) {
       this.setProperties({
-        opened: false,
-        large: false,
+        opened : false,
+        large : false,
       });
       return;
     }
 
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => {
-        // allow dialog to render content before showing it so it will be
-        // positioned correctly.
-        this.opened = true;
-      })
-    );
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+                            // allow dialog to render content before showing it
+                            // so it will be positioned correctly.
+                            this.opened = true;
+                          }));
   }
 
   _dialogOpenChanged(newVal) {
     if (!newVal && this.stateObj) {
-      this.fire("hass-more-info", { entityId: null });
+      this.fire("hass-more-info", {entityId : null});
     }
   }
 
-  _equals(a, b) {
-    return a === b;
-  }
+  _equals(a, b) { return a === b; }
 
-  _largeChanged() {
-    this.notifyResize();
-  }
+  _largeChanged() { this.notifyResize(); }
 }
 customElements.define("ha-more-info-dialog", HaMoreInfoDialog);
