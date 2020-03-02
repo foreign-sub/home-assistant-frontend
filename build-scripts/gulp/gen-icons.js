@@ -2,10 +2,12 @@ const gulp = require("gulp");
 const path = require("path");
 const fs = require("fs");
 const paths = require("../paths");
-const {mapFiles} = require("../util");
+const { mapFiles } = require("../util");
 
-const ICON_PACKAGE_PATH =
-    path.resolve(__dirname, "../../node_modules/@mdi/svg/");
+const ICON_PACKAGE_PATH = path.resolve(
+  __dirname,
+  "../../node_modules/@mdi/svg/"
+);
 const META_PATH = path.resolve(ICON_PACKAGE_PATH, "meta.json");
 const ICON_PATH = path.resolve(ICON_PACKAGE_PATH, "svg");
 const OUTPUT_DIR = path.resolve(__dirname, "../../build");
@@ -13,15 +15,15 @@ const MDI_OUTPUT_PATH = path.resolve(OUTPUT_DIR, "mdi.html");
 const HASS_OUTPUT_PATH = path.resolve(OUTPUT_DIR, "hass-icons.html");
 
 const BUILT_IN_PANEL_ICONS = [
-  "calendar",                  // Calendar
-  "settings",                  // Config
-  "home-assistant",            // Hass.io
-  "poll-box",                  // History panel
+  "calendar", // Calendar
+  "settings", // Config
+  "home-assistant", // Hass.io
+  "poll-box", // History panel
   "format-list-bulleted-type", // Logbook
-  "mailbox",                   // Mailbox
-  "tooltip-account",           // Map
-  "cart",                      // Shopping List
-  "hammer",                    // developer-tools
+  "mailbox", // Mailbox
+  "tooltip-account", // Map
+  "cart", // Shopping List
+  "hammer", // developer-tools
 ];
 
 // Given an icon name, load the SVG file
@@ -45,16 +47,15 @@ function transformXMLtoPolymer(name, xml) {
 // Given an iconset name and icon names, generate a polymer iconset
 function generateIconset(iconsetName, iconNames) {
   const iconDefs = Array.from(iconNames)
-                       .map((name) => {
-                         const iconDef = loadIcon(name);
-                         if (!iconDef) {
-                           throw new Error(`Unknown icon referenced: ${name}`);
-                         }
-                         return transformXMLtoPolymer(name, iconDef);
-                       })
-                       .join("");
-  return `<ha-iconset-svg name="${iconsetName}" size="24"><svg><defs>${
-      iconDefs}</defs></svg></ha-iconset-svg>`;
+    .map((name) => {
+      const iconDef = loadIcon(name);
+      if (!iconDef) {
+        throw new Error(`Unknown icon referenced: ${name}`);
+      }
+      return transformXMLtoPolymer(name, iconDef);
+    })
+    .join("");
+  return `<ha-iconset-svg name="${iconsetName}" size="24"><svg><defs>${iconDefs}</defs></svg></ha-iconset-svg>`;
 }
 
 // Find all icons used by the project.
@@ -77,7 +78,8 @@ function findIcons(searchPath, iconsetName) {
 
 gulp.task("gen-icons-mdi", (done) => {
   const meta = JSON.parse(
-      fs.readFileSync(path.resolve(ICON_PACKAGE_PATH, META_PATH), "UTF-8"));
+    fs.readFileSync(path.resolve(ICON_PACKAGE_PATH, META_PATH), "UTF-8")
+  );
   const iconNames = meta.map((iconInfo) => iconInfo.name);
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR);
@@ -98,20 +100,28 @@ gulp.task("gen-icons-app", (done) => {
 
 gulp.task("gen-icons-demo", (done) => {
   const iconNames = findIcons(path.resolve(paths.demo_dir, "./src"), "hademo");
-  fs.writeFileSync(path.resolve(paths.demo_dir, "hademo-icons.html"),
-                   generateIconset("hademo", iconNames));
+  fs.writeFileSync(
+    path.resolve(paths.demo_dir, "hademo-icons.html"),
+    generateIconset("hademo", iconNames)
+  );
   done();
 });
 
 gulp.task("gen-icons-hassio", (done) => {
-  const iconNames =
-      findIcons(path.resolve(paths.hassio_dir, "./src"), "hassio");
+  const iconNames = findIcons(
+    path.resolve(paths.hassio_dir, "./src"),
+    "hassio"
+  );
   // Find hassio icons inside HA main repo.
-  for (const item of findIcons(path.resolve(paths.polymer_dir, "./src"),
-                               "hassio")) {
+  for (const item of findIcons(
+    path.resolve(paths.polymer_dir, "./src"),
+    "hassio"
+  )) {
     iconNames.add(item);
   }
-  fs.writeFileSync(path.resolve(paths.hassio_dir, "hassio-icons.html"),
-                   generateIconset("hassio", iconNames));
+  fs.writeFileSync(
+    path.resolve(paths.hassio_dir, "hassio-icons.html"),
+    generateIconset("hassio", iconNames)
+  );
   done();
 });
