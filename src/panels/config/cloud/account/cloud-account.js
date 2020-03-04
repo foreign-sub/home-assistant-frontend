@@ -1,8 +1,5 @@
 import "@material/mwc-button";
 import "@polymer/paper-item/paper-item-body";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../../../components/ha-card";
 import "../../../../components/buttons/ha-call-api-button";
 import "../../../../layouts/hass-subpage";
@@ -13,17 +10,20 @@ import "./cloud-alexa-pref";
 import "./cloud-google-pref";
 import "./cloud-remote-pref";
 
-import { EventsMixin } from "../../../../mixins/events-mixin";
-import { fetchCloudSubscriptionInfo } from "../../../../data/cloud";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
-import { formatDateTime } from "../../../../common/datetime/format_date_time";
+import {formatDateTime} from "../../../../common/datetime/format_date_time";
+import {fetchCloudSubscriptionInfo} from "../../../../data/cloud";
+import {EventsMixin} from "../../../../mixins/events-mixin";
 import LocalizeMixin from "../../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class CloudAccount extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class CloudAccount extends EventsMixin
+(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -158,12 +158,12 @@ class CloudAccount extends EventsMixin(LocalizeMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: Object,
-      isWide: Boolean,
-      cloudStatus: Object,
-      _subscription: {
-        type: Object,
-        value: null,
+      hass : Object,
+      isWide : Boolean,
+      cloudStatus : Object,
+      _subscription : {
+        type : Object,
+        value : null,
       },
     };
   }
@@ -175,44 +175,37 @@ class CloudAccount extends EventsMixin(LocalizeMixin(PolymerElement)) {
 
   _computeRemoteConnected(connected) {
     return connected
-      ? this.hass.localize("ui.panel.config.cloud.account.connected")
-      : this.hass.localize("ui.panel.config.cloud.account.not_connected");
+               ? this.hass.localize("ui.panel.config.cloud.account.connected")
+               : this.hass.localize(
+                     "ui.panel.config.cloud.account.not_connected");
   }
 
   async _fetchSubscriptionInfo() {
     this._subscription = await fetchCloudSubscriptionInfo(this.hass);
-    if (
-      this._subscription.provider &&
-      this.cloudStatus &&
-      this.cloudStatus.cloud !== "connected"
-    ) {
+    if (this._subscription.provider && this.cloudStatus &&
+        this.cloudStatus.cloud !== "connected") {
       this.fire("ha-refresh-cloud-status");
     }
   }
 
   handleLogout() {
-    this.hass
-      .callApi("post", "cloud/logout")
-      .then(() => this.fire("ha-refresh-cloud-status"));
+    this.hass.callApi("post", "cloud/logout")
+        .then(() => this.fire("ha-refresh-cloud-status"));
   }
 
   _formatSubscription(subInfo) {
     if (subInfo === null) {
       return this.hass.localize(
-        "ui.panel.config.cloud.account.fetching_subscription"
-      );
+          "ui.panel.config.cloud.account.fetching_subscription");
     }
 
     let description = subInfo.human_description;
 
     if (subInfo.plan_renewal_date) {
       description = description.replace(
-        "{periodEnd}",
-        formatDateTime(
-          new Date(subInfo.plan_renewal_date * 1000),
-          this.hass.language
-        )
-      );
+          "{periodEnd}",
+          formatDateTime(new Date(subInfo.plan_renewal_date * 1000),
+                         this.hass.language));
     }
 
     return description;

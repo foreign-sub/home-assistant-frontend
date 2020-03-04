@@ -1,20 +1,20 @@
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-
 import "../../components/ha-paper-dropdown-menu";
-
-import { EventsMixin } from "../../mixins/events-mixin";
-import LocalizeMixin from "../../mixins/localize-mixin";
-
 import "./ha-settings-row";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {EventsMixin} from "../../mixins/events-mixin";
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaPickLanguageRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class HaPickLanguageRow extends LocalizeMixin
+(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -62,22 +62,20 @@ class HaPickLanguageRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: Object,
-      narrow: Boolean,
-      languageSelection: {
-        type: String,
-        observer: "languageSelectionChanged",
+      hass : Object,
+      narrow : Boolean,
+      languageSelection : {
+        type : String,
+        observer : "languageSelectionChanged",
       },
-      languages: {
-        type: Array,
-        computed: "computeLanguages(hass)",
+      languages : {
+        type : Array,
+        computed : "computeLanguages(hass)",
       },
     };
   }
 
-  static get observers() {
-    return ["setLanguageSelection(language)"];
-  }
+  static get observers() { return [ "setLanguageSelection(language)" ]; }
 
   computeLanguages(hass) {
     if (!hass || !hass.translationMetadata) {
@@ -85,20 +83,18 @@ class HaPickLanguageRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
     }
     const translations = hass.translationMetadata.translations;
     return Object.keys(translations).map((key) => ({
-      key,
-      ...translations[key],
-    }));
+                                           key,
+                                           ...translations[key],
+                                         }));
   }
 
-  setLanguageSelection(language) {
-    this.languageSelection = language;
-  }
+  setLanguageSelection(language) { this.languageSelection = language; }
 
   languageSelectionChanged(newVal) {
-    // Only fire event if language was changed. This prevents select updates when
-    // responding to hass changes.
+    // Only fire event if language was changed. This prevents select updates
+    // when responding to hass changes.
     if (newVal !== this.hass.language) {
-      this.fire("hass-language-select", { language: newVal });
+      this.fire("hass-language-select", {language : newVal});
     }
   }
 
