@@ -2,15 +2,14 @@ import "@polymer/paper-spinner/paper-spinner";
 import "../../../components/ha-code-editor";
 import "../../../resources/ha-style";
 
-import {timeOut} from "@polymer/polymer/lib/utils/async";
-import {Debouncer} from "@polymer/polymer/lib/utils/debounce";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { timeOut } from "@polymer/polymer/lib/utils/async";
+import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
-class HaPanelDevTemplate extends LocalizeMixin
-(PolymerElement) {
+class HaPanelDevTemplate extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style iron-flex iron-positioning"></style>
@@ -106,24 +105,24 @@ class HaPanelDevTemplate extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : {
-        type : Object,
+      hass: {
+        type: Object,
       },
 
-      error : {
-        type : Boolean,
-        value : false,
+      error: {
+        type: Boolean,
+        value: false,
       },
 
-      rendering : {
-        type : Boolean,
-        value : false,
+      rendering: {
+        type: Boolean,
+        value: false,
       },
 
-      template : {
-        type : String,
+      template: {
+        type: String,
         /* eslint-disable max-len */
-        value : `Imitate available variables:
+        value: `Imitate available variables:
 {% set my_test_json = {
   "temperature": 25,
   "unit": "°C"
@@ -147,9 +146,9 @@ For loop example:
         /* eslint-enable max-len */
       },
 
-      processed : {
-        type : String,
-        value : "",
+      processed: {
+        type: String,
+        value: "",
       },
     };
   }
@@ -172,27 +171,33 @@ For loop example:
     if (this.error) {
       this.error = false;
     }
-    this._debouncer = Debouncer.debounce(this._debouncer, timeOut.after(500),
-                                         () => { this.renderTemplate(); });
+    this._debouncer = Debouncer.debounce(
+      this._debouncer,
+      timeOut.after(500),
+      () => {
+        this.renderTemplate();
+      }
+    );
   }
 
   renderTemplate() {
     this.rendering = true;
 
-    this.hass.callApi("POST", "template", {template : this.template})
-        .then(
-            function(processed) {
-              this.processed = processed;
-              this.rendering = false;
-            }.bind(this),
-            function(error) {
-              this.processed =
-                  (error && error.body && error.body.message) ||
-                  this.hass.localize(
-                      "ui.panel.developer-tools.tabs.templates.unknown_error_template");
-              this.error = true;
-              this.rendering = false;
-            }.bind(this));
+    this.hass.callApi("POST", "template", { template: this.template }).then(
+      function(processed) {
+        this.processed = processed;
+        this.rendering = false;
+      }.bind(this),
+      function(error) {
+        this.processed =
+          (error && error.body && error.body.message) ||
+          this.hass.localize(
+            "ui.panel.developer-tools.tabs.templates.unknown_error_template"
+          );
+        this.error = true;
+        this.rendering = false;
+      }.bind(this)
+    );
   }
 }
 
