@@ -2404,10 +2404,10 @@
   resolved "https://registry.yarnpkg.com/@types/chalk/-/chalk-0.4.31.tgz#a31d74241a6b1edbb973cf36d97a2896834a51f9"
   integrity sha1-ox10JBprHtu5c8822XooloNKUfk=
 
-"@types/chromecast-caf-receiver@^3.0.12":
-  version "3.0.12"
-  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-3.0.12.tgz#0172edc5e43a0b4f426b21a614a58e04e3df009d"
-  integrity sha512-GdR9nGOENDWYhF40FasB0Xnsy3c+e68K90sGVBZx1W1N3LP1NGOmCtaxgUpxk4IuHYmzGrW7I57zWZIbT3D5BQ==
+"@types/chromecast-caf-receiver@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-5.0.3.tgz#a71e58cfebdb5f481260bec7083cdf99dc533099"
+  integrity sha512-Zl4HZEXvilgu6U79gj8JkYDibr7Pm4qOmm3uhYDZ8QjDnoH/opkBT922xPQtUu16PudOGcrzeB2qz62C1Hhb8g==
 
 "@types/chromecast-caf-sender@^1.0.1":
   version "1.0.1"
