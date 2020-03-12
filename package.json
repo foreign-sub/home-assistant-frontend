@@ -99,7 +99,7 @@
     "node-vibrant": "^3.1.5",
     "preact": "^8.4.2",
     "preact-compat": "^3.18.4",
-    "react-big-calendar": "^0.20.4",
+    "react-big-calendar": "^0.24.1",
     "regenerator-runtime": "^0.13.2",
     "resize-observer": "^1.0.0",
     "roboto-fontface": "^0.10.0",
