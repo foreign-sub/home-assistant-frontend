@@ -1668,7 +1668,11 @@
           "caption": "Users",
           "description": "Manage users",
           "picker": {
-            "headers": { "name": "Name", "group": "Group", "system": "System" }
+            "headers": {
+              "name": "Name",
+              "group": "Group",
+              "system": "System"
+            }
           },
           "editor": {
             "caption": "View user",
