@@ -2,34 +2,39 @@ import "@material/mwc-button";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { isComponentLoaded } from "../../common/config/is_component_loaded";
-import { DOMAINS_MORE_INFO_NO_HISTORY } from "../../common/const";
-import { computeStateDomain } from "../../common/entity/compute_state_domain";
-import { computeStateName } from "../../common/entity/compute_state_name";
-import { navigate } from "../../common/navigate";
-import { computeRTL } from "../../common/util/compute_rtl";
 import "../../components/state-history-charts";
-import { removeEntityRegistryEntry } from "../../data/entity_registry";
 import "../../data/ha-state-history-data";
-import { EventsMixin } from "../../mixins/events-mixin";
-import LocalizeMixin from "../../mixins/localize-mixin";
-import { showEntityEditorDialog } from "../../panels/config/entities/show-dialog-entity-editor";
 import "../../resources/ha-style";
 import "../../state-summary/state-card-content";
-import { showConfirmationDialog } from "../generic/show-dialog-box";
 import "./controls/more-info-content";
 
-const DOMAINS_NO_INFO = ["camera", "configurator", "history_graph"];
-const EDITABLE_DOMAINS_WITH_ID = ["scene", "automation"];
-const EDITABLE_DOMAINS = ["script"];
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {isComponentLoaded} from "../../common/config/is_component_loaded";
+import {DOMAINS_MORE_INFO_NO_HISTORY} from "../../common/const";
+import {computeStateDomain} from "../../common/entity/compute_state_domain";
+import {computeStateName} from "../../common/entity/compute_state_name";
+import {navigate} from "../../common/navigate";
+import {computeRTL} from "../../common/util/compute_rtl";
+import {removeEntityRegistryEntry} from "../../data/entity_registry";
+import {EventsMixin} from "../../mixins/events-mixin";
+import LocalizeMixin from "../../mixins/localize-mixin";
+import {
+  showEntityEditorDialog
+} from "../../panels/config/entities/show-dialog-entity-editor";
+import {showConfirmationDialog} from "../generic/show-dialog-box";
+
+const DOMAINS_NO_INFO = [ "camera", "configurator", "history_graph" ];
+const EDITABLE_DOMAINS_WITH_ID = [ "scene", "automation" ];
+const EDITABLE_DOMAINS = [ "script" ];
 
 /*
  * @appliesMixin EventsMixin
  */
-class MoreInfoControls extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class MoreInfoControls extends LocalizeMixin
+(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="ha-style-dialog">
@@ -149,50 +154,48 @@ class MoreInfoControls extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: Object,
+      hass : Object,
 
-      stateObj: {
-        type: Object,
-        observer: "_stateObjChanged",
+      stateObj : {
+        type : Object,
+        observer : "_stateObjChanged",
       },
 
-      dialogElement: Object,
-      registryEntry: Object,
+      dialogElement : Object,
+      registryEntry : Object,
 
-      domain: {
-        type: String,
-        reflectToAttribute: true,
-        computed: "_computeDomain(stateObj)",
+      domain : {
+        type : String,
+        reflectToAttribute : true,
+        computed : "_computeDomain(stateObj)",
       },
 
-      _stateHistory: Object,
-      _stateHistoryLoading: Boolean,
+      _stateHistory : Object,
+      _stateHistoryLoading : Boolean,
 
-      large: {
-        type: Boolean,
-        value: false,
-        notify: true,
+      large : {
+        type : Boolean,
+        value : false,
+        notify : true,
       },
 
-      _cacheConfig: {
-        type: Object,
-        value: {
-          refresh: 60,
-          cacheKey: null,
-          hoursToShow: 24,
+      _cacheConfig : {
+        type : Object,
+        value : {
+          refresh : 60,
+          cacheKey : null,
+          hoursToShow : 24,
         },
       },
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+      rtl : {
+        type : Boolean,
+        reflectToAttribute : true,
+        computed : "_computeRTL(hass)",
       },
     };
   }
 
-  enlarge() {
-    this.large = !this.large;
-  }
+  enlarge() { this.large = !this.large; }
 
   _computeShowStateInfo(stateObj) {
     return !stateObj || !DOMAINS_NO_INFO.includes(computeStateDomain(stateObj));
@@ -204,11 +207,8 @@ class MoreInfoControls extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   _computeShowHistoryComponent(hass, stateObj) {
     return (
-      hass &&
-      stateObj &&
-      isComponentLoaded(hass, "history") &&
-      !DOMAINS_MORE_INFO_NO_HISTORY.includes(computeStateDomain(stateObj))
-    );
+        hass && stateObj && isComponentLoaded(hass, "history") &&
+        !DOMAINS_MORE_INFO_NO_HISTORY.includes(computeStateDomain(stateObj)));
   }
 
   _computeDomain(stateObj) {
@@ -225,12 +225,10 @@ class MoreInfoControls extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   _computeEdit(hass, stateObj) {
     const domain = this._computeDomain(stateObj);
-    return (
-      stateObj &&
-      hass.user.is_admin &&
-      ((EDITABLE_DOMAINS_WITH_ID.includes(domain) && stateObj.attributes.id) ||
-        EDITABLE_DOMAINS.includes(domain))
-    );
+    return (stateObj && hass.user.is_admin &&
+            ((EDITABLE_DOMAINS_WITH_ID.includes(domain) &&
+              stateObj.attributes.id) ||
+             EDITABLE_DOMAINS.includes(domain)));
   }
 
   _stateObjChanged(newVal) {
@@ -241,48 +239,40 @@ class MoreInfoControls extends LocalizeMixin(EventsMixin(PolymerElement)) {
     if (this._cacheConfig.cacheKey !== `more_info.${newVal.entity_id}`) {
       this._cacheConfig = {
         ...this._cacheConfig,
-        cacheKey: `more_info.${newVal.entity_id}`,
+        cacheKey : `more_info.${newVal.entity_id}`,
       };
     }
   }
 
   _removeEntity() {
     showConfirmationDialog(this, {
-      title: this.localize(
-        "ui.dialogs.more_info_control.restored.confirm_remove_title"
-      ),
-      text: this.localize(
-        "ui.dialogs.more_info_control.restored.confirm_remove_text"
-      ),
-      confirmText: this.localize("ui.common.yes"),
-      dismissText: this.localize("ui.common.no"),
-      confirm: () =>
-        removeEntityRegistryEntry(this.hass, this.stateObj.entity_id),
+      title : this.localize(
+          "ui.dialogs.more_info_control.restored.confirm_remove_title"),
+      text : this.localize(
+          "ui.dialogs.more_info_control.restored.confirm_remove_text"),
+      confirmText : this.localize("ui.common.yes"),
+      dismissText : this.localize("ui.common.no"),
+      confirm : () =>
+          removeEntityRegistryEntry(this.hass, this.stateObj.entity_id),
     });
   }
 
   _gotoSettings() {
     showEntityEditorDialog(this, {
-      entity_id: this.stateObj.entity_id,
+      entity_id : this.stateObj.entity_id,
     });
-    this.fire("hass-more-info", { entityId: null });
+    this.fire("hass-more-info", {entityId : null});
   }
 
   _gotoEdit() {
     const domain = this._computeDomain(this.stateObj);
-    navigate(
-      this,
-      `/config/${domain}/edit/${
-        EDITABLE_DOMAINS_WITH_ID.includes(domain)
-          ? this.stateObj.attributes.id
-          : this.stateObj.entity_id
-      }`
-    );
-    this.fire("hass-more-info", { entityId: null });
+    navigate(this, `/config/${domain}/edit/${
+                       EDITABLE_DOMAINS_WITH_ID.includes(domain)
+                           ? this.stateObj.attributes.id
+                           : this.stateObj.entity_id}`);
+    this.fire("hass-more-info", {entityId : null});
   }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
-  }
+  _computeRTL(hass) { return computeRTL(hass); }
 }
 customElements.define("more-info-controls", MoreInfoControls);

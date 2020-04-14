@@ -1,8 +1,9 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "./ha-icon";
 import "./ha-paper-slider";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class HaLabeledSlider extends PolymerElement {
   static get template() {
@@ -47,28 +48,28 @@ class HaLabeledSlider extends PolymerElement {
 
   static get properties() {
     return {
-      caption: String,
-      disabled: Boolean,
-      min: Number,
-      max: Number,
-      pin: Boolean,
-      step: Number,
+      caption : String,
+      disabled : Boolean,
+      min : Number,
+      max : Number,
+      pin : Boolean,
+      step : Number,
 
-      extra: {
-        type: Boolean,
-        value: false,
+      extra : {
+        type : Boolean,
+        value : false,
       },
-      ignoreBarTouch: {
-        type: Boolean,
-        value: true,
+      ignoreBarTouch : {
+        type : Boolean,
+        value : true,
       },
-      icon: {
-        type: String,
-        value: "",
+      icon : {
+        type : String,
+        value : "",
       },
-      value: {
-        type: Number,
-        notify: true,
+      value : {
+        type : Number,
+        notify : true,
       },
     };
   }

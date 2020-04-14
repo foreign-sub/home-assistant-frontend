@@ -1,8 +1,10 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { safeLoad } from "js-yaml";
-import { createCardElement } from "../../../src/panels/lovelace/create-element/create-card-element";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+import {safeLoad} from "js-yaml";
+import {
+  createCardElement
+} from "../../../src/panels/lovelace/create-element/create-card-element";
 
 class DemoCard extends PolymerElement {
   static get template() {
@@ -45,21 +47,19 @@ class DemoCard extends PolymerElement {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
-        observer: "_hassChanged",
+      hass : {
+        type : Object,
+        observer : "_hassChanged",
       },
-      config: {
-        type: Object,
-        observer: "_configChanged",
+      config : {
+        type : Object,
+        observer : "_configChanged",
       },
-      showConfig: Boolean,
+      showConfig : Boolean,
     };
   }
 
-  ready() {
-    super.ready();
-  }
+  ready() { super.ready(); }
 
   _configChanged(config) {
     const card = this.$.card;
@@ -76,14 +76,10 @@ class DemoCard extends PolymerElement {
     if (this.hass) {
       element.hass = this.hass;
     }
-    element.addEventListener(
-      "ll-rebuild",
-      (ev) => {
-        ev.stopPropagation();
-        this._rebuildCard(element, cardConfig);
-      },
-      { once: true }
-    );
+    element.addEventListener("ll-rebuild", (ev) => {
+      ev.stopPropagation();
+      this._rebuildCard(element, cardConfig);
+    }, {once : true});
     return element;
   }
 
@@ -94,12 +90,11 @@ class DemoCard extends PolymerElement {
 
   _hassChanged(hass) {
     const card = this.$.card.lastChild;
-    if (card) card.hass = hass;
+    if (card)
+      card.hass = hass;
   }
 
-  _trim(config) {
-    return config.trim();
-  }
+  _trim(config) { return config.trim(); }
 }
 
 customElements.define("demo-card", DemoCard);

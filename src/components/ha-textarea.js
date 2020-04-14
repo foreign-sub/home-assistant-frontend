@@ -10,9 +10,9 @@ WebKit issue: https://bugs.webkit.org/show_bug.cgi?id=174629
 */
 
 import "@polymer/paper-input/paper-textarea";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class HaTextarea extends PolymerElement {
   static get template() {
@@ -32,12 +32,12 @@ class HaTextarea extends PolymerElement {
 
   static get properties() {
     return {
-      name: String,
-      label: String,
-      placeholder: String,
-      value: {
-        type: String,
-        notify: true,
+      name : String,
+      label : String,
+      placeholder : String,
+      value : {
+        type : String,
+        notify : true,
       },
     };
   }

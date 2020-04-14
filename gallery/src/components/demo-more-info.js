@@ -1,9 +1,10 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../src/components/ha-card";
 import "../../../src/dialogs/more-info/controls/more-info-content";
 import "../../../src/state-summary/state-card-content";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class DemoMoreInfo extends PolymerElement {
   static get template() {
@@ -62,19 +63,17 @@ class DemoMoreInfo extends PolymerElement {
 
   static get properties() {
     return {
-      hass: Object,
-      entityId: String,
-      showConfig: Boolean,
-      _stateObj: {
-        type: Object,
-        computed: "_getState(entityId, hass.states)",
+      hass : Object,
+      entityId : String,
+      showConfig : Boolean,
+      _stateObj : {
+        type : Object,
+        computed : "_getState(entityId, hass.states)",
       },
     };
   }
 
-  _getState(entityId, states) {
-    return states[entityId];
-  }
+  _getState(entityId, states) { return states[entityId]; }
 
   _jsonEntity(stateObj) {
     // We are caching some things on stateObj

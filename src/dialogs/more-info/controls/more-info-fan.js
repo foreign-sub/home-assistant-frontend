@@ -2,20 +2,25 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { attributeClassNames } from "../../../common/entity/attribute_class_names";
 import "../../../components/ha-attributes";
 import "../../../components/ha-paper-dropdown-menu";
 import "../../../components/ha-switch";
-import { EventsMixin } from "../../../mixins/events-mixin";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {
+  attributeClassNames
+} from "../../../common/entity/attribute_class_names";
+import {EventsMixin} from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  */
-class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class MoreInfoFan extends LocalizeMixin
+(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -103,17 +108,17 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
+      hass : {
+        type : Object,
       },
 
-      stateObj: {
-        type: Object,
-        observer: "stateObjChanged",
+      stateObj : {
+        type : Object,
+        observer : "stateObjChanged",
       },
 
-      oscillationToggleChecked: {
-        type: Boolean,
+      oscillationToggleChecked : {
+        type : Boolean,
       },
     };
   }
@@ -121,33 +126,31 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
   stateObjChanged(newVal, oldVal) {
     if (newVal) {
       this.setProperties({
-        oscillationToggleChecked: newVal.attributes.oscillating,
+        oscillationToggleChecked : newVal.attributes.oscillating,
       });
     }
 
     if (oldVal) {
-      setTimeout(() => {
-        this.fire("iron-resize");
-      }, 500);
+      setTimeout(() => { this.fire("iron-resize"); }, 500);
     }
   }
 
   computeClassNames(stateObj) {
-    return (
-      "more-info-fan " +
-      attributeClassNames(stateObj, ["oscillating", "speed_list", "direction"])
-    );
+    return ("more-info-fan " +
+            attributeClassNames(stateObj,
+                                [ "oscillating", "speed_list", "direction" ]));
   }
 
   speedChanged(ev) {
     var oldVal = this.stateObj.attributes.speed;
     var newVal = ev.detail.value;
 
-    if (!newVal || oldVal === newVal) return;
+    if (!newVal || oldVal === newVal)
+      return;
 
     this.hass.callService("fan", "turn_on", {
-      entity_id: this.stateObj.entity_id,
-      speed: newVal,
+      entity_id : this.stateObj.entity_id,
+      speed : newVal,
     });
   }
 
@@ -155,25 +158,26 @@ class MoreInfoFan extends LocalizeMixin(EventsMixin(PolymerElement)) {
     var oldVal = this.stateObj.attributes.oscillating;
     var newVal = ev.target.checked;
 
-    if (oldVal === newVal) return;
+    if (oldVal === newVal)
+      return;
 
     this.hass.callService("fan", "oscillate", {
-      entity_id: this.stateObj.entity_id,
-      oscillating: newVal,
+      entity_id : this.stateObj.entity_id,
+      oscillating : newVal,
     });
   }
 
   onDirectionReverse() {
     this.hass.callService("fan", "set_direction", {
-      entity_id: this.stateObj.entity_id,
-      direction: "reverse",
+      entity_id : this.stateObj.entity_id,
+      direction : "reverse",
     });
   }
 
   onDirectionForward() {
     this.hass.callService("fan", "set_direction", {
-      entity_id: this.stateObj.entity_id,
-      direction: "forward",
+      entity_id : this.stateObj.entity_id,
+      direction : "forward",
     });
   }
 

@@ -2,23 +2,24 @@ import "@material/mwc-button";
 import "@polymer/app-layout/app-drawer/app-drawer";
 import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { computeDomain } from "../../common/entity/compute_domain";
 import "../../components/ha-paper-icon-button-prev";
-import { subscribeNotifications } from "../../data/persistent_notification";
-import { EventsMixin } from "../../mixins/events-mixin";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import "./notification-item";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {computeDomain} from "../../common/entity/compute_domain";
+import {subscribeNotifications} from "../../data/persistent_notification";
+import {EventsMixin} from "../../mixins/events-mixin";
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-export class HuiNotificationDrawer extends EventsMixin(
-  LocalizeMixin(PolymerElement)
-) {
+export class HuiNotificationDrawer extends EventsMixin
+(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
     <style include="paper-material-styles">
@@ -73,18 +74,18 @@ export class HuiNotificationDrawer extends EventsMixin(
 
   static get properties() {
     return {
-      hass: Object,
-      open: {
-        type: Boolean,
-        observer: "_openChanged",
+      hass : Object,
+      open : {
+        type : Boolean,
+        observer : "_openChanged",
       },
-      notifications: {
-        type: Array,
-        computed: "_computeNotifications(open, hass, _notificationsBackend)",
+      notifications : {
+        type : Array,
+        computed : "_computeNotifications(open, hass, _notificationsBackend)",
       },
-      _notificationsBackend: {
-        type: Array,
-        value: [],
+      _notificationsBackend : {
+        type : Array,
+        value : [],
       },
     };
   }
@@ -104,19 +105,14 @@ export class HuiNotificationDrawer extends EventsMixin(
     this.open = false;
   }
 
-  _empty(notifications) {
-    return notifications.length === 0;
-  }
+  _empty(notifications) { return notifications.length === 0; }
 
   _openChanged(open) {
     if (open) {
       // Render closed then animate open
       this._unsubNotifications = subscribeNotifications(
-        this.hass.connection,
-        (notifications) => {
-          this._notificationsBackend = notifications;
-        }
-      );
+          this.hass.connection,
+          (notifications) => { this._notificationsBackend = notifications; });
     } else if (this._unsubNotifications) {
       this._unsubNotifications();
       this._unsubNotifications = undefined;
@@ -128,18 +124,17 @@ export class HuiNotificationDrawer extends EventsMixin(
       return [];
     }
 
-    const configuratorEntities = Object.keys(hass.states)
-      .filter((entityId) => computeDomain(entityId) === "configurator")
-      .map((entityId) => hass.states[entityId]);
+    const configuratorEntities =
+        Object.keys(hass.states)
+            .filter((entityId) => computeDomain(entityId) === "configurator")
+            .map((entityId) => hass.states[entityId]);
 
     return notificationsBackend.concat(configuratorEntities);
   }
 
-  showDialog({ narrow }) {
-    this.style.setProperty(
-      "--app-drawer-width",
-      narrow ? window.innerWidth + "px" : "500px"
-    );
+  showDialog({narrow}) {
+    this.style.setProperty("--app-drawer-width",
+                           narrow ? window.innerWidth + "px" : "500px");
     this.$.drawer.open();
   }
 }

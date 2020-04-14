@@ -1,15 +1,18 @@
 import "@material/mwc-button";
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../components/entity/state-info";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class StateCardConfigurator extends LocalizeMixin(PolymerElement) {
+class StateCardConfigurator extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -47,17 +50,15 @@ class StateCardConfigurator extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: Object,
-      inDialog: {
-        type: Boolean,
-        value: false,
+      hass : Object,
+      stateObj : Object,
+      inDialog : {
+        type : Boolean,
+        value : false,
       },
     };
   }
 
-  _localizeState(state) {
-    return this.localize(`state.configurator.${state}`);
-  }
+  _localizeState(state) { return this.localize(`state.configurator.${state}`); }
 }
 customElements.define("state-card-configurator", StateCardConfigurator);

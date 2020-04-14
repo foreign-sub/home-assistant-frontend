@@ -1,25 +1,26 @@
-import Chart from "chart.js";
 import "chartjs-chart-timeline";
+
+import Chart from "chart.js";
 
 // This function add a new interaction mode to Chart.js that
 // returns one point for every dataset.
-Chart.Interaction.modes.neareach = function (chart, e, options) {
+Chart.Interaction.modes.neareach = function(chart, e, options) {
   const getRange = {
-    x: (a, b) => Math.abs(a.x - b.x),
-    y: (a, b) => Math.abs(a.y - b.y),
+    x : (a, b) => Math.abs(a.x - b.x),
+    y : (a, b) => Math.abs(a.y - b.y),
     // eslint-disable-next-line no-restricted-properties
-    xy: (a, b) => Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2),
+    xy : (a, b) => Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2),
   };
   const getRangeMax = {
-    x: (r) => r,
-    y: (r) => r,
-    xy: (r) => r * r,
+    x : (r) => r,
+    y : (r) => r,
+    xy : (r) => r * r,
   };
   let position;
   if (e.native) {
     position = {
-      x: e.x,
-      y: e.y,
+      x : e.x,
+      y : e.y,
     };
   } else {
     position = Chart.helpers.getRelativePosition(e, chart);

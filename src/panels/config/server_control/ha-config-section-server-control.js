@@ -1,19 +1,22 @@
 import "@material/mwc-button";
 import "@polymer/paper-input/paper-input";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { isComponentLoaded } from "../../../common/config/is_component_loaded";
 import "../../../components/buttons/ha-call-service-button";
 import "../../../components/ha-card";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import "../../../resources/ha-style";
 import "../ha-config-section";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {isComponentLoaded} from "../../../common/config/is_component_loaded";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaConfigSectionServerControl extends LocalizeMixin(PolymerElement) {
+class HaConfigSectionServerControl extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -197,53 +200,43 @@ class HaConfigSectionServerControl extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
+      hass : {
+        type : Object,
       },
 
-      isWide: {
-        type: Boolean,
-        value: false,
+      isWide : {
+        type : Boolean,
+        value : false,
       },
 
-      validating: {
-        type: Boolean,
-        value: false,
+      validating : {
+        type : Boolean,
+        value : false,
       },
 
-      isValid: {
-        type: Boolean,
-        value: null,
+      isValid : {
+        type : Boolean,
+        value : null,
       },
 
-      validateLog: {
-        type: String,
-        value: "",
+      validateLog : {
+        type : String,
+        value : "",
       },
 
-      showAdvanced: Boolean,
+      showAdvanced : Boolean,
     };
   }
 
-  groupLoaded(hass) {
-    return isComponentLoaded(hass, "group");
-  }
+  groupLoaded(hass) { return isComponentLoaded(hass, "group"); }
 
-  automationLoaded(hass) {
-    return isComponentLoaded(hass, "automation");
-  }
+  automationLoaded(hass) { return isComponentLoaded(hass, "automation"); }
 
-  scriptLoaded(hass) {
-    return isComponentLoaded(hass, "script");
-  }
+  scriptLoaded(hass) { return isComponentLoaded(hass, "script"); }
 
-  sceneLoaded(hass) {
-    return isComponentLoaded(hass, "scene");
-  }
+  sceneLoaded(hass) { return isComponentLoaded(hass, "scene"); }
 
-  personLoaded(hass) {
-    return isComponentLoaded(hass, "person");
-  }
+  personLoaded(hass) { return isComponentLoaded(hass, "person"); }
 
   validateConfig() {
     this.validating = true;
@@ -261,7 +254,5 @@ class HaConfigSectionServerControl extends LocalizeMixin(PolymerElement) {
   }
 }
 
-customElements.define(
-  "ha-config-section-server-control",
-  HaConfigSectionServerControl
-);
+customElements.define("ha-config-section-server-control",
+                      HaConfigSectionServerControl);

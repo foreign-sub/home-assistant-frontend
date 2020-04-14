@@ -1,15 +1,16 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { compare } from "../../../common/string/compare";
-import { EventsMixin } from "../../../mixins/events-mixin";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+import {compare} from "../../../common/string/compare";
+import {EventsMixin} from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class EventsList extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class EventsList extends EventsMixin
+(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -45,28 +46,26 @@ class EventsList extends EventsMixin(LocalizeMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
+      hass : {
+        type : Object,
       },
 
-      events: {
-        type: Array,
+      events : {
+        type : Array,
       },
     };
   }
 
   connectedCallback() {
     super.connectedCallback();
-    this.hass.callApi("GET", "events").then(
-      function (events) {
-        this.events = events.sort((e1, e2) => compare(e1.event, e2.event));
-      }.bind(this)
-    );
+    this.hass.callApi("GET", "events").then(function(events) {
+      this.events = events.sort((e1, e2) => compare(e1.event, e2.event));
+    }.bind(this));
   }
 
   eventSelected(ev) {
     ev.preventDefault();
-    this.fire("event-selected", { eventType: ev.model.event.event });
+    this.fire("event-selected", {eventType : ev.model.event.event});
   }
 }
 

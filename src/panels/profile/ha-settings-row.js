@@ -1,6 +1,6 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class HaSettingsRow extends PolymerElement {
   static get template() {
@@ -33,13 +33,13 @@ class HaSettingsRow extends PolymerElement {
 
   static get properties() {
     return {
-      narrow: {
-        type: Boolean,
-        reflectToAttribute: true,
+      narrow : {
+        type : Boolean,
+        reflectToAttribute : true,
       },
-      threeLine: {
-        type: Boolean,
-        value: false,
+      threeLine : {
+        type : Boolean,
+        value : false,
       },
     };
   }

@@ -1,15 +1,18 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../components/entity/state-info";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
 import LocalizeMixin from "../mixins/localize-mixin";
 import HassMediaPlayerEntity from "../util/hass-media-player-model";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class StateCardMediaPlayer extends LocalizeMixin(PolymerElement) {
+class StateCardMediaPlayer extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -65,15 +68,15 @@ class StateCardMediaPlayer extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: Object,
-      inDialog: {
-        type: Boolean,
-        value: false,
+      hass : Object,
+      stateObj : Object,
+      inDialog : {
+        type : Boolean,
+        value : false,
       },
-      playerObj: {
-        type: Object,
-        computed: "computePlayerObj(hass, stateObj)",
+      playerObj : {
+        type : Object,
+        computed : "computePlayerObj(hass, stateObj)",
       },
     };
   }
@@ -83,12 +86,10 @@ class StateCardMediaPlayer extends LocalizeMixin(PolymerElement) {
   }
 
   computePrimaryText(localize, playerObj) {
-    return (
-      playerObj.primaryTitle ||
-      localize(`state.media_player.${playerObj.stateObj.state}`) ||
-      localize(`state.default.${playerObj.stateObj.state}`) ||
-      playerObj.stateObj.state
-    );
+    return (playerObj.primaryTitle ||
+            localize(`state.media_player.${playerObj.stateObj.state}`) ||
+            localize(`state.default.${playerObj.stateObj.state}`) ||
+            playerObj.stateObj.state);
   }
 }
 customElements.define("state-card-media_player", StateCardMediaPlayer);

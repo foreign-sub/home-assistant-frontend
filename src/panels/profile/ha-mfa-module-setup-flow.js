@@ -1,15 +1,17 @@
 import "@material/mwc-button";
 import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "@polymer/paper-spinner/paper-spinner";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../components/dialog/ha-paper-dialog";
 import "../../components/ha-form/ha-form";
 import "../../components/ha-markdown";
-import { EventsMixin } from "../../mixins/events-mixin";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import "../../resources/ha-style";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {EventsMixin} from "../../mixins/events-mixin";
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 let instance = 0;
 
@@ -17,7 +19,8 @@ let instance = 0;
  * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class HaMfaModuleSetupFlow extends LocalizeMixin
+(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="ha-style-dialog">
@@ -139,32 +142,32 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      _hass: Object,
-      _dialogClosedCallback: Function,
-      _instance: Number,
+      _hass : Object,
+      _dialogClosedCallback : Function,
+      _instance : Number,
 
-      _loading: {
-        type: Boolean,
-        value: false,
+      _loading : {
+        type : Boolean,
+        value : false,
       },
 
       // Error message when can't talk to server etc
-      _errorMsg: String,
+      _errorMsg : String,
 
-      _opened: {
-        type: Boolean,
-        value: false,
+      _opened : {
+        type : Boolean,
+        value : false,
       },
 
-      _step: {
-        type: Object,
-        value: null,
+      _step : {
+        type : Object,
+        value : null,
       },
 
       /*
        * Store user entered data.
        */
-      _stepData: Object,
+      _stepData : Object,
     };
   }
 
@@ -177,7 +180,7 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
     });
   }
 
-  showDialog({ hass, continueFlowId, mfaModuleId, dialogClosedCallback }) {
+  showDialog({hass, continueFlowId, mfaModuleId, dialogClosedCallback}) {
     this.hass = hass;
     this._instance = instance++;
     this._dialogClosedCallback = dialogClosedCallback;
@@ -185,20 +188,20 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
     this._loading = true;
     this._opened = true;
 
-    const fetchStep = continueFlowId
-      ? this.hass.callWS({
-          type: "auth/setup_mfa",
-          flow_id: continueFlowId,
-        })
-      : this.hass.callWS({
-          type: "auth/setup_mfa",
-          mfa_module_id: mfaModuleId,
-        });
+    const fetchStep = continueFlowId ? this.hass.callWS({
+      type : "auth/setup_mfa",
+      flow_id : continueFlowId,
+    })
+                                     : this.hass.callWS({
+                                         type : "auth/setup_mfa",
+                                         mfa_module_id : mfaModuleId,
+                                       });
 
     const curInstance = this._instance;
 
     fetchStep.then((step) => {
-      if (curInstance !== this._instance) return;
+      if (curInstance !== this._instance)
+        return;
 
       this._processStep(step);
       this._loading = false;
@@ -215,28 +218,29 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
     const curInstance = this._instance;
 
     this.hass
-      .callWS({
-        type: "auth/setup_mfa",
-        flow_id: this._step.flow_id,
-        user_input: this._stepData,
-      })
-      .then(
-        (step) => {
-          if (curInstance !== this._instance) return;
+        .callWS({
+          type : "auth/setup_mfa",
+          flow_id : this._step.flow_id,
+          user_input : this._stepData,
+        })
+        .then(
+            (step) => {
+              if (curInstance !== this._instance)
+                return;
 
-          this._processStep(step);
-          this._loading = false;
-        },
-        (err) => {
-          this._errorMsg =
-            (err && err.body && err.body.message) || "Unknown error occurred";
-          this._loading = false;
-        }
-      );
+              this._processStep(step);
+              this._loading = false;
+            },
+            (err) => {
+              this._errorMsg = (err && err.body && err.body.message) ||
+                               "Unknown error occurred";
+              this._loading = false;
+            });
   }
 
   _processStep(step) {
-    if (!step.errors) step.errors = {};
+    if (!step.errors)
+      step.errors = {};
     this._step = step;
     // We got a new form if there are no errors.
     if (Object.keys(step.errors).length === 0) {
@@ -247,7 +251,7 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   _flowDone() {
     this._opened = false;
     const flowFinished =
-      this._step && ["create_entry", "abort"].includes(this._step.type);
+        this._step && [ "create_entry", "abort" ].includes(this._step.type);
 
     if (this._step && !flowFinished && this._createdFromHandler) {
       // console.log('flow not finish');
@@ -263,9 +267,7 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
     this._dialogClosedCallback = null;
   }
 
-  _equals(a, b) {
-    return a === b;
-  }
+  _equals(a, b) { return a === b; }
 
   _openedChanged(ev) {
     // Closed dialog by clicking on the overlay
@@ -276,21 +278,19 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   _computeStepAbortedReason(localize, step) {
     return localize(
-      `component.auth.mfa_setup.${step.handler}.abort.${step.reason}`
-    );
+        `component.auth.mfa_setup.${step.handler}.abort.${step.reason}`);
   }
 
   _computeStepTitle(localize, step) {
-    return (
-      localize(
-        `component.auth.mfa_setup.${step.handler}.step.${step.step_id}.title`
-      ) || "Setup Multi-factor Authentication"
-    );
+    return (localize(`component.auth.mfa_setup.${step.handler}.step.${
+                step.step_id}.title`) ||
+            "Setup Multi-factor Authentication");
   }
 
   _computeStepDescription(localize, step) {
     const args = [
-      `component.auth.mfa_setup.${step.handler}.step.${step.step_id}.description`,
+      `component.auth.mfa_setup.${step.handler}.step.${
+          step.step_id}.description`,
     ];
     const placeholders = step.description_placeholders || {};
     Object.keys(placeholders).forEach((key) => {
@@ -303,16 +303,17 @@ class HaMfaModuleSetupFlow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   _computeLabelCallback(localize, step) {
     // Returns a callback for ha-form to calculate labels per schema object
     return (schema) =>
-      localize(
-        `component.auth.mfa_setup.${step.handler}.step.${step.step_id}.data.${schema.name}`
-      ) || schema.name;
+               localize(`component.auth.mfa_setup.${step.handler}.step.${
+                   step.step_id}.data.${schema.name}`) ||
+               schema.name;
   }
 
   _computeErrorCallback(localize, step) {
     // Returns a callback for ha-form to calculate error messages
     return (error) =>
-      localize(`component.auth.mfa_setup.${step.handler}.error.${error}`) ||
-      error;
+               localize(
+                   `component.auth.mfa_setup.${step.handler}.error.${error}`) ||
+               error;
   }
 }
 

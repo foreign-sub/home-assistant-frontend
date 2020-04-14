@@ -1,17 +1,20 @@
 import "@material/mwc-button";
 import "@polymer/paper-dialog/paper-dialog";
 import "@polymer/paper-spinner/paper-spinner";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../components/ha-card";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import "../../resources/ha-style";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaChangePasswordCard extends LocalizeMixin(PolymerElement) {
+class HaChangePasswordCard extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -86,20 +89,20 @@ class HaChangePasswordCard extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      hass : Object,
 
-      _loading: {
-        type: Boolean,
-        value: false,
+      _loading : {
+        type : Boolean,
+        value : false,
       },
 
       // Error message when can't talk to server etc
-      _statusMsg: String,
-      _errorMsg: String,
+      _statusMsg : String,
+      _errorMsg : String,
 
-      _currentPassword: String,
-      _password1: String,
-      _password2: String,
+      _currentPassword : String,
+      _password1 : String,
+      _password2 : String,
     };
   }
 
@@ -115,7 +118,8 @@ class HaChangePasswordCard extends LocalizeMixin(PolymerElement) {
 
   async _changePassword() {
     this._statusMsg = null;
-    if (!this._currentPassword || !this._password1 || !this._password2) return;
+    if (!this._currentPassword || !this._password1 || !this._password2)
+      return;
 
     if (this._password1 !== this._password2) {
       this._errorMsg = "New password confirmation doesn't match";
@@ -132,16 +136,16 @@ class HaChangePasswordCard extends LocalizeMixin(PolymerElement) {
 
     try {
       await this.hass.callWS({
-        type: "config/auth_provider/homeassistant/change_password",
-        current_password: this._currentPassword,
-        new_password: this._password1,
+        type : "config/auth_provider/homeassistant/change_password",
+        current_password : this._currentPassword,
+        new_password : this._password1,
       });
 
       this.setProperties({
-        _statusMsg: "Password changed successfully",
-        _currentPassword: null,
-        _password1: null,
-        _password2: null,
+        _statusMsg : "Password changed successfully",
+        _currentPassword : null,
+        _password1 : null,
+        _password2 : null,
       });
     } catch (err) {
       this._errorMsg = err.message;

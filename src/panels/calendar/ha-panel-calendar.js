@@ -4,23 +4,26 @@ import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-checkbox/paper-checkbox";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import moment from "moment";
-import dates from "react-big-calendar/lib/utils/dates";
 import "../../components/ha-card";
 import "../../components/ha-menu-button";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import "../../resources/ha-style";
 import "./ha-big-calendar";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+import moment from "moment";
+import dates from "react-big-calendar/lib/utils/dates";
+
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 const DEFAULT_VIEW = "month";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPanelCalendar extends LocalizeMixin(PolymerElement) {
+class HaPanelCalendar extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -113,36 +116,36 @@ class HaPanelCalendar extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      hass : Object,
 
-      currentView: {
-        type: String,
-        value: DEFAULT_VIEW,
+      currentView : {
+        type : String,
+        value : DEFAULT_VIEW,
       },
 
-      currentDate: {
-        type: Object,
-        value: new Date(),
+      currentDate : {
+        type : Object,
+        value : new Date(),
       },
 
-      events: {
-        type: Array,
-        value: [],
+      events : {
+        type : Array,
+        value : [],
       },
 
-      calendars: {
-        type: Array,
-        value: [],
+      calendars : {
+        type : Array,
+        value : [],
       },
 
-      selectedCalendars: {
-        type: Array,
-        value: [],
+      selectedCalendars : {
+        type : Array,
+        value : [],
       },
 
-      narrow: {
-        type: Boolean,
-        reflectToAttribute: true,
+      narrow : {
+        type : Boolean,
+        reflectToAttribute : true,
       },
     };
   }
@@ -163,9 +166,8 @@ class HaPanelCalendar extends LocalizeMixin(PolymerElement) {
     const start = dates.firstVisibleDay(this.currentDate).toISOString();
     const end = dates.lastVisibleDay(this.currentDate).toISOString();
     const params = encodeURI(`?start=${start}&end=${end}`);
-    const calls = this.selectedCalendars.map((cal) =>
-      this.hass.callApi("get", `calendars/${cal}${params}`)
-    );
+    const calls = this.selectedCalendars.map(
+        (cal) => this.hass.callApi("get", `calendars/${cal}${params}`));
     Promise.all(calls).then((results) => {
       const tmpEvents = [];
 
@@ -200,7 +202,7 @@ class HaPanelCalendar extends LocalizeMixin(PolymerElement) {
       startDate = moment(this.currentDate).startOf("day");
       endDate = moment(this.currentDate).endOf("day").add(1, "month");
     }
-    return [startDate.toISOString(), endDate.toISOString()];
+    return [ startDate.toISOString(), endDate.toISOString() ];
   }
 
   _handleViewChanged(ev) {

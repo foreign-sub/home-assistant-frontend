@@ -5,11 +5,12 @@ import "@polymer/iron-icon/iron-icon";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-item/paper-item-body";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../src/components/ha-card";
 import "../../src/managers/notification-manager";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 // eslint-disable-next-line no-undef
 const DEMOS = require.context("./demos", true, /^(.*\.(ts$))[^.]*$/im);
@@ -145,36 +146,36 @@ class HaGallery extends PolymerElement {
 
   static get properties() {
     return {
-      _fakeHass: {
-        type: Object,
+      _fakeHass : {
+        type : Object,
         // Just enough for computeRTL
-        value: {
-          language: "en",
-          translationMetadata: {
-            translations: {},
+        value : {
+          language : "en",
+          translationMetadata : {
+            translations : {},
           },
         },
       },
-      _demo: {
-        type: String,
-        value: document.location.hash.substr(1),
-        observer: "_demoChanged",
+      _demo : {
+        type : String,
+        value : document.location.hash.substr(1),
+        observer : "_demoChanged",
       },
-      _demos: {
-        type: Array,
-        value: DEMOS.keys().map(fixPath),
+      _demos : {
+        type : Array,
+        value : DEMOS.keys().map(fixPath),
       },
-      _lovelaceDemos: {
-        type: Array,
-        computed: "_computeLovelace(_demos)",
+      _lovelaceDemos : {
+        type : Array,
+        computed : "_computeLovelace(_demos)",
       },
-      _moreInfoDemos: {
-        type: Array,
-        computed: "_computeMoreInfos(_demos)",
+      _moreInfoDemos : {
+        type : Array,
+        computed : "_computeMoreInfos(_demos)",
       },
-      _utilDemos: {
-        type: Array,
-        computed: "_computeUtil(_demos)",
+      _utilDemos : {
+        type : Array,
+        computed : "_computeUtil(_demos)",
       },
     };
   }
@@ -182,31 +183,29 @@ class HaGallery extends PolymerElement {
   ready() {
     super.ready();
 
-    this.addEventListener("show-notification", (ev) =>
-      this.$.notifications.showDialog({ message: ev.detail.message })
-    );
+    this.addEventListener(
+        "show-notification",
+        (ev) => this.$.notifications.showDialog({message : ev.detail.message}));
 
     this.addEventListener("hass-more-info", (ev) => {
       if (ev.detail.entityId) {
         this.$.notifications.showDialog({
-          message: `Showing more info for ${ev.detail.entityId}`,
+          message : `Showing more info for ${ev.detail.entityId}`,
         });
       }
     });
 
-    window.addEventListener("hashchange", () => {
-      this._demo = document.location.hash.substr(1);
-    });
+    window.addEventListener(
+        "hashchange", () => { this._demo = document.location.hash.substr(1); });
   }
 
-  _withDefault(value, def) {
-    return value || def;
-  }
+  _withDefault(value, def) { return value || def; }
 
   _demoChanged(demo) {
     const root = this.$.demo;
 
-    while (root.lastChild) root.removeChild(root.lastChild);
+    while (root.lastChild)
+      root.removeChild(root.lastChild);
 
     if (demo) {
       DEMOS(`./${demo}.ts`);
@@ -215,13 +214,9 @@ class HaGallery extends PolymerElement {
     }
   }
 
-  _computeHeaderButtonClass(demo) {
-    return demo ? "" : "invisible";
-  }
+  _computeHeaderButtonClass(demo) { return demo ? "" : "invisible"; }
 
-  _backTapped() {
-    document.location.hash = "";
-  }
+  _backTapped() { document.location.hash = ""; }
 
   _computeLovelace(demos) {
     return demos.filter((demo) => demo.includes("hui"));
@@ -231,9 +226,7 @@ class HaGallery extends PolymerElement {
     return demos.filter((demo) => demo.includes("more-info"));
   }
 
-  _computeUtil(demos) {
-    return demos.filter((demo) => demo.includes("util"));
-  }
+  _computeUtil(demos) { return demos.filter((demo) => demo.includes("util")); }
 }
 
 customElements.define("ha-gallery", HaGallery);

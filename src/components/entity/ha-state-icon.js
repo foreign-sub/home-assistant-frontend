@@ -1,8 +1,10 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { stateIcon } from "../../common/entity/state_icon";
 import "../ha-icon";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {stateIcon} from "../../common/entity/state_icon";
 
 class HaStateIcon extends PolymerElement {
   static get template() {
@@ -11,15 +13,13 @@ class HaStateIcon extends PolymerElement {
 
   static get properties() {
     return {
-      stateObj: {
-        type: Object,
+      stateObj : {
+        type : Object,
       },
     };
   }
 
-  computeIcon(stateObj) {
-    return stateIcon(stateObj);
-  }
+  computeIcon(stateObj) { return stateIcon(stateObj); }
 }
 
 customElements.define("ha-state-icon", HaStateIcon);

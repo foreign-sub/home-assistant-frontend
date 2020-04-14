@@ -3,11 +3,12 @@ import "./polyfill";
 /**
 @license
 Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+This code may only be used under the BSD style license found at
+http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
+http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
+found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
+part of the polymer project is also subject to an additional IP rights grant
+found at http://polymer.github.io/PATENTS.txt
 */
 
 // run a callback when HTMLImports are ready or immediately if
@@ -29,18 +30,19 @@ function whenImportsReady(cb) {
  * element will contain the imported document contents.
  *
  * @param {string} href URL to document to load.
- * @param {?function(!Event):void=} onload Callback to notify when an import successfully
+ * @param {?function(!Event):void=} onload Callback to notify when an import
+ *     successfully
  *   loaded.
- * @param {?function(!ErrorEvent):void=} onerror Callback to notify when an import
+ * @param {?function(!ErrorEvent):void=} onerror Callback to notify when an
+ *     import
  *   unsuccessfully loaded.
  * @param {boolean=} optAsync True if the import should be loaded `async`.
  *   Defaults to `false`.
  * @return {!HTMLLinkElement} The link element for the URL to be loaded.
  */
-export const importHref = function (href, onload, onerror, optAsync) {
-  let link /** @type {HTMLLinkElement} */ = document.head.querySelector(
-    'link[href="' + href + '"][import-href]'
-  );
+export const importHref = function(href, onload, onerror, optAsync) {
+  let link /** @type {HTMLLinkElement} */ =
+      document.head.querySelector('link[href="' + href + '"][import-href]');
   if (!link) {
     link = /** @type {HTMLLinkElement} */ (document.createElement("link"));
     link.rel = "import";
@@ -55,23 +57,21 @@ export const importHref = function (href, onload, onerror, optAsync) {
   // NOTE: the link may now be in 3 states: (1) pending insertion,
   // (2) inflight, (3) already loaded. In each case, we need to add
   // event listeners to process callbacks.
-  const cleanup = function () {
+  const cleanup = function() {
     link.removeEventListener("load", loadListener);
     link.removeEventListener("error", errorListener);
   };
-  let loadListener = function (event) {
+  let loadListener = function(event) {
     cleanup();
     // In case of a successful load, cache the load event on the link so
     // that it can be used to short-circuit this method in the future when
     // it is called with the same href param.
     link.__dynamicImportLoaded = true;
     if (onload) {
-      whenImportsReady(() => {
-        onload(event);
-      });
+      whenImportsReady(() => { onload(event); });
     }
   };
-  let errorListener = function (event) {
+  let errorListener = function(event) {
     cleanup();
     // In case of an error, remove the link from the document so that it
     // will be automatically created again the next time `importHref` is
@@ -80,9 +80,7 @@ export const importHref = function (href, onload, onerror, optAsync) {
       link.parentNode.removeChild(link);
     }
     if (onerror) {
-      whenImportsReady(() => {
-        onerror(event);
-      });
+      whenImportsReady(() => { onerror(event); });
     }
   };
   link.addEventListener("load", loadListener);
@@ -98,4 +96,4 @@ export const importHref = function (href, onload, onerror, optAsync) {
 };
 
 export const importHrefPromise = (href) =>
-  new Promise((resolve, reject) => importHref(href, resolve, reject));
+    new Promise((resolve, reject) => importHref(href, resolve, reject));

@@ -1,9 +1,10 @@
 import "@polymer/app-layout/app-toolbar/app-toolbar";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../src/components/ha-switch";
 import "./demo-more-info";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class DemoMoreInfos extends PolymerElement {
   static get template() {
@@ -43,11 +44,11 @@ class DemoMoreInfos extends PolymerElement {
 
   static get properties() {
     return {
-      entities: Array,
-      hass: Object,
-      _showConfig: {
-        type: Boolean,
-        value: false,
+      entities : Array,
+      hass : Object,
+      _showConfig : {
+        type : Boolean,
+        value : false,
       },
     };
   }

@@ -1,17 +1,20 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { attributeClassNames } from "../common/entity/attribute_class_names";
-import { computeStateDisplay } from "../common/entity/compute_state_display";
-import { computeRTL } from "../common/util/compute_rtl";
 import "../components/entity/state-info";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {attributeClassNames} from "../common/entity/attribute_class_names";
+import {computeStateDisplay} from "../common/entity/compute_state_display";
+import {computeRTL} from "../common/util/compute_rtl";
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class StateCardDisplay extends LocalizeMixin(PolymerElement) {
+class StateCardDisplay extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -69,16 +72,16 @@ class StateCardDisplay extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: Object,
-      inDialog: {
-        type: Boolean,
-        value: false,
+      hass : Object,
+      stateObj : Object,
+      inDialog : {
+        type : Boolean,
+        value : false,
       },
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+      rtl : {
+        type : Boolean,
+        reflectToAttribute : true,
+        computed : "_computeRTL(hass)",
       },
     };
   }
@@ -90,13 +93,11 @@ class StateCardDisplay extends LocalizeMixin(PolymerElement) {
   computeClassNames(stateObj) {
     const classes = [
       "state",
-      attributeClassNames(stateObj, ["unit_of_measurement"]),
+      attributeClassNames(stateObj, [ "unit_of_measurement" ]),
     ];
     return classes.join(" ");
   }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
-  }
+  _computeRTL(hass) { return computeRTL(hass); }
 }
 customElements.define("state-card-display", StateCardDisplay);

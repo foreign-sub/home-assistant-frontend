@@ -1,16 +1,19 @@
 import "@polymer/paper-card/paper-card";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { computeStateName } from "../common/entity/compute_state_name";
 import "../components/state-history-charts";
 import "../data/ha-state-history-data";
-import { EventsMixin } from "../mixins/events-mixin";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {computeStateName} from "../common/entity/compute_state_name";
+import {EventsMixin} from "../mixins/events-mixin";
 
 /*
  * @appliesMixin EventsMixin
  */
-class HaHistoryGraphCard extends EventsMixin(PolymerElement) {
+class HaHistoryGraphCard extends EventsMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -67,64 +70,56 @@ class HaHistoryGraphCard extends EventsMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: {
-        type: Object,
-        observer: "stateObjObserver",
+      hass : Object,
+      stateObj : {
+        type : Object,
+        observer : "stateObjObserver",
       },
-      inDialog: {
-        type: Boolean,
-        value: false,
+      inDialog : {
+        type : Boolean,
+        value : false,
       },
-      stateHistory: Object,
-      stateHistoryLoading: Boolean,
-      cacheConfig: {
-        type: Object,
-        value: {
-          refresh: 0,
-          cacheKey: null,
-          hoursToShow: 24,
+      stateHistory : Object,
+      stateHistoryLoading : Boolean,
+      cacheConfig : {
+        type : Object,
+        value : {
+          refresh : 0,
+          cacheKey : null,
+          hoursToShow : 24,
         },
       },
     };
   }
 
   stateObjObserver(stateObj) {
-    if (!stateObj) return;
-    if (
-      this.cacheConfig.cacheKey !== stateObj.entity_id ||
-      this.cacheConfig.refresh !== (stateObj.attributes.refresh || 0) ||
-      this.cacheConfig.hoursToShow !== (stateObj.attributes.hours_to_show || 24)
-    ) {
+    if (!stateObj)
+      return;
+    if (this.cacheConfig.cacheKey !== stateObj.entity_id ||
+        this.cacheConfig.refresh !== (stateObj.attributes.refresh || 0) ||
+        this.cacheConfig.hoursToShow !==
+            (stateObj.attributes.hours_to_show || 24)) {
       this.cacheConfig = {
-        refresh: stateObj.attributes.refresh || 0,
-        cacheKey: stateObj.entity_id,
-        hoursToShow: stateObj.attributes.hours_to_show || 24,
+        refresh : stateObj.attributes.refresh || 0,
+        cacheKey : stateObj.entity_id,
+        hoursToShow : stateObj.attributes.hours_to_show || 24,
       };
     }
   }
 
-  computeTitle(stateObj) {
-    return computeStateName(stateObj);
-  }
+  computeTitle(stateObj) { return computeStateName(stateObj); }
 
-  computeContentClass(inDialog) {
-    return inDialog ? "" : "content";
-  }
+  computeContentClass(inDialog) { return inDialog ? "" : "content"; }
 
-  computeHistoryEntities(stateObj) {
-    return stateObj.attributes.entity_id;
-  }
+  computeHistoryEntities(stateObj) { return stateObj.attributes.entity_id; }
 
-  computeElevation(inDialog) {
-    return inDialog ? 0 : 1;
-  }
+  computeElevation(inDialog) { return inDialog ? 0 : 1; }
 
   cardTapped(ev) {
     const mq = window.matchMedia("(min-width: 610px) and (min-height: 550px)");
     if (mq.matches) {
       ev.stopPropagation();
-      this.fire("hass-more-info", { entityId: this.stateObj.entity_id });
+      this.fire("hass-more-info", {entityId : this.stateObj.entity_id});
     }
   }
 }

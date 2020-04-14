@@ -1,14 +1,16 @@
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import hassAttributeUtil from "../../../util/hass-attributes-util";
 import "../ha-form-style";
 import "./types/ha-customize-array";
 import "./types/ha-customize-boolean";
 import "./types/ha-customize-icon";
 import "./types/ha-customize-key-value";
 import "./types/ha-customize-string";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import hassAttributeUtil from "../../../util/hass-attributes-util";
 
 class HaCustomizeAttribute extends PolymerElement {
   static get template() {
@@ -38,25 +40,23 @@ class HaCustomizeAttribute extends PolymerElement {
 
   static get properties() {
     return {
-      item: {
-        type: Object,
-        notify: true,
-        observer: "itemObserver",
+      item : {
+        type : Object,
+        notify : true,
+        observer : "itemObserver",
       },
     };
   }
 
   tapButton() {
     if (this.item.secondary) {
-      this.item = { ...this.item, secondary: false };
+      this.item = {...this.item, secondary : false};
     } else {
-      this.item = { ...this.item, closed: true };
+      this.item = {...this.item, closed : true};
     }
   }
 
-  getIcon(secondary) {
-    return secondary ? "hass:pencil" : "hass:close";
-  }
+  getIcon(secondary) { return secondary ? "hass:pencil" : "hass:close"; }
 
   itemObserver(item) {
     const wrapper = this.$.wrapper;
@@ -68,15 +68,15 @@ class HaCustomizeAttribute extends PolymerElement {
       if (wrapper.lastChild) {
         wrapper.removeChild(wrapper.lastChild);
       }
-      // Creating an element with upper case works fine in Chrome, but in FF it doesn't immediately
-      // become a defined Custom Element. Polymer does that in some later pass.
+      // Creating an element with upper case works fine in Chrome, but in FF it
+      // doesn't immediately become a defined Custom Element. Polymer does that
+      // in some later pass.
       this.$.child = child = document.createElement(tag.toLowerCase());
       child.className = "form-control";
-      child.addEventListener("item-changed", () => {
-        this.item = { ...child.item };
-      });
+      child.addEventListener("item-changed",
+                             () => { this.item = {...child.item}; });
     }
-    child.setProperties({ item: this.item });
+    child.setProperties({item : this.item});
     if (child.parentNode === null) {
       wrapper.appendChild(child);
     }

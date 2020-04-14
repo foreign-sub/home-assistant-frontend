@@ -3,26 +3,29 @@ Adapted from paper-time-input from
 https://github.com/ryanburns23/paper-time-input
 MIT Licensed. Copyright (c) 2017 Ryan Burns
 
-`<paper-time-input>` Polymer element to accept a time with paper-input & paper-dropdown-menu
-Inspired by the time input in google forms
+`<paper-time-input>` Polymer element to accept a time with paper-input &
+paper-dropdown-menu Inspired by the time input in google forms
 
 ### Styling
 
-`<paper-time-input>` provides the following custom properties and mixins for styling:
+`<paper-time-input>` provides the following custom properties and mixins for
+styling:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--paper-time-input-dropdown-ripple-color` | dropdown ripple color | `--primary-color`
+`--paper-time-input-dropdown-ripple-color` | dropdown ripple color |
+`--primary-color`
 `--paper-time-input-cotnainer` | Mixin applied to the inputs | `{}`
-`--paper-time-dropdown-input-cotnainer` | Mixin applied to the dropdown input | `{}`
+`--paper-time-dropdown-input-cotnainer` | Mixin applied to the dropdown input |
+`{}`
 */
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-input/paper-input";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 export class PaperTimeInput extends PolymerElement {
   static get template() {
@@ -195,124 +198,124 @@ export class PaperTimeInput extends PolymerElement {
       /**
        * Label for the input
        */
-      label: {
-        type: String,
-        value: "Time",
+      label : {
+        type : String,
+        value : "Time",
       },
       /**
        * auto validate time inputs
        */
-      autoValidate: {
-        type: Boolean,
-        value: true,
+      autoValidate : {
+        type : Boolean,
+        value : true,
       },
       /**
        * hides the label
        */
-      hideLabel: {
-        type: Boolean,
-        value: false,
+      hideLabel : {
+        type : Boolean,
+        value : false,
       },
       /**
        * float the input labels
        */
-      floatInputLabels: {
-        type: Boolean,
-        value: false,
+      floatInputLabels : {
+        type : Boolean,
+        value : false,
       },
       /**
        * always float the input labels
        */
-      alwaysFloatInputLabels: {
-        type: Boolean,
-        value: false,
+      alwaysFloatInputLabels : {
+        type : Boolean,
+        value : false,
       },
       /**
        * 12 or 24 hr format
        */
-      format: {
-        type: Number,
-        value: 12,
+      format : {
+        type : Number,
+        value : 12,
       },
       /**
        * disables the inputs
        */
-      disabled: {
-        type: Boolean,
-        value: false,
+      disabled : {
+        type : Boolean,
+        value : false,
       },
       /**
        * hour
        */
-      hour: {
-        type: String,
-        notify: true,
+      hour : {
+        type : String,
+        notify : true,
       },
       /**
        * minute
        */
-      min: {
-        type: String,
-        notify: true,
+      min : {
+        type : String,
+        notify : true,
       },
       /**
        * second
        */
-      sec: {
-        type: String,
-        notify: true,
+      sec : {
+        type : String,
+        notify : true,
       },
       /**
        * Suffix for the hour input
        */
-      hourLabel: {
-        type: String,
-        value: "",
+      hourLabel : {
+        type : String,
+        value : "",
       },
       /**
        * Suffix for the min input
        */
-      minLabel: {
-        type: String,
-        value: ":",
+      minLabel : {
+        type : String,
+        value : ":",
       },
       /**
        * Suffix for the sec input
        */
-      secLabel: {
-        type: String,
-        value: "",
+      secLabel : {
+        type : String,
+        value : "",
       },
       /**
        * show the sec field
        */
-      enableSecond: {
-        type: Boolean,
-        value: false,
+      enableSecond : {
+        type : Boolean,
+        value : false,
       },
       /**
        * limit hours input
        */
-      noHoursLimit: {
-        type: Boolean,
-        value: false,
+      noHoursLimit : {
+        type : Boolean,
+        value : false,
       },
       /**
        * AM or PM
        */
-      amPm: {
-        type: String,
-        notify: true,
-        value: "AM",
+      amPm : {
+        type : String,
+        notify : true,
+        value : "AM",
       },
       /**
        * Formatted time string
        */
-      value: {
-        type: String,
-        notify: true,
-        readOnly: true,
-        computed: "_computeTime(min, hour, sec, amPm)",
+      value : {
+        type : String,
+        notify : true,
+        readOnly : true,
+        computed : "_computeTime(min, hour, sec, amPm)",
       },
     };
   }
@@ -361,9 +364,7 @@ export class PaperTimeInput extends PolymerElement {
     return str;
   }
 
-  _onFocus(ev) {
-    ev.target.inputElement.inputElement.select();
-  }
+  _onFocus(ev) { ev.target.inputElement.inputElement.select(); }
 
   /**
    * Format sec
@@ -405,9 +406,7 @@ export class PaperTimeInput extends PolymerElement {
     return 23;
   }
 
-  _equal(n1, n2) {
-    return n1 === n2;
-  }
+  _equal(n1, n2) { return n1 === n2; }
 }
 
 customElements.define("paper-time-input", PaperTimeInput);

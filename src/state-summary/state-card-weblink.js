@@ -1,8 +1,10 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { computeStateName } from "../common/entity/compute_state_name";
 import "../components/entity/state-badge";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {computeStateName} from "../common/entity/compute_state_name";
 
 class StateCardWeblink extends PolymerElement {
   static get template() {
@@ -35,10 +37,10 @@ class StateCardWeblink extends PolymerElement {
 
   static get properties() {
     return {
-      stateObj: Object,
-      inDialog: {
-        type: Boolean,
-        value: false,
+      stateObj : Object,
+      inDialog : {
+        type : Boolean,
+        value : false,
       },
     };
   }
@@ -48,9 +50,7 @@ class StateCardWeblink extends PolymerElement {
     this.addEventListener("click", (ev) => this.onTap(ev));
   }
 
-  _computeStateName(stateObj) {
-    return computeStateName(stateObj);
-  }
+  _computeStateName(stateObj) { return computeStateName(stateObj); }
 
   onTap(ev) {
     ev.stopPropagation();

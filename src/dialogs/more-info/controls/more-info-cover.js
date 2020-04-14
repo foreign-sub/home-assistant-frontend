@@ -1,19 +1,24 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { attributeClassNames } from "../../../common/entity/attribute_class_names";
-import { featureClassNames } from "../../../common/entity/feature_class_names";
 import "../../../components/ha-cover-tilt-controls";
 import "../../../components/ha-labeled-slider";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {
+  attributeClassNames
+} from "../../../common/entity/attribute_class_names";
+import {featureClassNames} from "../../../common/entity/feature_class_names";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 import CoverEntity from "../../../util/cover-model";
 
 const FEATURE_CLASS_NAMES = {
-  128: "has-set_tilt_position",
+  128 : "has-set_tilt_position",
 };
-class MoreInfoCover extends LocalizeMixin(PolymerElement) {
+class MoreInfoCover extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -68,39 +73,38 @@ class MoreInfoCover extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: {
-        type: Object,
-        observer: "stateObjChanged",
+      hass : Object,
+      stateObj : {
+        type : Object,
+        observer : "stateObjChanged",
       },
-      entityObj: {
-        type: Object,
-        computed: "computeEntityObj(hass, stateObj)",
+      entityObj : {
+        type : Object,
+        computed : "computeEntityObj(hass, stateObj)",
       },
-      coverPositionSliderValue: Number,
-      coverTiltPositionSliderValue: Number,
+      coverPositionSliderValue : Number,
+      coverTiltPositionSliderValue : Number,
     };
   }
 
-  computeEntityObj(hass, stateObj) {
-    return new CoverEntity(hass, stateObj);
-  }
+  computeEntityObj(hass, stateObj) { return new CoverEntity(hass, stateObj); }
 
   stateObjChanged(newVal) {
     if (newVal) {
       this.setProperties({
-        coverPositionSliderValue: newVal.attributes.current_position,
-        coverTiltPositionSliderValue: newVal.attributes.current_tilt_position,
+        coverPositionSliderValue : newVal.attributes.current_position,
+        coverTiltPositionSliderValue : newVal.attributes.current_tilt_position,
       });
     }
   }
 
   computeClassNames(stateObj) {
     var classes = [
-      attributeClassNames(stateObj, [
-        "current_position",
-        "current_tilt_position",
-      ]),
+      attributeClassNames(stateObj,
+                          [
+                            "current_position",
+                            "current_tilt_position",
+                          ]),
       featureClassNames(stateObj, FEATURE_CLASS_NAMES),
     ];
     return classes.join(" ");

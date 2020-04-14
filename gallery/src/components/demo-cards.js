@@ -1,9 +1,10 @@
 import "@polymer/app-layout/app-toolbar/app-toolbar";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../src/components/ha-switch";
 import "./demo-card";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class DemoCards extends PolymerElement {
   static get template() {
@@ -45,18 +46,16 @@ class DemoCards extends PolymerElement {
 
   static get properties() {
     return {
-      configs: Object,
-      hass: Object,
-      _showConfig: {
-        type: Boolean,
-        value: false,
+      configs : Object,
+      hass : Object,
+      _showConfig : {
+        type : Boolean,
+        value : false,
       },
     };
   }
 
-  _showConfigToggled(ev) {
-    this._showConfig = ev.target.checked;
-  }
+  _showConfigToggled(ev) { this._showConfig = ev.target.checked; }
 }
 
 customElements.define("demo-cards", DemoCards);

@@ -1,19 +1,22 @@
 import "@polymer/paper-input/paper-input";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../../components/buttons/ha-progress-button";
 import "../../../../components/ha-card";
 import "../../../../layouts/hass-subpage";
-import { EventsMixin } from "../../../../mixins/events-mixin";
-import LocalizeMixin from "../../../../mixins/localize-mixin";
 import "../../../../resources/ha-style";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {EventsMixin} from "../../../../mixins/events-mixin";
+import LocalizeMixin from "../../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class CloudForgotPassword extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class CloudForgotPassword extends LocalizeMixin
+(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -79,19 +82,19 @@ class CloudForgotPassword extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: Object,
-      email: {
-        type: String,
-        notify: true,
-        observer: "_emailChanged",
+      hass : Object,
+      email : {
+        type : String,
+        notify : true,
+        observer : "_emailChanged",
       },
-      _requestInProgress: {
-        type: Boolean,
-        value: false,
+      _requestInProgress : {
+        type : Boolean,
+        value : false,
       },
-      _error: {
-        type: String,
-        value: "",
+      _error : {
+        type : String,
+        value : "",
       },
     };
   }
@@ -114,31 +117,26 @@ class CloudForgotPassword extends LocalizeMixin(EventsMixin(PolymerElement)) {
       this.$.email.invalid = true;
     }
 
-    if (this.$.email.invalid) return;
+    if (this.$.email.invalid)
+      return;
 
     this._requestInProgress = true;
 
     this.hass
-      .callApi("post", "cloud/forgot_password", {
-        email: this.email,
-      })
-      .then(
-        () => {
+        .callApi("post", "cloud/forgot_password", {
+          email : this.email,
+        })
+        .then(() => {
           this._requestInProgress = false;
           this.fire("cloud-done", {
-            flashMessage:
-              "[[localize('ui.panel.config.cloud.forgot_password.check_your_email')]]",
+            flashMessage :
+                "[[localize('ui.panel.config.cloud.forgot_password.check_your_email')]]",
           });
-        },
-        (err) =>
-          this.setProperties({
-            _requestInProgress: false,
-            _error:
-              err && err.body && err.body.message
-                ? err.body.message
-                : "Unknown error",
-          })
-      );
+        }, (err) => this.setProperties({
+          _requestInProgress : false,
+          _error : err && err.body && err.body.message ? err.body.message
+                                                       : "Unknown error",
+        }));
   }
 }
 

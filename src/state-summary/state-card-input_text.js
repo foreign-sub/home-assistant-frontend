@@ -1,10 +1,11 @@
 /* eslint-plugin-disable lit */
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-input/paper-input";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../components/entity/state-info";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class StateCardInputText extends PolymerElement {
   static get template() {
@@ -47,40 +48,36 @@ class StateCardInputText extends PolymerElement {
 
   static get properties() {
     return {
-      hass: Object,
+      hass : Object,
 
-      inDialog: {
-        type: Boolean,
-        value: false,
+      inDialog : {
+        type : Boolean,
+        value : false,
       },
 
-      stateObj: {
-        type: Object,
-        observer: "stateObjectChanged",
+      stateObj : {
+        type : Object,
+        observer : "stateObjectChanged",
       },
 
-      pattern: String,
-      value: String,
+      pattern : String,
+      value : String,
     };
   }
 
-  stateObjectChanged(newVal) {
-    this.value = newVal.state;
-  }
+  stateObjectChanged(newVal) { this.value = newVal.state; }
 
   selectedValueChanged() {
     if (this.value === this.stateObj.state) {
       return;
     }
     this.hass.callService("input_text", "set_value", {
-      value: this.value,
-      entity_id: this.stateObj.entity_id,
+      value : this.value,
+      entity_id : this.stateObj.entity_id,
     });
   }
 
-  stopPropagation(ev) {
-    ev.stopPropagation();
-  }
+  stopPropagation(ev) { ev.stopPropagation(); }
 }
 
 customElements.define("state-card-input_text", StateCardInputText);

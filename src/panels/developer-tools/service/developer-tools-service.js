@@ -1,22 +1,25 @@
 import "@material/mwc-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { safeDump, safeLoad } from "js-yaml";
 import "../../../components/entity/ha-entity-picker";
 import "../../../components/ha-code-editor";
 import "../../../components/ha-service-picker";
-import { ENTITY_COMPONENT_DOMAINS } from "../../../data/entity";
-import { showAlertDialog } from "../../../dialogs/generic/show-dialog-box";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import "../../../resources/ha-style";
 import "../../../util/app-localstorage-document";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+import {safeDump, safeLoad} from "js-yaml";
+
+import {ENTITY_COMPONENT_DOMAINS} from "../../../data/entity";
+import {showAlertDialog} from "../../../dialogs/generic/show-dialog-box";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 const ERROR_SENTINEL = {};
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPanelDevService extends LocalizeMixin(PolymerElement) {
+class HaPanelDevService extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -184,71 +187,72 @@ class HaPanelDevService extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
+      hass : {
+        type : Object,
       },
 
-      domainService: {
-        type: String,
-        observer: "_domainServiceChanged",
+      domainService : {
+        type : String,
+        observer : "_domainServiceChanged",
       },
 
-      _domain: {
-        type: String,
-        computed: "_computeDomain(domainService)",
+      _domain : {
+        type : String,
+        computed : "_computeDomain(domainService)",
       },
 
-      _service: {
-        type: String,
-        computed: "_computeService(domainService)",
+      _service : {
+        type : String,
+        computed : "_computeService(domainService)",
       },
 
-      serviceData: {
-        type: String,
-        value: "",
+      serviceData : {
+        type : String,
+        value : "",
       },
 
-      parsedJSON: {
-        type: Object,
-        computed: "_computeParsedServiceData(serviceData)",
+      parsedJSON : {
+        type : Object,
+        computed : "_computeParsedServiceData(serviceData)",
       },
 
-      validJSON: {
-        type: Boolean,
-        computed: "_computeValidJSON(parsedJSON)",
+      validJSON : {
+        type : Boolean,
+        computed : "_computeValidJSON(parsedJSON)",
       },
 
-      _attributes: {
-        type: Array,
-        computed: "_computeAttributesArray(hass, _domain, _service)",
+      _attributes : {
+        type : Array,
+        computed : "_computeAttributesArray(hass, _domain, _service)",
       },
 
-      _description: {
-        type: String,
-        computed: "_computeDescription(hass, _domain, _service)",
+      _description : {
+        type : String,
+        computed : "_computeDescription(hass, _domain, _service)",
       },
     };
   }
 
-  _domainServiceChanged() {
-    this.serviceData = "";
-  }
+  _domainServiceChanged() { this.serviceData = ""; }
 
   _computeAttributesArray(hass, domain, service) {
     const serviceDomains = hass.services;
-    if (!(domain in serviceDomains)) return [];
-    if (!(service in serviceDomains[domain])) return [];
+    if (!(domain in serviceDomains))
+      return [];
+    if (!(service in serviceDomains[domain]))
+      return [];
 
     const fields = serviceDomains[domain][service].fields;
-    return Object.keys(fields).map(function (field) {
-      return { key: field, ...fields[field] };
-    });
+    return Object.keys(fields).map(function(
+        field) { return {key : field, ...fields[field]}; });
   }
 
   _computeDescription(hass, domain, service) {
     const serviceDomains = hass.services;
-    if (!(domain in serviceDomains)) return undefined;
-    if (!(service in serviceDomains[domain])) return undefined;
+    if (!(domain in serviceDomains))
+      return undefined;
+    if (!(service in serviceDomains[domain]))
+      return undefined;
     return serviceDomains[domain][service].description;
   }
 
@@ -256,9 +260,7 @@ class HaPanelDevService extends LocalizeMixin(PolymerElement) {
     return `panel-dev-service-state-servicedata.${domainService}`;
   }
 
-  _computeDomain(domainService) {
-    return domainService.split(".", 1)[0];
-  }
+  _computeDomain(domainService) { return domainService.split(".", 1)[0]; }
 
   _computeService(domainService) {
     return domainService.split(".", 2)[1] || null;
@@ -272,9 +274,7 @@ class HaPanelDevService extends LocalizeMixin(PolymerElement) {
     }
   }
 
-  _computeValidJSON(parsedJSON) {
-    return parsedJSON !== ERROR_SENTINEL;
-  }
+  _computeValidJSON(parsedJSON) { return parsedJSON !== ERROR_SENTINEL; }
 
   _computeHasEntity(attributes) {
     return attributes.some((attr) => attr.key === "entity_id");
@@ -285,17 +285,15 @@ class HaPanelDevService extends LocalizeMixin(PolymerElement) {
   }
 
   _computeEntityDomainFilter(domain) {
-    return ENTITY_COMPONENT_DOMAINS.includes(domain) ? [domain] : null;
+    return ENTITY_COMPONENT_DOMAINS.includes(domain) ? [ domain ] : null;
   }
 
   _callService() {
     if (this.parsedJSON === ERROR_SENTINEL) {
       showAlertDialog(this, {
-        text: this.hass.localize(
-          "ui.panel.developer-tools.tabs.services.alert_parsing_yaml",
-          "data",
-          this.serviceData
-        ),
+        text : this.hass.localize(
+            "ui.panel.developer-tools.tabs.services.alert_parsing_yaml", "data",
+            this.serviceData),
       });
       return;
     }
@@ -322,13 +320,11 @@ class HaPanelDevService extends LocalizeMixin(PolymerElement) {
   _entityPicked(ev) {
     this.serviceData = safeDump({
       ...this.parsedJSON,
-      entity_id: ev.target.value,
+      entity_id : ev.target.value,
     });
   }
 
-  _yamlChanged(ev) {
-    this.serviceData = ev.detail.value;
-  }
+  _yamlChanged(ev) { this.serviceData = ev.detail.value; }
 }
 
 customElements.define("developer-tools-service", HaPanelDevService);

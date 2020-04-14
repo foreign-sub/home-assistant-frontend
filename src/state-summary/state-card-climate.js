@@ -1,9 +1,10 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../components/entity/state-info";
 import "../components/ha-climate-state";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class StateCardClimate extends PolymerElement {
   static get template() {
@@ -43,11 +44,11 @@ class StateCardClimate extends PolymerElement {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: Object,
-      inDialog: {
-        type: Boolean,
-        value: false,
+      hass : Object,
+      stateObj : Object,
+      inDialog : {
+        type : Boolean,
+        value : false,
       },
     };
   }

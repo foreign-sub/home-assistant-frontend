@@ -1,6 +1,6 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class HaServiceDescription extends PolymerElement {
   static get template() {
@@ -9,17 +9,19 @@ class HaServiceDescription extends PolymerElement {
 
   static get properties() {
     return {
-      hass: Object,
-      domain: String,
-      service: String,
+      hass : Object,
+      domain : String,
+      service : String,
     };
   }
 
   _getDescription(hass, domain, service) {
     var domainServices = hass.services[domain];
-    if (!domainServices) return "";
+    if (!domainServices)
+      return "";
     var serviceObject = domainServices[service];
-    if (!serviceObject) return "";
+    if (!serviceObject)
+      return "";
     return serviceObject.description;
   }
 }

@@ -1,8 +1,8 @@
 import "@polymer/paper-icon-button/paper-icon-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
+import {html} from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { UNAVAILABLE_STATES } from "../data/entity";
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+import {UNAVAILABLE_STATES} from "../data/entity";
 import CoverEntity from "../util/cover-model";
 
 class HaCoverControls extends PolymerElement {
@@ -44,40 +44,38 @@ class HaCoverControls extends PolymerElement {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
+      hass : {
+        type : Object,
       },
-      stateObj: {
-        type: Object,
+      stateObj : {
+        type : Object,
       },
-      entityObj: {
-        type: Object,
-        computed: "computeEntityObj(hass, stateObj)",
+      entityObj : {
+        type : Object,
+        computed : "computeEntityObj(hass, stateObj)",
       },
     };
   }
 
-  computeEntityObj(hass, stateObj) {
-    return new CoverEntity(hass, stateObj);
-  }
+  computeEntityObj(hass, stateObj) { return new CoverEntity(hass, stateObj); }
 
   computeOpenIcon(stateObj) {
     switch (stateObj.attributes.device_class) {
-      case "awning":
-      case "gate":
-        return "hass:arrow-expand-horizontal";
-      default:
-        return "hass:arrow-up";
+    case "awning":
+    case "gate":
+      return "hass:arrow-expand-horizontal";
+    default:
+      return "hass:arrow-up";
     }
   }
 
   computeCloseIcon(stateObj) {
     switch (stateObj.attributes.device_class) {
-      case "awning":
-      case "gate":
-        return "hass:arrow-collapse-horizontal";
-      default:
-        return "hass:arrow-down";
+    case "awning":
+    case "gate":
+      return "hass:arrow-collapse-horizontal";
+    default:
+      return "hass:arrow-down";
     }
   }
 

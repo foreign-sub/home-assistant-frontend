@@ -4,24 +4,27 @@ import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "@polymer/paper-icon-button/paper-icon-button";
 import "@polymer/paper-input/paper-input";
 import "@polymer/paper-spinner/paper-spinner";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "@vaadin/vaadin-date-picker/theme/material/vaadin-date-picker";
-import { formatDate } from "../../common/datetime/format_date";
-import { computeRTL } from "../../common/util/compute_rtl";
 import "../../components/entity/ha-entity-picker";
 import "../../components/ha-menu-button";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import "../../resources/ha-date-picker-style";
 import "../../resources/ha-style";
 import "./ha-logbook";
 import "./ha-logbook-data";
 
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {formatDate} from "../../common/datetime/format_date";
+import {computeRTL} from "../../common/util/compute_rtl";
+import LocalizeMixin from "../../mixins/localize-mixin";
+
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
+class HaPanelLogbook extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -183,54 +186,53 @@ class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
+      hass : Object,
 
-      narrow: { type: Boolean, reflectToAttribute: true },
+      narrow : {type : Boolean, reflectToAttribute : true},
 
       // ISO8601 formatted date string
-      _currentDate: {
-        type: String,
-        value: function () {
+      _currentDate : {
+        type : String,
+        value : function() {
           const value = new Date();
           const today = new Date(
-            Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())
-          );
+              Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()));
           return today.toISOString().split("T")[0];
         },
       },
 
-      _periodIndex: {
-        type: Number,
-        value: 0,
+      _periodIndex : {
+        type : Number,
+        value : 0,
       },
 
-      _entityId: {
-        type: String,
-        value: "",
+      _entityId : {
+        type : String,
+        value : "",
       },
 
-      entityId: {
-        type: String,
-        value: "",
-        readOnly: true,
+      entityId : {
+        type : String,
+        value : "",
+        readOnly : true,
       },
 
-      isLoading: {
-        type: Boolean,
+      isLoading : {
+        type : Boolean,
       },
 
-      entries: {
-        type: Array,
+      entries : {
+        type : Array,
       },
 
-      datePicker: {
-        type: Object,
+      datePicker : {
+        type : Object,
       },
 
-      rtl: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: "_computeRTL(hass)",
+      rtl : {
+        type : Boolean,
+        reflectToAttribute : true,
+        computed : "_computeRTL(hass)",
       },
     };
   }
@@ -239,13 +241,15 @@ class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
     super.connectedCallback();
     // We are unable to parse date because we use intl api to render date
     this.$.picker.set("i18n.parseDate", null);
-    this.$.picker.set("i18n.formatDate", (date) =>
-      formatDate(new Date(date.year, date.month, date.day), this.hass.language)
-    );
+    this.$.picker.set("i18n.formatDate",
+                      (date) =>
+                          formatDate(new Date(date.year, date.month, date.day),
+                                     this.hass.language));
   }
 
   _computeFilterDate(_currentDate) {
-    if (!_currentDate) return undefined;
+    if (!_currentDate)
+      return undefined;
     var parts = _currentDate.split("-");
     parts[1] = parseInt(parts[1]) - 1;
     return new Date(parts[0], parts[1], parts[2]).toISOString();
@@ -253,26 +257,22 @@ class HaPanelLogbook extends LocalizeMixin(PolymerElement) {
 
   _computeFilterDays(periodIndex) {
     switch (periodIndex) {
-      case 1:
-        return 3;
-      case 2:
-        return 7;
-      default:
-        return 1;
+    case 1:
+      return 3;
+    case 2:
+      return 7;
+    default:
+      return 1;
     }
   }
 
-  _entityPicked(ev) {
-    this._setEntityId(ev.target.value);
-  }
+  _entityPicked(ev) { this._setEntityId(ev.target.value); }
 
   refreshLogbook() {
     this.shadowRoot.querySelector("ha-logbook-data").refreshLogbook();
   }
 
-  _computeRTL(hass) {
-    return computeRTL(hass);
-  }
+  _computeRTL(hass) { return computeRTL(hass); }
 }
 
 customElements.define("ha-panel-logbook", HaPanelLogbook);

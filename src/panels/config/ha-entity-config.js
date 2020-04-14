@@ -3,11 +3,13 @@ import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
 import "@polymer/paper-spinner/paper-spinner";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { computeStateName } from "../../common/entity/compute_state_name";
 import "../../components/ha-card";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {computeStateName} from "../../common/entity/compute_state_name";
 
 class HaEntityConfig extends PolymerElement {
   static get template() {
@@ -94,40 +96,40 @@ class HaEntityConfig extends PolymerElement {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
-        observer: "hassChanged",
+      hass : {
+        type : Object,
+        observer : "hassChanged",
       },
 
-      label: {
-        type: String,
-        value: "Device",
+      label : {
+        type : String,
+        value : "Device",
       },
 
-      entities: {
-        type: Array,
-        observer: "entitiesChanged",
+      entities : {
+        type : Array,
+        observer : "entitiesChanged",
       },
 
-      allowDelete: {
-        type: Boolean,
-        value: false,
+      allowDelete : {
+        type : Boolean,
+        value : false,
       },
 
-      selectedEntity: {
-        type: Number,
-        value: -1,
-        observer: "entityChanged",
+      selectedEntity : {
+        type : Number,
+        value : -1,
+        observer : "entityChanged",
       },
 
-      formState: {
-        type: String,
+      formState : {
+        type : String,
         // no-devices, loading, saving, editing
-        value: "no-devices",
+        value : "no-devices",
       },
 
-      config: {
-        type: Object,
+      config : {
+        type : Object,
       },
     };
   }
@@ -142,25 +144,19 @@ class HaEntityConfig extends PolymerElement {
 
   computeSelectCaption(stateObj) {
     return this.config.computeSelectCaption
-      ? this.config.computeSelectCaption(stateObj)
-      : computeStateName(stateObj);
+               ? this.config.computeSelectCaption(stateObj)
+               : computeStateName(stateObj);
   }
 
-  computeShowNoDevices(formState) {
-    return formState === "no-devices";
-  }
+  computeShowNoDevices(formState) { return formState === "no-devices"; }
 
   computeShowSpinner(formState) {
     return formState === "loading" || formState === "saving";
   }
 
-  computeShowPlaceholder(formState) {
-    return formState !== "editing";
-  }
+  computeShowPlaceholder(formState) { return formState !== "editing"; }
 
-  computeShowForm(formState) {
-    return formState === "editing";
-  }
+  computeShowForm(formState) { return formState === "editing"; }
 
   hassChanged(hass) {
     if (this.formEl) {
@@ -180,9 +176,8 @@ class HaEntityConfig extends PolymerElement {
 
     var oldEntityId = oldEntities[this.selectedEntity].entity_id;
 
-    var newIndex = entities.findIndex(function (ent) {
-      return ent.entity_id === oldEntityId;
-    });
+    var newIndex = entities.findIndex(function(
+        ent) { return ent.entity_id === oldEntityId; });
 
     if (newIndex === -1) {
       this.selectedEntity = 0;
@@ -193,25 +188,24 @@ class HaEntityConfig extends PolymerElement {
   }
 
   entityChanged(index) {
-    if (!this.entities || !this.formEl) return;
+    if (!this.entities || !this.formEl)
+      return;
     var entity = this.entities[index];
-    if (!entity) return;
+    if (!entity)
+      return;
 
     this.formState = "loading";
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     var el = this;
-    this.formEl.loadEntity(entity).then(function () {
-      el.formState = "editing";
-    });
+    this.formEl.loadEntity(entity).then(
+        function() { el.formState = "editing"; });
   }
 
   saveEntity() {
     this.formState = "saving";
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     var el = this;
-    this.formEl.saveEntity().then(function () {
-      el.formState = "editing";
-    });
+    this.formEl.saveEntity().then(function() { el.formState = "editing"; });
   }
 }
 

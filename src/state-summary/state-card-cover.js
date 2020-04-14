@@ -1,10 +1,12 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../components/entity/state-info";
 import "../components/ha-cover-controls";
 import "../components/ha-cover-tilt-controls";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
 import CoverEntity from "../util/cover-model";
 
 class StateCardCover extends PolymerElement {
@@ -47,15 +49,15 @@ class StateCardCover extends PolymerElement {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: Object,
-      inDialog: {
-        type: Boolean,
-        value: false,
+      hass : Object,
+      stateObj : Object,
+      inDialog : {
+        type : Boolean,
+        value : false,
       },
-      entityObj: {
-        type: Object,
-        computed: "computeEntityObj(hass, stateObj)",
+      entityObj : {
+        type : Object,
+        computed : "computeEntityObj(hass, stateObj)",
       },
     };
   }

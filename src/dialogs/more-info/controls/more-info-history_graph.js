@@ -1,8 +1,9 @@
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
 import "../../../cards/ha-history_graph-card";
 import "../../../components/ha-attributes";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
 
 class MoreInfoHistoryGraph extends PolymerElement {
   static get template() {
@@ -25,8 +26,8 @@ class MoreInfoHistoryGraph extends PolymerElement {
 
   static get properties() {
     return {
-      hass: Object,
-      stateObj: Object,
+      hass : Object,
+      stateObj : Object,
     };
   }
 }

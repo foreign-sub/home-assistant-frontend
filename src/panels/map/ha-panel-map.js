@@ -1,21 +1,24 @@
 import "@polymer/app-layout/app-toolbar/app-toolbar";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { setupLeafletMap } from "../../common/dom/setup-leaflet-map";
-import { computeStateDomain } from "../../common/entity/compute_state_domain";
-import { computeStateName } from "../../common/entity/compute_state_name";
-import { navigate } from "../../common/navigate";
 import "../../components/ha-icon";
 import "../../components/ha-menu-button";
-import { defaultRadiusColor } from "../../data/zone";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import "./ha-entity-marker";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {setupLeafletMap} from "../../common/dom/setup-leaflet-map";
+import {computeStateDomain} from "../../common/entity/compute_state_domain";
+import {computeStateName} from "../../common/entity/compute_state_name";
+import {navigate} from "../../common/navigate";
+import {defaultRadiusColor} from "../../data/zone";
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPanelMap extends LocalizeMixin(PolymerElement) {
+class HaPanelMap extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -47,11 +50,11 @@ class HaPanelMap extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
-        observer: "drawEntities",
+      hass : {
+        type : Object,
+        observer : "drawEntities",
       },
-      narrow: Boolean,
+      narrow : Boolean,
     };
   }
 
@@ -73,29 +76,20 @@ class HaPanelMap extends LocalizeMixin(PolymerElement) {
     }
   }
 
-  computeShowEditZone(hass) {
-    return !__DEMO__ && hass.user.is_admin;
-  }
+  computeShowEditZone(hass) { return !__DEMO__ && hass.user.is_admin; }
 
-  openZonesEditor() {
-    navigate(this, "/config/zone");
-  }
+  openZonesEditor() { navigate(this, "/config/zone"); }
 
   fitMap() {
     var bounds;
 
     if (this._mapItems.length === 0) {
-      this._map.setView(
-        new this.Leaflet.LatLng(
-          this.hass.config.latitude,
-          this.hass.config.longitude
-        ),
-        14
-      );
+      this._map.setView(new this.Leaflet.LatLng(this.hass.config.latitude,
+                                                this.hass.config.longitude),
+                        14);
     } else {
       bounds = new this.Leaflet.latLngBounds(
-        this._mapItems.map((item) => item.getLatLng())
-      );
+          this._mapItems.map((item) => item.getLatLng()));
       this._map.fitBounds(bounds.pad(0.5));
     }
   }
@@ -103,31 +97,25 @@ class HaPanelMap extends LocalizeMixin(PolymerElement) {
   drawEntities(hass) {
     /* eslint-disable vars-on-top */
     var map = this._map;
-    if (!map) return;
+    if (!map)
+      return;
 
     if (this._mapItems) {
-      this._mapItems.forEach(function (marker) {
-        marker.remove();
-      });
+      this._mapItems.forEach(function(marker) { marker.remove(); });
     }
     var mapItems = (this._mapItems = []);
 
     if (this._mapZones) {
-      this._mapZones.forEach(function (marker) {
-        marker.remove();
-      });
+      this._mapZones.forEach(function(marker) { marker.remove(); });
     }
     var mapZones = (this._mapZones = []);
 
     Object.keys(hass.states).forEach((entityId) => {
       var entity = hass.states[entityId];
 
-      if (
-        (entity.attributes.hidden && computeStateDomain(entity) !== "zone") ||
-        entity.state === "home" ||
-        !("latitude" in entity.attributes) ||
-        !("longitude" in entity.attributes)
-      ) {
+      if ((entity.attributes.hidden && computeStateDomain(entity) !== "zone") ||
+          entity.state === "home" || !("latitude" in entity.attributes) ||
+          !("longitude" in entity.attributes)) {
         return;
       }
 
@@ -136,7 +124,8 @@ class HaPanelMap extends LocalizeMixin(PolymerElement) {
 
       if (computeStateDomain(entity) === "zone") {
         // DRAW ZONE
-        if (entity.attributes.passive) return;
+        if (entity.attributes.passive)
+          return;
 
         // create icon
         var iconHTML = "";
@@ -151,34 +140,34 @@ class HaPanelMap extends LocalizeMixin(PolymerElement) {
         }
 
         icon = this.Leaflet.divIcon({
-          html: iconHTML,
-          iconSize: [24, 24],
-          className: "light",
+          html : iconHTML,
+          iconSize : [ 24, 24 ],
+          className : "light",
         });
 
         // create marker with the icon
         mapZones.push(
-          this.Leaflet.marker(
-            [entity.attributes.latitude, entity.attributes.longitude],
-            {
-              icon: icon,
-              interactive: false,
-              title: title,
-            }
-          ).addTo(map)
-        );
+            this.Leaflet
+                .marker(
+                    [ entity.attributes.latitude, entity.attributes.longitude ],
+                    {
+                      icon : icon,
+                      interactive : false,
+                      title : title,
+                    })
+                .addTo(map));
 
         // create circle around it
         mapZones.push(
-          this.Leaflet.circle(
-            [entity.attributes.latitude, entity.attributes.longitude],
-            {
-              interactive: false,
-              color: defaultRadiusColor,
-              radius: entity.attributes.radius,
-            }
-          ).addTo(map)
-        );
+            this.Leaflet
+                .circle(
+                    [ entity.attributes.latitude, entity.attributes.longitude ],
+                    {
+                      interactive : false,
+                      color : defaultRadiusColor,
+                      radius : entity.attributes.radius,
+                    })
+                .addTo(map));
 
         return;
       }
@@ -186,50 +175,42 @@ class HaPanelMap extends LocalizeMixin(PolymerElement) {
       // DRAW ENTITY
       // create icon
       var entityPicture = entity.attributes.entity_picture || "";
-      var entityName = title
-        .split(" ")
-        .map(function (part) {
-          return part.substr(0, 1);
-        })
-        .join("");
+      var entityName = title.split(" ")
+                           .map(function(part) { return part.substr(0, 1); })
+                           .join("");
       /* Leaflet clones this element before adding it to the map. This messes up
-         our Polymer object and we can't pass data through. Thus we hack like this. */
+         our Polymer object and we can't pass data through. Thus we hack like
+         this. */
       icon = this.Leaflet.divIcon({
-        html:
-          "<ha-entity-marker entity-id='" +
-          entity.entity_id +
-          "' entity-name='" +
-          entityName +
-          "' entity-picture='" +
-          entityPicture +
-          "'></ha-entity-marker>",
-        iconSize: [45, 45],
-        className: "",
+        html : "<ha-entity-marker entity-id='" + entity.entity_id +
+                   "' entity-name='" + entityName + "' entity-picture='" +
+                   entityPicture + "'></ha-entity-marker>",
+        iconSize : [ 45, 45 ],
+        className : "",
       });
 
       // create market with the icon
       mapItems.push(
-        this.Leaflet.marker(
-          [entity.attributes.latitude, entity.attributes.longitude],
-          {
-            icon: icon,
-            title: computeStateName(entity),
-          }
-        ).addTo(map)
-      );
+          this.Leaflet
+              .marker(
+                  [ entity.attributes.latitude, entity.attributes.longitude ], {
+                    icon : icon,
+                    title : computeStateName(entity),
+                  })
+              .addTo(map));
 
       // create circle around if entity has accuracy
       if (entity.attributes.gps_accuracy) {
         mapItems.push(
-          this.Leaflet.circle(
-            [entity.attributes.latitude, entity.attributes.longitude],
-            {
-              interactive: false,
-              color: "#0288D1",
-              radius: entity.attributes.gps_accuracy,
-            }
-          ).addTo(map)
-        );
+            this.Leaflet
+                .circle(
+                    [ entity.attributes.latitude, entity.attributes.longitude ],
+                    {
+                      interactive : false,
+                      color : "#0288D1",
+                      radius : entity.attributes.gps_accuracy,
+                    })
+                .addTo(map));
       }
     });
   }

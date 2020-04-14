@@ -1,12 +1,15 @@
 import "@polymer/paper-spinner/paper-spinner";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import LocalizeMixin from "../mixins/localize-mixin";
 import "./state-history-chart-line";
 import "./state-history-chart-timeline";
 
-class StateHistoryCharts extends LocalizeMixin(PolymerElement) {
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import LocalizeMixin from "../mixins/localize-mixin";
+
+class StateHistoryCharts extends LocalizeMixin
+(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -67,21 +70,21 @@ class StateHistoryCharts extends LocalizeMixin(PolymerElement) {
 
   static get properties() {
     return {
-      hass: Object,
-      historyData: {
-        type: Object,
-        value: null,
+      hass : Object,
+      historyData : {
+        type : Object,
+        value : null,
       },
-      names: Object,
+      names : Object,
 
-      isLoadingData: Boolean,
+      isLoadingData : Boolean,
 
-      endTime: {
-        type: Object,
+      endTime : {
+        type : Object,
       },
 
-      upToNow: Boolean,
-      noSingle: Boolean,
+      upToNow : Boolean,
+      noSingle : Boolean,
     };
   }
 
@@ -91,20 +94,16 @@ class StateHistoryCharts extends LocalizeMixin(PolymerElement) {
 
   _computeIsEmpty(isLoadingData, historyData) {
     const historyDataEmpty =
-      !historyData ||
-      !historyData.timeline ||
-      !historyData.line ||
-      (historyData.timeline.length === 0 && historyData.line.length === 0);
+        !historyData || !historyData.timeline || !historyData.line ||
+        (historyData.timeline.length === 0 && historyData.line.length === 0);
     return !isLoadingData && historyDataEmpty;
   }
 
-  _computeIsLoading(isLoading) {
-    return isLoading && !this.historyData;
-  }
+  _computeIsLoading(isLoading) { return isLoading && !this.historyData; }
 
   _computeEndTime(endTime, upToNow) {
-    // We don't really care about the value of historyData, but if it change we want to update
-    // endTime.
+    // We don't really care about the value of historyData, but if it change we
+    // want to update endTime.
     return upToNow ? new Date() : endTime;
   }
 }

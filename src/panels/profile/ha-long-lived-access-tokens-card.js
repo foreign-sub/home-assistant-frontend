@@ -1,20 +1,23 @@
 import "@material/mwc-button";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { formatDateTime } from "../../common/datetime/format_date_time";
 import "../../components/ha-card";
-import { showAlertDialog } from "../../dialogs/generic/show-dialog-box";
-import { EventsMixin } from "../../mixins/events-mixin";
-import LocalizeMixin from "../../mixins/localize-mixin";
 import "../../resources/ha-style";
 import "./ha-settings-row";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+
+import {formatDateTime} from "../../common/datetime/format_date_time";
+import {showAlertDialog} from "../../dialogs/generic/show-dialog-box";
+import {EventsMixin} from "../../mixins/events-mixin";
+import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class HaLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
+class HaLongLivedTokens extends LocalizeMixin
+(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -69,91 +72,74 @@ class HaLongLivedTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: Object,
-      refreshTokens: Array,
-      _tokens: {
-        type: Array,
-        computed: "_computeTokens(refreshTokens)",
+      hass : Object,
+      refreshTokens : Array,
+      _tokens : {
+        type : Array,
+        computed : "_computeTokens(refreshTokens)",
       },
     };
   }
 
   _computeTokens(refreshTokens) {
-    return refreshTokens
-      .filter((tkn) => tkn.type === "long_lived_access_token")
-      .reverse();
+    return refreshTokens.filter((tkn) => tkn.type === "long_lived_access_token")
+        .reverse();
   }
 
   _formatTitle(name) {
     return this.localize(
-      "ui.panel.profile.long_lived_access_tokens.token_title",
-      "name",
-      name
-    );
+        "ui.panel.profile.long_lived_access_tokens.token_title", "name", name);
   }
 
   _formatCreatedAt(created) {
-    return this.localize(
-      "ui.panel.profile.long_lived_access_tokens.created_at",
-      "date",
-      formatDateTime(new Date(created), this.hass.language)
-    );
+    return this.localize("ui.panel.profile.long_lived_access_tokens.created_at",
+                         "date",
+                         formatDateTime(new Date(created), this.hass.language));
   }
 
   async _handleCreate() {
     const name = prompt(
-      this.localize("ui.panel.profile.long_lived_access_tokens.prompt_name")
-    );
-    if (!name) return;
+        this.localize("ui.panel.profile.long_lived_access_tokens.prompt_name"));
+    if (!name)
+      return;
     try {
       const token = await this.hass.callWS({
-        type: "auth/long_lived_access_token",
-        lifespan: 3650,
-        client_name: name,
+        type : "auth/long_lived_access_token",
+        lifespan : 3650,
+        client_name : name,
       });
-      prompt(
-        this.localize(
-          "ui.panel.profile.long_lived_access_tokens.prompt_copy_token"
-        ),
-        token
-      );
+      prompt(this.localize(
+                 "ui.panel.profile.long_lived_access_tokens.prompt_copy_token"),
+             token);
       this.fire("hass-refresh-tokens");
     } catch (err) {
       // eslint-disable-next-line
       console.error(err);
       showAlertDialog(this, {
-        text: this.localize(
-          "ui.panel.profile.long_lived_access_tokens.create_failed"
-        ),
+        text : this.localize(
+            "ui.panel.profile.long_lived_access_tokens.create_failed"),
       });
     }
   }
 
   async _handleDelete(ev) {
-    if (
-      !confirm(
-        this.localize(
-          "ui.panel.profile.long_lived_access_tokens.confirm_delete",
-          "name",
-          ev.model.item.client_name
-        )
-      )
-    ) {
+    if (!confirm(this.localize(
+            "ui.panel.profile.long_lived_access_tokens.confirm_delete", "name",
+            ev.model.item.client_name))) {
       return;
     }
     try {
       await this.hass.callWS({
-        type: "auth/delete_refresh_token",
-        refresh_token_id: ev.model.item.id,
+        type : "auth/delete_refresh_token",
+        refresh_token_id : ev.model.item.id,
       });
       this.fire("hass-refresh-tokens");
     } catch (err) {
       // eslint-disable-next-line
       console.error(err);
       showAlertDialog(this, {
-        text: this.localize(
-          "ui.panel.profile.long_lived_access_tokens.delete_failed"
-        ),
+        text : this.localize(
+            "ui.panel.profile.long_lived_access_tokens.delete_failed"),
       });
     }
   }

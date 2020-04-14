@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { html, LitElement } from "lit-element";
+import {html, LitElement} from "lit-element";
 
 if (!window.cardTools) {
   const version = 0.2;
@@ -12,8 +12,7 @@ if (!window.cardTools) {
   cardTools.checkVersion = (v) => {
     if (version < v) {
       throw new Error(
-        `Old version of card-tools found. Get the latest version of card-tools.js from https://github.com/thomasloven/lovelace-card-tools`
-      );
+          `Old version of card-tools found. Get the latest version of card-tools.js from https://github.com/thomasloven/lovelace-card-tools`);
     }
   };
 
@@ -21,15 +20,14 @@ if (!window.cardTools) {
 
   cardTools.litHtml = html;
 
-  cardTools.hass = () => {
-    return document.querySelector("home-assistant").hass;
-  };
+  cardTools.hass =
+      () => { return document.querySelector("home-assistant").hass; };
 
   cardTools.fireEvent = (ev, detail) => {
     ev = new Event(ev, {
-      bubbles: true,
-      cancelable: false,
-      composed: true,
+      bubbles : true,
+      cancelable : false,
+      composed : true,
     });
     ev.detail = detail || {};
     document.querySelector("ha-demo").dispatchEvent(ev);
@@ -49,7 +47,7 @@ if (!window.cardTools) {
 
     const _createError = (error, config) => {
       return _createThing("hui-error-card", {
-        type: "error",
+        type : "error",
         error,
         config,
       });
@@ -65,19 +63,17 @@ if (!window.cardTools) {
     }
     if (tag.startsWith(CUSTOM_TYPE_PREFIX))
       tag = tag.substr(CUSTOM_TYPE_PREFIX.length);
-    else tag = `hui-${tag}-${thing}`;
+    else
+      tag = `hui-${tag}-${thing}`;
 
-    if (customElements.get(tag)) return _createThing(tag, config);
+    if (customElements.get(tag))
+      return _createThing(tag, config);
 
     // If element doesn't exist (yet) create an error
-    const element = _createError(
-      `Custom element doesn't exist: ${tag}.`,
-      config
-    );
+    const element =
+        _createError(`Custom element doesn't exist: ${tag}.`, config);
     element.style.display = "None";
-    const time = setTimeout(() => {
-      element.style.display = "";
-    }, 2000);
+    const time = setTimeout(() => { element.style.display = ""; }, 2000);
     // Remove error if element is defined later
     customElements.whenDefined(tag).then(() => {
       clearTimeout(timer);
@@ -87,13 +83,11 @@ if (!window.cardTools) {
     return element;
   };
 
-  cardTools.createCard = (config) => {
-    return cardTools.createThing("card", config);
-  };
+  cardTools.createCard =
+      (config) => { return cardTools.createThing("card", config); };
 
-  cardTools.createElement = (config) => {
-    return cardTools.createThing("element", config);
-  };
+  cardTools.createElement =
+      (config) => { return cardTools.createThing("element", config); };
 
   cardTools.createEntityRow = (config) => {
     const SPECIAL_TYPES = new Set([
@@ -103,33 +97,30 @@ if (!window.cardTools) {
       "weblink",
     ]);
     const DEFAULT_ROWS = {
-      alert: "toggle",
-      automation: "toggle",
-      climate: "toggle",
-      cover: "cover",
-      fan: "toggle",
-      group: "group",
-      input_boolean: "toggle",
-      input_number: "input-number",
-      input_select: "input-select",
-      input_text: "input-text",
-      light: "toggle",
-      media_player: "media-player",
-      lock: "lock",
-      scene: "scene",
-      script: "script",
-      sensor: "sensor",
-      timer: "timer",
-      switch: "toggle",
-      vacuum: "toggle",
+      alert : "toggle",
+      automation : "toggle",
+      climate : "toggle",
+      cover : "cover",
+      fan : "toggle",
+      group : "group",
+      input_boolean : "toggle",
+      input_number : "input-number",
+      input_select : "input-select",
+      input_text : "input-text",
+      light : "toggle",
+      media_player : "media-player",
+      lock : "lock",
+      scene : "scene",
+      script : "script",
+      sensor : "sensor",
+      timer : "timer",
+      switch : "toggle",
+      vacuum : "toggle",
     };
 
-    if (
-      !config ||
-      typeof config !== "object" ||
-      (!config.entity && !config.type)
-    ) {
-      Object.assign(config, { error: "Invalid config given" });
+    if (!config || typeof config !== "object" ||
+        (!config.entity && !config.type)) {
+      Object.assign(config, {error : "Invalid config given"});
       return cardTools.createThing("", config);
     }
 
@@ -138,7 +129,7 @@ if (!window.cardTools) {
       return cardTools.createThing("row", config);
 
     const domain = config.entity.split(".", 1)[0];
-    Object.assign(config, { type: DEFAULT_ROWS[domain] || "text" });
+    Object.assign(config, {type : DEFAULT_ROWS[domain] || "text"});
     return cardTools.createThing("entity-row", config);
   };
 
@@ -149,8 +140,8 @@ if (!window.cardTools) {
     if (!localStorage[ID_STORAGE_KEY]) {
       const s4 = () => {
         return Math.floor((1 + Math.random()) * 100000)
-          .toString(16)
-          .substring(1);
+            .toString(16)
+            .substring(1);
       };
       localStorage[ID_STORAGE_KEY] = `${s4()}${s4()}-${s4()}${s4()}`;
     }
@@ -158,7 +149,7 @@ if (!window.cardTools) {
   })();
 
   cardTools.moreInfo = (entity) => {
-    cardTools.fireEvent("hass-more-info", { entityId: entity });
+    cardTools.fireEvent("hass-more-info", {entityId : entity});
   };
 
   cardTools.longpress = (element) => {
@@ -169,9 +160,7 @@ if (!window.cardTools) {
     return element;
   };
 
-  cardTools.hasTemplate = (text) => {
-    return /\[\[\s+.*\s+\]\]/.test(text);
-  };
+  cardTools.hasTemplate = (text) => { return /\[\[\s+.*\s+\]\]/.test(text); };
 
   cardTools.parseTemplate = (text, error) => {
     const _parse = (str) => {
@@ -187,9 +176,8 @@ if (!window.cardTools) {
         return error || `[[ Template matching failed ${str} ]]`;
       }
     };
-    text = text.replace(/(\[\[\s.*?\s\]\])/g, (str, p1, offset, s) =>
-      _parse(str)
-    );
+    text =
+        text.replace(/(\[\[\s.*?\s\]\])/g, (str, p1, offset, s) => _parse(str));
     return text;
   };
 

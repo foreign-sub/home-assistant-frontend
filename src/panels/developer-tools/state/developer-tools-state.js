@@ -1,23 +1,26 @@
 import "@material/mwc-button";
 import "@polymer/paper-checkbox/paper-checkbox";
 import "@polymer/paper-input/paper-input";
-import { html } from "@polymer/polymer/lib/utils/html-tag";
-/* eslint-plugin-disable lit */
-import { PolymerElement } from "@polymer/polymer/polymer-element";
-import { safeDump, safeLoad } from "js-yaml";
 import "../../../components/entity/ha-entity-picker";
 import "../../../components/ha-code-editor";
-import { showAlertDialog } from "../../../dialogs/generic/show-dialog-box";
-import { EventsMixin } from "../../../mixins/events-mixin";
-import LocalizeMixin from "../../../mixins/localize-mixin";
 import "../../../resources/ha-style";
+
+import {html} from "@polymer/polymer/lib/utils/html-tag";
+/* eslint-plugin-disable lit */
+import {PolymerElement} from "@polymer/polymer/polymer-element";
+import {safeDump, safeLoad} from "js-yaml";
+
+import {showAlertDialog} from "../../../dialogs/generic/show-dialog-box";
+import {EventsMixin} from "../../../mixins/events-mixin";
+import LocalizeMixin from "../../../mixins/localize-mixin";
 
 const ERROR_SENTINEL = {};
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class HaPanelDevState extends EventsMixin(LocalizeMixin(PolymerElement)) {
+class HaPanelDevState extends EventsMixin
+(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -174,59 +177,59 @@ class HaPanelDevState extends EventsMixin(LocalizeMixin(PolymerElement)) {
 
   static get properties() {
     return {
-      hass: {
-        type: Object,
+      hass : {
+        type : Object,
       },
 
-      parsedJSON: {
-        type: Object,
-        computed: "_computeParsedStateAttributes(_stateAttributes)",
+      parsedJSON : {
+        type : Object,
+        computed : "_computeParsedStateAttributes(_stateAttributes)",
       },
 
-      validJSON: {
-        type: Boolean,
-        computed: "_computeValidJSON(parsedJSON)",
+      validJSON : {
+        type : Boolean,
+        computed : "_computeValidJSON(parsedJSON)",
       },
 
-      _entityId: {
-        type: String,
-        value: "",
+      _entityId : {
+        type : String,
+        value : "",
       },
 
-      _entityFilter: {
-        type: String,
-        value: "",
+      _entityFilter : {
+        type : String,
+        value : "",
       },
 
-      _stateFilter: {
-        type: String,
-        value: "",
+      _stateFilter : {
+        type : String,
+        value : "",
       },
 
-      _attributeFilter: {
-        type: String,
-        value: "",
+      _attributeFilter : {
+        type : String,
+        value : "",
       },
 
-      _state: {
-        type: String,
-        value: "",
+      _state : {
+        type : String,
+        value : "",
       },
 
-      _stateAttributes: {
-        type: String,
-        value: "",
+      _stateAttributes : {
+        type : String,
+        value : "",
       },
 
-      _showAttributes: {
-        type: Boolean,
-        value: true,
+      _showAttributes : {
+        type : Boolean,
+        value : true,
       },
 
-      _entities: {
-        type: Array,
-        computed:
-          "computeEntities(hass, _entityFilter, _stateFilter, _attributeFilter)",
+      _entities : {
+        type : Array,
+        computed :
+            "computeEntities(hass, _entityFilter, _stateFilter, _attributeFilter)",
       },
     };
   }
@@ -255,94 +258,89 @@ class HaPanelDevState extends EventsMixin(LocalizeMixin(PolymerElement)) {
 
   entityMoreInfo(ev) {
     ev.preventDefault();
-    this.fire("hass-more-info", { entityId: ev.model.entity.entity_id });
+    this.fire("hass-more-info", {entityId : ev.model.entity.entity_id});
   }
 
   handleSetState() {
     if (!this._entityId) {
       showAlertDialog(this, {
-        text: this.hass.localize(
-          "ui.panel.developer-tools.tabs.states.alert_entity_field"
-        ),
+        text : this.hass.localize(
+            "ui.panel.developer-tools.tabs.states.alert_entity_field"),
       });
       return;
     }
     this.hass.callApi("POST", "states/" + this._entityId, {
-      state: this._state,
-      attributes: this.parsedJSON,
+      state : this._state,
+      attributes : this.parsedJSON,
     });
   }
 
   computeEntities(hass, _entityFilter, _stateFilter, _attributeFilter) {
     return Object.keys(hass.states)
-      .map(function (key) {
-        return hass.states[key];
-      })
-      .filter(function (value) {
-        if (!value.entity_id.includes(_entityFilter.toLowerCase())) {
-          return false;
-        }
-
-        if (!value.state.includes(_stateFilter.toLowerCase())) {
-          return false;
-        }
-
-        if (_attributeFilter !== "") {
-          var attributeFilter = _attributeFilter.toLowerCase();
-          var colonIndex = attributeFilter.indexOf(":");
-          var multiMode = colonIndex !== -1;
-
-          var keyFilter = attributeFilter;
-          var valueFilter = attributeFilter;
-
-          if (multiMode) {
-            // we need to filter keys and values separately
-            keyFilter = attributeFilter.substring(0, colonIndex).trim();
-            valueFilter = attributeFilter.substring(colonIndex + 1).trim();
+        .map(function(key) { return hass.states[key]; })
+        .filter(function(value) {
+          if (!value.entity_id.includes(_entityFilter.toLowerCase())) {
+            return false;
           }
 
-          var attributeKeys = Object.keys(value.attributes);
-
-          for (var i = 0; i < attributeKeys.length; i++) {
-            var key = attributeKeys[i];
-
-            if (key.includes(keyFilter) && !multiMode) {
-              return true; // in single mode we're already satisfied with this match
-            }
-            if (!key.includes(keyFilter) && multiMode) {
-              continue;
-            }
-
-            var attributeValue = value.attributes[key];
-
-            if (
-              attributeValue !== null &&
-              JSON.stringify(attributeValue).toLowerCase().includes(valueFilter)
-            ) {
-              return true;
-            }
+          if (!value.state.includes(_stateFilter.toLowerCase())) {
+            return false;
           }
 
-          // there are no attributes where the key and/or value can be matched
-          return false;
-        }
+          if (_attributeFilter !== "") {
+            var attributeFilter = _attributeFilter.toLowerCase();
+            var colonIndex = attributeFilter.indexOf(":");
+            var multiMode = colonIndex !== -1;
 
-        return true;
-      })
-      .sort(function (entityA, entityB) {
-        if (entityA.entity_id < entityB.entity_id) {
-          return -1;
-        }
-        if (entityA.entity_id > entityB.entity_id) {
-          return 1;
-        }
-        return 0;
-      });
+            var keyFilter = attributeFilter;
+            var valueFilter = attributeFilter;
+
+            if (multiMode) {
+              // we need to filter keys and values separately
+              keyFilter = attributeFilter.substring(0, colonIndex).trim();
+              valueFilter = attributeFilter.substring(colonIndex + 1).trim();
+            }
+
+            var attributeKeys = Object.keys(value.attributes);
+
+            for (var i = 0; i < attributeKeys.length; i++) {
+              var key = attributeKeys[i];
+
+              if (key.includes(keyFilter) && !multiMode) {
+                return true; // in single mode we're already satisfied with this
+                             // match
+              }
+              if (!key.includes(keyFilter) && multiMode) {
+                continue;
+              }
+
+              var attributeValue = value.attributes[key];
+
+              if (attributeValue !== null && JSON.stringify(attributeValue)
+                                                 .toLowerCase()
+                                                 .includes(valueFilter)) {
+                return true;
+              }
+            }
+
+            // there are no attributes where the key and/or value can be matched
+            return false;
+          }
+
+          return true;
+        })
+        .sort(function(entityA, entityB) {
+          if (entityA.entity_id < entityB.entity_id) {
+            return -1;
+          }
+          if (entityA.entity_id > entityB.entity_id) {
+            return 1;
+          }
+          return 0;
+        });
   }
 
-  computeShowEntitiesPlaceholder(_entities) {
-    return _entities.length === 0;
-  }
+  computeShowEntitiesPlaceholder(_entities) { return _entities.length === 0; }
 
   computeShowAttributes(narrow, _showAttributes) {
     return !narrow && _showAttributes;
@@ -364,10 +362,8 @@ class HaPanelDevState extends EventsMixin(LocalizeMixin(PolymerElement)) {
   }
 
   formatAttributeValue(value) {
-    if (
-      (Array.isArray(value) && value.some((val) => val instanceof Object)) ||
-      (!Array.isArray(value) && value instanceof Object)
-    ) {
+    if ((Array.isArray(value) && value.some((val) => val instanceof Object)) ||
+        (!Array.isArray(value) && value instanceof Object)) {
       return `\n${safeDump(value)}`;
     }
     return Array.isArray(value) ? value.join(", ") : value;
@@ -381,13 +377,9 @@ class HaPanelDevState extends EventsMixin(LocalizeMixin(PolymerElement)) {
     }
   }
 
-  _computeValidJSON(parsedJSON) {
-    return parsedJSON !== ERROR_SENTINEL;
-  }
+  _computeValidJSON(parsedJSON) { return parsedJSON !== ERROR_SENTINEL; }
 
-  _yamlChanged(ev) {
-    this._stateAttributes = ev.detail.value;
-  }
+  _yamlChanged(ev) { this._stateAttributes = ev.detail.value; }
 }
 
 customElements.define("developer-tools-state", HaPanelDevState);
