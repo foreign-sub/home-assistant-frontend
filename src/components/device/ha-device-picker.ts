@@ -51,7 +51,7 @@ const rowRenderer = (root: HTMLElement, _owner, model: { item: Device }) => {
       }
     </style>
     <paper-item>
-      <paper-item-body two-line="">    
+      <paper-item-body two-line="">
         <div class='name'>[[item.name]]</div>
         <div secondary>[[item.area]]</div>
       </paper-item-body>

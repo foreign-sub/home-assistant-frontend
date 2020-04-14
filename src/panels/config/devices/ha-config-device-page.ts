@@ -174,7 +174,7 @@ export class HaConfigDevicePage extends LitElement {
         ></paper-icon-button>
 
         <div class="container">
-          <div class="header fullwidth">              
+          <div class="header fullwidth">
             ${
               this.narrow
                 ? ""

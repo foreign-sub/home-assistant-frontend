@@ -35,9 +35,9 @@ export class HuiDialogMoveCardView extends LitElement {
         @opened-changed="${this._openedChanged}"
       >
         <h2>Choose view to move card</h2>
-        <hui-views-list 
-        .lovelaceConfig=${this._params!.lovelace.config} 
-        .selected=${this._params!.path![0]} 
+        <hui-views-list
+        .lovelaceConfig=${this._params!.lovelace.config}
+        .selected=${this._params!.path![0]}
         @view-selected=${this._moveCard}>
         </hui-view-list>
       </ha-paper-dialog>
