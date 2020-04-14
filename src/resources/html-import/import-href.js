@@ -41,8 +41,9 @@ function whenImportsReady(cb) {
  * @return {!HTMLLinkElement} The link element for the URL to be loaded.
  */
 export const importHref = function(href, onload, onerror, optAsync) {
-  let link /** @type {HTMLLinkElement} */ =
-      document.head.querySelector('link[href="' + href + '"][import-href]');
+  let link /** @type {HTMLLinkElement} */ = document.head.querySelector(
+    'link[href="' + href + '"][import-href]'
+  );
   if (!link) {
     link = /** @type {HTMLLinkElement} */ (document.createElement("link"));
     link.rel = "import";
@@ -68,7 +69,9 @@ export const importHref = function(href, onload, onerror, optAsync) {
     // it is called with the same href param.
     link.__dynamicImportLoaded = true;
     if (onload) {
-      whenImportsReady(() => { onload(event); });
+      whenImportsReady(() => {
+        onload(event);
+      });
     }
   };
   let errorListener = function(event) {
@@ -80,7 +83,9 @@ export const importHref = function(href, onload, onerror, optAsync) {
       link.parentNode.removeChild(link);
     }
     if (onerror) {
-      whenImportsReady(() => { onerror(event); });
+      whenImportsReady(() => {
+        onerror(event);
+      });
     }
   };
   link.addEventListener("load", loadListener);
@@ -96,4 +101,4 @@ export const importHref = function(href, onload, onerror, optAsync) {
 };
 
 export const importHrefPromise = (href) =>
-    new Promise((resolve, reject) => importHref(href, resolve, reject));
+  new Promise((resolve, reject) => importHref(href, resolve, reject));

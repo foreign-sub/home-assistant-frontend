@@ -5,9 +5,9 @@ import "@polymer/paper-input/paper-input";
 import "@polymer/paper-spinner/paper-spinner";
 import "../../../components/ha-markdown";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class MoreInfoConfigurator extends PolymerElement {
   static get template() {
@@ -90,33 +90,37 @@ class MoreInfoConfigurator extends PolymerElement {
 
   static get properties() {
     return {
-      stateObj : {
-        type : Object,
+      stateObj: {
+        type: Object,
       },
 
-      action : {
-        type : String,
-        value : "display",
+      action: {
+        type: String,
+        value: "display",
       },
 
-      isConfigurable : {
-        type : Boolean,
-        computed : "computeIsConfigurable(stateObj)",
+      isConfigurable: {
+        type: Boolean,
+        computed: "computeIsConfigurable(stateObj)",
       },
 
-      isConfiguring : {
-        type : Boolean,
-        value : false,
+      isConfiguring: {
+        type: Boolean,
+        value: false,
       },
 
-      fieldInput : {
-        type : Object,
-        value : function() { return {}; },
+      fieldInput: {
+        type: Object,
+        value: function() {
+          return {};
+        },
       },
     };
   }
 
-  computeIsConfigurable(stateObj) { return stateObj.state === "configure"; }
+  computeIsConfigurable(stateObj) {
+    return stateObj.state === "configure";
+  }
 
   fieldChanged(ev) {
     var el = ev.target;
@@ -125,15 +129,20 @@ class MoreInfoConfigurator extends PolymerElement {
 
   submitClicked() {
     var data = {
-      configure_id : this.stateObj.attributes.configure_id,
-      fields : this.fieldInput,
+      configure_id: this.stateObj.attributes.configure_id,
+      fields: this.fieldInput,
     };
 
     this.isConfiguring = true;
 
-    this.hass.callService("configurator", "configure", data)
-        .then(function() { this.isConfiguring = false; }.bind(this),
-              function() { this.isConfiguring = false; }.bind(this));
+    this.hass.callService("configurator", "configure", data).then(
+      function() {
+        this.isConfiguring = false;
+      }.bind(this),
+      function() {
+        this.isConfiguring = false;
+      }.bind(this)
+    );
   }
 }
 

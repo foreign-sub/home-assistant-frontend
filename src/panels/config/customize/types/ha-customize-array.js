@@ -1,16 +1,15 @@
 import "@polymer/paper-dropdown-menu/paper-dropdown-menu";
 import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
-import {EventsMixin} from "../../../../mixins/events-mixin";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { EventsMixin } from "../../../../mixins/events-mixin";
 
 /*
  * @appliesMixin EventsMixin
  */
-class HaCustomizeArray extends EventsMixin
-(PolymerElement) {
+class HaCustomizeArray extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -38,9 +37,9 @@ class HaCustomizeArray extends EventsMixin
 
   static get properties() {
     return {
-      item : {
-        type : Object,
-        notifies : true,
+      item: {
+        type: Object,
+        notifies: true,
       },
     };
   }

@@ -1,15 +1,14 @@
 import "@polymer/paper-card/paper-card";
 import "../resources/ha-style";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {enableWrite} from "../common/auth/token_storage";
+import { enableWrite } from "../common/auth/token_storage";
 import LocalizeMixin from "../mixins/localize-mixin";
 
-class HaStoreAuth extends LocalizeMixin
-(PolymerElement) {
+class HaStoreAuth extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -52,7 +51,7 @@ class HaStoreAuth extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
+      hass: Object,
     };
   }
 

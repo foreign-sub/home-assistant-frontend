@@ -11,12 +11,12 @@ import "../../components/ha-card";
 import "../../components/ha-menu-button";
 import "../../resources/ha-style";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {formatDateTime} from "../../common/datetime/format_date_time";
-import {EventsMixin} from "../../mixins/events-mixin";
+import { formatDateTime } from "../../common/datetime/format_date_time";
+import { EventsMixin } from "../../mixins/events-mixin";
 import LocalizeMixin from "../../mixins/localize-mixin";
 
 let registeredDialog = false;
@@ -24,8 +24,7 @@ let registeredDialog = false;
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPanelMailbox extends EventsMixin
-(LocalizeMixin(PolymerElement)) {
+class HaPanelMailbox extends EventsMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -133,20 +132,20 @@ class HaPanelMailbox extends EventsMixin
 
   static get properties() {
     return {
-      hass : Object,
-      narrow : Boolean,
+      hass: Object,
+      narrow: Boolean,
 
-      platforms : {
-        type : Array,
+      platforms: {
+        type: Array,
       },
 
-      _messages : {
-        type : Array,
+      _messages: {
+        type: Array,
       },
 
-      _currentPlatform : {
-        type : Number,
-        value : 0,
+      _currentPlatform: {
+        type: Number,
+        value: 0,
       },
     };
   }
@@ -156,67 +155,84 @@ class HaPanelMailbox extends EventsMixin
     if (!registeredDialog) {
       registeredDialog = true;
       this.fire("register-dialog", {
-        dialogShowEvent : "show-audio-message-dialog",
-        dialogTag : "ha-dialog-show-audio-message",
-        dialogImport : () => import(
+        dialogShowEvent: "show-audio-message-dialog",
+        dialogTag: "ha-dialog-show-audio-message",
+        dialogImport: () =>
+          import(
             /* webpackChunkName: "ha-dialog-show-audio-message" */
-            "./ha-dialog-show-audio-message"),
+            "./ha-dialog-show-audio-message"
+          ),
       });
     }
     this.hassChanged = this.hassChanged.bind(this);
-    this.hass.connection.subscribeEvents(this.hassChanged, "mailbox_updated")
-        .then(function(unsub) { this._unsubEvents = unsub; }.bind(this));
-    this.computePlatforms().then(function(platforms) {
-      this.platforms = platforms;
-      this.hassChanged();
-    }.bind(this));
+    this.hass.connection
+      .subscribeEvents(this.hassChanged, "mailbox_updated")
+      .then(
+        function(unsub) {
+          this._unsubEvents = unsub;
+        }.bind(this)
+      );
+    this.computePlatforms().then(
+      function(platforms) {
+        this.platforms = platforms;
+        this.hassChanged();
+      }.bind(this)
+    );
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    if (this._unsubEvents)
-      this._unsubEvents();
+    if (this._unsubEvents) this._unsubEvents();
   }
 
   hassChanged() {
     if (!this._messages) {
       this._messages = [];
     }
-    this.getMessages().then(function(items) { this._messages = items; }.bind(
-        this));
+    this.getMessages().then(
+      function(items) {
+        this._messages = items;
+      }.bind(this)
+    );
   }
 
   openMP3Dialog(event) {
     this.fire("show-audio-message-dialog", {
-      hass : this.hass,
-      message : event.model.item,
+      hass: this.hass,
+      message: event.model.item,
     });
   }
 
   getMessages() {
     const platform = this.platforms[this._currentPlatform];
-    return this.hass.callApi("GET", `mailbox/messages/${platform.name}`)
-        .then((values) => {
-          const platformItems = [];
-          const arrayLength = values.length;
-          for (let i = 0; i < arrayLength; i++) {
-            const datetime = formatDateTime(
-                new Date(values[i].info.origtime * 1000), this.hass.language);
-            platformItems.push({
-              timestamp : datetime,
-              caller : values[i].info.callerid,
-              message : values[i].text,
-              sha : values[i].sha,
-              duration : values[i].info.duration,
-              platform : platform,
-            });
-          }
-          return platformItems.sort(function(
-              a, b) { return new Date(b.timestamp) - new Date(a.timestamp); });
+    return this.hass
+      .callApi("GET", `mailbox/messages/${platform.name}`)
+      .then((values) => {
+        const platformItems = [];
+        const arrayLength = values.length;
+        for (let i = 0; i < arrayLength; i++) {
+          const datetime = formatDateTime(
+            new Date(values[i].info.origtime * 1000),
+            this.hass.language
+          );
+          platformItems.push({
+            timestamp: datetime,
+            caller: values[i].info.callerid,
+            message: values[i].text,
+            sha: values[i].sha,
+            duration: values[i].info.duration,
+            platform: platform,
+          });
+        }
+        return platformItems.sort(function(a, b) {
+          return new Date(b.timestamp) - new Date(a.timestamp);
         });
+      });
   }
 
-  computePlatforms() { return this.hass.callApi("GET", "mailbox/platforms"); }
+  computePlatforms() {
+    return this.hass.callApi("GET", "mailbox/platforms");
+  }
 
   handlePlatformSelected(ev) {
     const newPlatform = ev.detail.selected;
@@ -226,7 +242,9 @@ class HaPanelMailbox extends EventsMixin
     }
   }
 
-  areTabsHidden(platforms) { return !platforms || platforms.length < 2; }
+  areTabsHidden(platforms) {
+    return !platforms || platforms.length < 2;
+  }
 
   getPlatformName(item) {
     const entity = `mailbox.${item.name}`;

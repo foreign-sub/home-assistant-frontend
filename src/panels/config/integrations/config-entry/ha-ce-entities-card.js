@@ -4,20 +4,19 @@ import "../../../../components/entity/state-badge";
 import "../../../../components/ha-card";
 import "../../../../layouts/hass-subpage";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {computeEntityRegistryName} from "../../../../data/entity_registry";
-import {EventsMixin} from "../../../../mixins/events-mixin";
+import { computeEntityRegistryName } from "../../../../data/entity_registry";
+import { EventsMixin } from "../../../../mixins/events-mixin";
 import LocalizeMixIn from "../../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixIn
  * @appliesMixin EventsMixin
  */
-class HaCeEntitiesCard extends LocalizeMixIn
-(EventsMixin(PolymerElement)) {
+class HaCeEntitiesCard extends LocalizeMixIn(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -50,24 +49,27 @@ class HaCeEntitiesCard extends LocalizeMixIn
 
   static get properties() {
     return {
-      heading : String,
-      entities : Array,
-      hass : Object,
+      heading: String,
+      entities: Array,
+      hass: Object,
     };
   }
 
-  _computeStateObj(entity, hass) { return hass.states[entity.entity_id]; }
+  _computeStateObj(entity, hass) {
+    return hass.states[entity.entity_id];
+  }
 
   _computeEntityName(entity, hass) {
     return (
-        computeEntityRegistryName(hass, entity) ||
-        `(${
-            this.localize(
-                "ui.panel.config.integrations.config_entry.entity_unavailable")})`);
+      computeEntityRegistryName(hass, entity) ||
+      `(${this.localize(
+        "ui.panel.config.integrations.config_entry.entity_unavailable"
+      )})`
+    );
   }
 
   _openMoreInfo(ev) {
-    this.fire("hass-more-info", {entityId : ev.model.entity.entity_id});
+    this.fire("hass-more-info", { entityId: ev.model.entity.entity_id });
   }
 }
 

@@ -1,8 +1,8 @@
 import "./ha-progress-button";
 
-import {html, LitElement} from "lit-element";
+import { html, LitElement } from "lit-element";
 
-import {fireEvent} from "../../common/dom/fire_event";
+import { fireEvent } from "../../common/dom/fire_event";
 
 class HaCallApiButton extends LitElement {
   render() {
@@ -26,12 +26,12 @@ class HaCallApiButton extends LitElement {
 
   static get properties() {
     return {
-      hass : {},
-      progress : Boolean,
-      path : String,
-      method : String,
-      data : {},
-      disabled : Boolean,
+      hass: {},
+      progress: Boolean,
+      path: String,
+      method: String,
+      data: {},
+      disabled: Boolean,
     };
   }
 
@@ -42,9 +42,9 @@ class HaCallApiButton extends LitElement {
   async _buttonTapped() {
     this.progress = true;
     const eventData = {
-      method : this.method,
-      path : this.path,
-      data : this.data,
+      method: this.method,
+      path: this.path,
+      data: this.data,
     };
 
     try {

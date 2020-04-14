@@ -12,10 +12,8 @@ found at http://polymer.github.io/PATENTS.txt
   Fixes issue with not using shadow dom properly in
   iron-overlay-behavior/icon-focusables-helper.js
 */
-import {
-  IronFocusablesHelper
-} from "@polymer/iron-overlay-behavior/iron-focusables-helper";
-import {dom} from "@polymer/polymer/lib/legacy/polymer.dom";
+import { IronFocusablesHelper } from "@polymer/iron-overlay-behavior/iron-focusables-helper";
+import { dom } from "@polymer/polymer/lib/legacy/polymer.dom";
 
 export const HaIronFocusablesHelper = {
   /**
@@ -25,7 +23,7 @@ export const HaIronFocusablesHelper = {
    * @param {!Node} node
    * @return {!Array<!HTMLElement>}
    */
-  getTabbableNodes : function(node) {
+  getTabbableNodes: function(node) {
     var result = [];
     // If there is at least one element with tabindex > 0, we need to sort
     // the final array by tabindex.
@@ -45,10 +43,12 @@ export const HaIronFocusablesHelper = {
    * @return {boolean}
    * @private
    */
-  _collectTabbableNodes : function(node, result) {
+  _collectTabbableNodes: function(node, result) {
     // If not an element or not visible, no need to explore children.
-    if (node.nodeType !== Node.ELEMENT_NODE ||
-        !IronFocusablesHelper._isVisible(node)) {
+    if (
+      node.nodeType !== Node.ELEMENT_NODE ||
+      !IronFocusablesHelper._isVisible(node)
+    ) {
       return false;
     }
     var element = /** @type {!HTMLElement} */ (node);

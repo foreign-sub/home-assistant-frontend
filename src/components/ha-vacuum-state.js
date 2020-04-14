@@ -1,41 +1,40 @@
 import "@material/mwc-button";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 import LocalizeMixin from "../mixins/localize-mixin";
 
 const STATES_INTERCEPTABLE = {
-  cleaning : {
-    action : "return_to_base",
-    service : "return_to_base",
+  cleaning: {
+    action: "return_to_base",
+    service: "return_to_base",
   },
-  docked : {
-    action : "start_cleaning",
-    service : "start",
+  docked: {
+    action: "start_cleaning",
+    service: "start",
   },
-  idle : {
-    action : "start_cleaning",
-    service : "start",
+  idle: {
+    action: "start_cleaning",
+    service: "start",
   },
-  off : {
-    action : "turn_on",
-    service : "turn_on",
+  off: {
+    action: "turn_on",
+    service: "turn_on",
   },
-  on : {
-    action : "turn_off",
-    service : "turn_off",
+  on: {
+    action: "turn_off",
+    service: "turn_off",
   },
-  paused : {
-    action : "resume_cleaning",
-    service : "start",
+  paused: {
+    action: "resume_cleaning",
+    service: "start",
   },
 };
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaVacuumState extends LocalizeMixin
-(PolymerElement) {
+class HaVacuumState extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -58,12 +57,12 @@ class HaVacuumState extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : Object,
-      _interceptable : {
-        type : Boolean,
-        computed :
-            "_computeInterceptable(stateObj.state, stateObj.attributes.supported_features)",
+      hass: Object,
+      stateObj: Object,
+      _interceptable: {
+        type: Boolean,
+        computed:
+          "_computeInterceptable(stateObj.state, stateObj.attributes.supported_features)",
       },
     };
   }
@@ -73,16 +72,18 @@ class HaVacuumState extends LocalizeMixin
   }
 
   _computeLabel(state, interceptable) {
-    return interceptable ? this.localize(`ui.card.vacuum.actions.${
-                               STATES_INTERCEPTABLE[state].action}`)
-                         : this.localize(`state.vacuum.${state}`);
+    return interceptable
+      ? this.localize(
+          `ui.card.vacuum.actions.${STATES_INTERCEPTABLE[state].action}`
+        )
+      : this.localize(`state.vacuum.${state}`);
   }
 
   _callService(ev) {
     ev.stopPropagation();
     const stateObj = this.stateObj;
     const service = STATES_INTERCEPTABLE[stateObj.state].service;
-    this.hass.callService("vacuum", service, {entity_id : stateObj.entity_id});
+    this.hass.callService("vacuum", service, { entity_id: stateObj.entity_id });
   }
 }
 customElements.define("ha-vacuum-state", HaVacuumState);

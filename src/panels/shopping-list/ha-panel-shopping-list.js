@@ -12,21 +12,18 @@ import "@polymer/paper-menu-button/paper-menu-button";
 import "../../components/ha-card";
 import "../../components/ha-menu-button";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {isComponentLoaded} from "../../common/config/is_component_loaded";
-import {
-  showVoiceCommandDialog
-} from "../../dialogs/voice-command-dialog/show-ha-voice-command-dialog";
+import { isComponentLoaded } from "../../common/config/is_component_loaded";
+import { showVoiceCommandDialog } from "../../dialogs/voice-command-dialog/show-ha-voice-command-dialog";
 import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPanelShoppingList extends LocalizeMixin
-(PolymerElement) {
+class HaPanelShoppingList extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style">
@@ -151,15 +148,15 @@ class HaPanelShoppingList extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      narrow : Boolean,
-      conversation : {
-        type : Boolean,
-        computed : "_computeConversation(hass)",
+      hass: Object,
+      narrow: Boolean,
+      conversation: {
+        type: Boolean,
+        computed: "_computeConversation(hass)",
       },
-      items : {
-        type : Array,
-        value : [],
+      items: {
+        type: Array,
+        value: [],
       },
     };
   }
@@ -169,39 +166,44 @@ class HaPanelShoppingList extends LocalizeMixin
     this._fetchData = this._fetchData.bind(this);
 
     this.hass.connection
-        .subscribeEvents(this._fetchData, "shopping_list_updated")
-        .then(function(unsub) { this._unsubEvents = unsub; }.bind(this));
+      .subscribeEvents(this._fetchData, "shopping_list_updated")
+      .then(
+        function(unsub) {
+          this._unsubEvents = unsub;
+        }.bind(this)
+      );
     this._fetchData();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    if (this._unsubEvents)
-      this._unsubEvents();
+    if (this._unsubEvents) this._unsubEvents();
   }
 
   _fetchData() {
-    this.hass.callApi("get", "shopping_list").then(function(items) {
-      items.reverse();
-      this.items = items;
-    }.bind(this));
+    this.hass.callApi("get", "shopping_list").then(
+      function(items) {
+        items.reverse();
+        this.items = items;
+      }.bind(this)
+    );
   }
 
   _itemCompleteTapped(ev) {
     ev.stopPropagation();
     this.hass
-        .callApi("post", "shopping_list/item/" + ev.model.item.id, {
-          complete : ev.target.checked,
-        })
-        .catch(() => this._fetchData());
+      .callApi("post", "shopping_list/item/" + ev.model.item.id, {
+        complete: ev.target.checked,
+      })
+      .catch(() => this._fetchData());
   }
 
   _addItem(ev) {
     this.hass
-        .callApi("post", "shopping_list/item", {
-          name : this.$.addBox.value,
-        })
-        .catch(() => this._fetchData());
+      .callApi("post", "shopping_list/item", {
+        name: this.$.addBox.value,
+      })
+      .catch(() => this._fetchData());
     this.$.addBox.value = "";
     // Presence of 'ev' means tap on "add" button.
     if (ev) {
@@ -215,24 +217,28 @@ class HaPanelShoppingList extends LocalizeMixin
     }
   }
 
-  _computeConversation(hass) { return isComponentLoaded(hass, "conversation"); }
+  _computeConversation(hass) {
+    return isComponentLoaded(hass, "conversation");
+  }
 
-  _showVoiceCommandDialog() { showVoiceCommandDialog(this); }
+  _showVoiceCommandDialog() {
+    showVoiceCommandDialog(this);
+  }
 
   _saveEdit(ev) {
-    const {index, item} = ev.model;
+    const { index, item } = ev.model;
     const name = ev.target.value;
 
     if (name === item.name) {
       return;
     }
 
-    this.set([ "items", index, "name" ], name);
+    this.set(["items", index, "name"], name);
     this.hass
-        .callApi("post", "shopping_list/item/" + item.id, {
-          name : name,
-        })
-        .catch(() => this._fetchData());
+      .callApi("post", "shopping_list/item/" + item.id, {
+        name: name,
+      })
+      .catch(() => this._fetchData());
   }
 
   _clearCompleted() {

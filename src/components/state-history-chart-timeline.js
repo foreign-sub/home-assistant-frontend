@@ -1,16 +1,15 @@
 import "@polymer/polymer/lib/utils/debounce";
 import "./entity/ha-chart-base";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {formatDateTimeWithSeconds} from "../common/datetime/format_date_time";
-import {computeRTL} from "../common/util/compute_rtl";
+import { formatDateTimeWithSeconds } from "../common/datetime/format_date_time";
+import { computeRTL } from "../common/util/compute_rtl";
 import LocalizeMixin from "../mixins/localize-mixin";
 
-class StateHistoryChartTimeline extends LocalizeMixin
-(PolymerElement) {
+class StateHistoryChartTimeline extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -37,31 +36,31 @@ class StateHistoryChartTimeline extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : {
-        type : Object,
+      hass: {
+        type: Object,
       },
-      chartData : Object,
-      data : {
-        type : Object,
-        observer : "dataChanged",
+      chartData: Object,
+      data: {
+        type: Object,
+        observer: "dataChanged",
       },
-      names : Object,
-      noSingle : Boolean,
-      endTime : Date,
-      rendered : {
-        type : Boolean,
-        value : false,
-        reflectToAttribute : true,
+      names: Object,
+      noSingle: Boolean,
+      endTime: Date,
+      rendered: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
       },
-      rtl : {
-        reflectToAttribute : true,
-        computed : "_computeRTL(hass)",
+      rtl: {
+        reflectToAttribute: true,
+        computed: "_computeRTL(hass)",
       },
     };
   }
 
   static get observers() {
-    return [ "dataChanged(data, endTime, localize, language)" ];
+    return ["dataChanged(data, endTime, localize, language)"];
   }
 
   connectedCallback() {
@@ -70,15 +69,17 @@ class StateHistoryChartTimeline extends LocalizeMixin
     this.drawChart();
   }
 
-  dataChanged() { this.drawChart(); }
+  dataChanged() {
+    this.drawChart();
+  }
 
   drawChart() {
     const staticColors = {
-      on : 1,
-      off : 0,
-      unavailable : "#a0a0a0",
-      unknown : "#606060",
-      idle : 2,
+      on: 1,
+      off: 0,
+      unavailable: "#a0a0a0",
+      unknown: "#606060",
+      idle: 2,
     };
     let stateHistory = this.data;
 
@@ -90,20 +91,27 @@ class StateHistoryChartTimeline extends LocalizeMixin
       stateHistory = [];
     }
 
-    const startTime = new Date(stateHistory.reduce(
+    const startTime = new Date(
+      stateHistory.reduce(
         (minTime, stateInfo) =>
-            Math.min(minTime, new Date(stateInfo.data[0].last_changed)),
-        new Date()));
+          Math.min(minTime, new Date(stateInfo.data[0].last_changed)),
+        new Date()
+      )
+    );
 
     // end time is Math.max(startTime, last_event)
     let endTime =
-        this.endTime ||
-        new Date(stateHistory.reduce(
-            (maxTime, stateInfo) => Math.max(
-                maxTime,
-                new Date(
-                    stateInfo.data[stateInfo.data.length - 1].last_changed)),
-            startTime));
+      this.endTime ||
+      new Date(
+        stateHistory.reduce(
+          (maxTime, stateInfo) =>
+            Math.max(
+              maxTime,
+              new Date(stateInfo.data[stateInfo.data.length - 1].last_changed)
+            ),
+          startTime
+        )
+      );
 
     if (endTime > new Date()) {
       endTime = new Date();
@@ -136,8 +144,7 @@ class StateHistoryChartTimeline extends LocalizeMixin
         if (prevState !== null && newState !== prevState) {
           newLastChanged = new Date(state.last_changed);
 
-          dataRow.push(
-              [ prevLastChanged, newLastChanged, locState, prevState ]);
+          dataRow.push([prevLastChanged, newLastChanged, locState, prevState]);
 
           prevState = newState;
           locState = state.state_localize;
@@ -150,9 +157,9 @@ class StateHistoryChartTimeline extends LocalizeMixin
       });
 
       if (prevState !== null) {
-        dataRow.push([ prevLastChanged, endTime, locState, prevState ]);
+        dataRow.push([prevLastChanged, endTime, locState, prevState]);
       }
-      datasets.push({data : dataRow});
+      datasets.push({ data: dataRow });
       labels.push(entityDisplay);
     });
 
@@ -163,49 +170,54 @@ class StateHistoryChartTimeline extends LocalizeMixin
       const end = formatDateTimeWithSeconds(values[1], this.hass.language);
       const state = values[2];
 
-      return [ state, start, end ];
+      return [state, start, end];
     };
 
     const chartOptions = {
-      type : "timeline",
-      options : {
-        tooltips : {
-          callbacks : {
-            label : formatTooltipLabel,
+      type: "timeline",
+      options: {
+        tooltips: {
+          callbacks: {
+            label: formatTooltipLabel,
           },
         },
-        scales : {
-          xAxes : [
+        scales: {
+          xAxes: [
             {
-              ticks : {
-                major : {
-                  fontStyle : "bold",
+              ticks: {
+                major: {
+                  fontStyle: "bold",
                 },
               },
             },
           ],
-          yAxes : [
+          yAxes: [
             {
-              afterSetDimensions :
-                  (yaxe) => { yaxe.maxWidth = yaxe.chart.width * 0.18; },
-              position : this._computeRTL ? "right" : "left",
+              afterSetDimensions: (yaxe) => {
+                yaxe.maxWidth = yaxe.chart.width * 0.18;
+              },
+              position: this._computeRTL ? "right" : "left",
             },
           ],
         },
       },
-      data : {
-        labels : labels,
-        datasets : datasets,
+      data: {
+        labels: labels,
+        datasets: datasets,
       },
-      colors : {
-        staticColors : staticColors,
-        staticColorIndex : 3,
+      colors: {
+        staticColors: staticColors,
+        staticColorIndex: 3,
       },
     };
     this.chartData = chartOptions;
   }
 
-  _computeRTL(hass) { return computeRTL(hass); }
+  _computeRTL(hass) {
+    return computeRTL(hass);
+  }
 }
-customElements.define("state-history-chart-timeline",
-                      StateHistoryChartTimeline);
+customElements.define(
+  "state-history-chart-timeline",
+  StateHistoryChartTimeline
+);

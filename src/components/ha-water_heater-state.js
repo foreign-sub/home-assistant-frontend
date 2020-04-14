@@ -1,13 +1,12 @@
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaWaterHeaterState extends LocalizeMixin
-(PolymerElement) {
+class HaWaterHeaterState extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -47,25 +46,23 @@ class HaWaterHeaterState extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : Object,
+      hass: Object,
+      stateObj: Object,
     };
   }
 
   computeTarget(hass, stateObj) {
-    if (!hass || !stateObj)
-      return null;
+    if (!hass || !stateObj) return null;
     // We're using "!= null" on purpose so that we match both null and
     // undefined.
-    if (stateObj.attributes.target_temp_low != null &&
-        stateObj.attributes.target_temp_high != null) {
-      return `${stateObj.attributes.target_temp_low} - ${
-          stateObj.attributes.target_temp_high} ${
-          hass.config.unit_system.temperature}`;
+    if (
+      stateObj.attributes.target_temp_low != null &&
+      stateObj.attributes.target_temp_high != null
+    ) {
+      return `${stateObj.attributes.target_temp_low} - ${stateObj.attributes.target_temp_high} ${hass.config.unit_system.temperature}`;
     }
     if (stateObj.attributes.temperature != null) {
-      return `${stateObj.attributes.temperature} ${
-          hass.config.unit_system.temperature}`;
+      return `${stateObj.attributes.temperature} ${hass.config.unit_system.temperature}`;
     }
 
     return "";

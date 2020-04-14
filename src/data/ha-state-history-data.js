@@ -1,44 +1,43 @@
-import {timeOut} from "@polymer/polymer/lib/utils/async";
-import {Debouncer} from "@polymer/polymer/lib/utils/debounce";
+import { timeOut } from "@polymer/polymer/lib/utils/async";
+import { Debouncer } from "@polymer/polymer/lib/utils/debounce";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 import LocalizeMixin from "../mixins/localize-mixin";
-import {getRecent, getRecentWithCache} from "./cached-history";
-import {computeHistory, fetchDate} from "./history";
+import { getRecent, getRecentWithCache } from "./cached-history";
+import { computeHistory, fetchDate } from "./history";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaStateHistoryData extends LocalizeMixin
-(PolymerElement) {
+class HaStateHistoryData extends LocalizeMixin(PolymerElement) {
   static get properties() {
     return {
-      hass : {
-        type : Object,
-        observer : "hassChanged",
+      hass: {
+        type: Object,
+        observer: "hassChanged",
       },
 
-      filterType : String,
+      filterType: String,
 
-      cacheConfig : Object,
+      cacheConfig: Object,
 
-      startTime : Date,
-      endTime : Date,
+      startTime: Date,
+      endTime: Date,
 
-      entityId : String,
+      entityId: String,
 
-      isLoading : {
-        type : Boolean,
-        value : true,
-        readOnly : true,
-        notify : true,
+      isLoading: {
+        type: Boolean,
+        value: true,
+        readOnly: true,
+        notify: true,
       },
 
-      data : {
-        type : Object,
-        value : null,
-        readOnly : true,
-        notify : true,
+      data: {
+        type: Object,
+        value: null,
+        readOnly: true,
+        notify: true,
       },
     };
   }
@@ -51,8 +50,14 @@ class HaStateHistoryData extends LocalizeMixin
 
   connectedCallback() {
     super.connectedCallback();
-    this.filterChangedDebouncer(this.filterType, this.entityId, this.startTime,
-                                this.endTime, this.cacheConfig, this.localize);
+    this.filterChangedDebouncer(
+      this.filterType,
+      this.entityId,
+      this.startTime,
+      this.endTime,
+      this.cacheConfig,
+      this.localize
+    );
   }
 
   disconnectedCallback() {
@@ -65,20 +70,35 @@ class HaStateHistoryData extends LocalizeMixin
 
   hassChanged(newHass, oldHass) {
     if (!oldHass && !this._madeFirstCall) {
-      this.filterChangedDebouncer(this.filterType, this.entityId,
-                                  this.startTime, this.endTime,
-                                  this.cacheConfig, this.localize);
+      this.filterChangedDebouncer(
+        this.filterType,
+        this.entityId,
+        this.startTime,
+        this.endTime,
+        this.cacheConfig,
+        this.localize
+      );
     }
   }
 
   filterChangedDebouncer(...args) {
-    this._debounceFilterChanged =
-        Debouncer.debounce(this._debounceFilterChanged, timeOut.after(0),
-                           () => { this.filterChanged(...args); });
+    this._debounceFilterChanged = Debouncer.debounce(
+      this._debounceFilterChanged,
+      timeOut.after(0),
+      () => {
+        this.filterChanged(...args);
+      }
+    );
   }
 
-  filterChanged(filterType, entityId, startTime, endTime, cacheConfig,
-                localize) {
+  filterChanged(
+    filterType,
+    entityId,
+    startTime,
+    endTime,
+    cacheConfig,
+    localize
+  ) {
     if (!this.hass) {
       return;
     }
@@ -93,21 +113,29 @@ class HaStateHistoryData extends LocalizeMixin
     let data;
 
     if (filterType === "date") {
-      if (!startTime || !endTime)
-        return;
+      if (!startTime || !endTime) return;
 
-      data = fetchDate(this.hass, startTime, endTime)
-                 .then((dateHistory) => computeHistory(this.hass, dateHistory,
-                                                       localize, language));
+      data = fetchDate(this.hass, startTime, endTime).then((dateHistory) =>
+        computeHistory(this.hass, dateHistory, localize, language)
+      );
     } else if (filterType === "recent-entity") {
-      if (!entityId)
-        return;
+      if (!entityId) return;
       if (cacheConfig) {
-        data = this.getRecentWithCacheRefresh(entityId, cacheConfig, localize,
-                                              language);
+        data = this.getRecentWithCacheRefresh(
+          entityId,
+          cacheConfig,
+          localize,
+          language
+        );
       } else {
-        data = getRecent(this.hass, entityId, startTime, endTime, localize,
-                         language);
+        data = getRecent(
+          this.hass,
+          entityId,
+          startTime,
+          endTime,
+          localize,
+          language
+        );
       }
     } else {
       return;
@@ -127,12 +155,24 @@ class HaStateHistoryData extends LocalizeMixin
     }
     if (cacheConfig.refresh) {
       this._refreshTimeoutId = window.setInterval(() => {
-        getRecentWithCache(this.hass, entityId, cacheConfig, localize, language)
-            .then((stateHistory) => { this._setData({...stateHistory}); });
+        getRecentWithCache(
+          this.hass,
+          entityId,
+          cacheConfig,
+          localize,
+          language
+        ).then((stateHistory) => {
+          this._setData({ ...stateHistory });
+        });
       }, cacheConfig.refresh * 1000);
     }
-    return getRecentWithCache(this.hass, entityId, cacheConfig, localize,
-                              language);
+    return getRecentWithCache(
+      this.hass,
+      entityId,
+      cacheConfig,
+      localize,
+      language
+    );
   }
 }
 customElements.define("ha-state-history-data", HaStateHistoryData);

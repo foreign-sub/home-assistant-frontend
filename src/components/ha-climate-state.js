@@ -1,14 +1,13 @@
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
-import {CLIMATE_PRESET_NONE} from "../data/climate";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { CLIMATE_PRESET_NONE } from "../data/climate";
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaClimateState extends LocalizeMixin
-(PolymerElement) {
+class HaClimateState extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -61,21 +60,19 @@ class HaClimateState extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : Object,
-      currentStatus : {
-        type : String,
-        computed : "computeCurrentStatus(hass, stateObj)",
+      hass: Object,
+      stateObj: Object,
+      currentStatus: {
+        type: String,
+        computed: "computeCurrentStatus(hass, stateObj)",
       },
     };
   }
 
   computeCurrentStatus(hass, stateObj) {
-    if (!hass || !stateObj)
-      return null;
+    if (!hass || !stateObj) return null;
     if (stateObj.attributes.current_temperature != null) {
-      return `${stateObj.attributes.current_temperature} ${
-          hass.config.unit_system.temperature}`;
+      return `${stateObj.attributes.current_temperature} ${hass.config.unit_system.temperature}`;
     }
     if (stateObj.attributes.current_humidity != null) {
       return `${stateObj.attributes.current_humidity} %`;
@@ -84,24 +81,23 @@ class HaClimateState extends LocalizeMixin
   }
 
   computeTarget(hass, stateObj) {
-    if (!hass || !stateObj)
-      return null;
+    if (!hass || !stateObj) return null;
     // We're using "!= null" on purpose so that we match both null and
     // undefined.
-    if (stateObj.attributes.target_temp_low != null &&
-        stateObj.attributes.target_temp_high != null) {
-      return `${stateObj.attributes.target_temp_low}-${
-          stateObj.attributes.target_temp_high} ${
-          hass.config.unit_system.temperature}`;
+    if (
+      stateObj.attributes.target_temp_low != null &&
+      stateObj.attributes.target_temp_high != null
+    ) {
+      return `${stateObj.attributes.target_temp_low}-${stateObj.attributes.target_temp_high} ${hass.config.unit_system.temperature}`;
     }
     if (stateObj.attributes.temperature != null) {
-      return `${stateObj.attributes.temperature} ${
-          hass.config.unit_system.temperature}`;
+      return `${stateObj.attributes.temperature} ${hass.config.unit_system.temperature}`;
     }
-    if (stateObj.attributes.target_humidity_low != null &&
-        stateObj.attributes.target_humidity_high != null) {
-      return `${stateObj.attributes.target_humidity_low}-${
-          stateObj.attributes.target_humidity_high}%`;
+    if (
+      stateObj.attributes.target_humidity_low != null &&
+      stateObj.attributes.target_humidity_high != null
+    ) {
+      return `${stateObj.attributes.target_humidity_low}-${stateObj.attributes.target_humidity_high}%`;
     }
     if (stateObj.attributes.humidity != null) {
       return `${stateObj.attributes.humidity} %`;
@@ -110,15 +106,17 @@ class HaClimateState extends LocalizeMixin
     return "";
   }
 
-  _hasKnownState(state) { return state !== "unknown"; }
+  _hasKnownState(state) {
+    return state !== "unknown";
+  }
 
   _localizeState(localize, stateObj) {
     const stateString = localize(`state.climate.${stateObj.state}`);
     return stateObj.attributes.hvac_action
-               ? `${
-                     localize(`state_attributes.climate.hvac_action.${
-                         stateObj.attributes.hvac_action}`)} (${stateString})`
-               : stateString;
+      ? `${localize(
+          `state_attributes.climate.hvac_action.${stateObj.attributes.hvac_action}`
+        )} (${stateString})`
+      : stateString;
   }
 
   _localizePreset(localize, preset) {
@@ -126,8 +124,9 @@ class HaClimateState extends LocalizeMixin
   }
 
   _renderPreset(attributes) {
-    return (attributes.preset_mode &&
-            attributes.preset_mode !== CLIMATE_PRESET_NONE);
+    return (
+      attributes.preset_mode && attributes.preset_mode !== CLIMATE_PRESET_NONE
+    );
   }
 }
 customElements.define("ha-climate-state", HaClimateState);

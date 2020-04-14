@@ -2,17 +2,16 @@ import "@material/mwc-button";
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "../components/entity/state-info";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class StateCardLock extends LocalizeMixin
-(PolymerElement) {
+class StateCardLock extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -54,16 +53,16 @@ class StateCardLock extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : {
-        type : Object,
-        observer : "_stateObjChanged",
+      hass: Object,
+      stateObj: {
+        type: Object,
+        observer: "_stateObjChanged",
       },
-      inDialog : {
-        type : Boolean,
-        value : false,
+      inDialog: {
+        type: Boolean,
+        value: false,
       },
-      isLocked : Boolean,
+      isLocked: Boolean,
     };
   }
 
@@ -77,7 +76,7 @@ class StateCardLock extends LocalizeMixin
     ev.stopPropagation();
     const service = ev.target.dataset.service;
     const data = {
-      entity_id : this.stateObj.entity_id,
+      entity_id: this.stateObj.entity_id,
     };
     this.hass.callService("lock", service, data);
   }

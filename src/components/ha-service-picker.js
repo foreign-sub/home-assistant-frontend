@@ -1,16 +1,15 @@
 import "./ha-combo-box";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaServicePicker extends LocalizeMixin
-(PolymerElement) {
+class HaServicePicker extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <ha-combo-box
@@ -24,14 +23,14 @@ class HaServicePicker extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : {
-        type : Object,
-        observer : "_hassChanged",
+      hass: {
+        type: Object,
+        observer: "_hassChanged",
       },
-      _services : Array,
-      value : {
-        type : String,
-        notify : true,
+      _services: Array,
+      value: {
+        type: String,
+        notify: true,
       },
     };
   }
@@ -46,13 +45,15 @@ class HaServicePicker extends LocalizeMixin
     }
     const result = [];
 
-    Object.keys(hass.services).sort().forEach((domain) => {
-      const services = Object.keys(hass.services[domain]).sort();
+    Object.keys(hass.services)
+      .sort()
+      .forEach((domain) => {
+        const services = Object.keys(hass.services[domain]).sort();
 
-      for (let i = 0; i < services.length; i++) {
-        result.push(`${domain}.${services[i]}`);
-      }
-    });
+        for (let i = 0; i < services.length; i++) {
+          result.push(`${domain}.${services[i]}`);
+        }
+      });
 
     this._services = result;
   }

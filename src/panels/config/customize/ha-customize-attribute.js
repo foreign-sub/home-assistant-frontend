@@ -6,9 +6,9 @@ import "./types/ha-customize-icon";
 import "./types/ha-customize-key-value";
 import "./types/ha-customize-string";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import hassAttributeUtil from "../../../util/hass-attributes-util";
 
@@ -40,23 +40,25 @@ class HaCustomizeAttribute extends PolymerElement {
 
   static get properties() {
     return {
-      item : {
-        type : Object,
-        notify : true,
-        observer : "itemObserver",
+      item: {
+        type: Object,
+        notify: true,
+        observer: "itemObserver",
       },
     };
   }
 
   tapButton() {
     if (this.item.secondary) {
-      this.item = {...this.item, secondary : false};
+      this.item = { ...this.item, secondary: false };
     } else {
-      this.item = {...this.item, closed : true};
+      this.item = { ...this.item, closed: true };
     }
   }
 
-  getIcon(secondary) { return secondary ? "hass:pencil" : "hass:close"; }
+  getIcon(secondary) {
+    return secondary ? "hass:pencil" : "hass:close";
+  }
 
   itemObserver(item) {
     const wrapper = this.$.wrapper;
@@ -73,10 +75,11 @@ class HaCustomizeAttribute extends PolymerElement {
       // in some later pass.
       this.$.child = child = document.createElement(tag.toLowerCase());
       child.className = "form-control";
-      child.addEventListener("item-changed",
-                             () => { this.item = {...child.item}; });
+      child.addEventListener("item-changed", () => {
+        this.item = { ...child.item };
+      });
     }
-    child.setProperties({item : this.item});
+    child.setProperties({ item: this.item });
     if (child.parentNode === null) {
       wrapper.appendChild(child);
     }

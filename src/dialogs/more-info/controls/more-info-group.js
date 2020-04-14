@@ -1,12 +1,12 @@
 import "../../../state-summary/state-card-content";
 
-import {dom} from "@polymer/polymer/lib/legacy/polymer.dom";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { dom } from "@polymer/polymer/lib/legacy/polymer.dom";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import dynamicContentUpdater from "../../../common/dom/dynamic_content_updater";
-import {computeStateDomain} from "../../../common/entity/compute_state_domain";
+import { computeStateDomain } from "../../../common/entity/compute_state_domain";
 
 class MoreInfoGroup extends PolymerElement {
   static get template() {
@@ -35,22 +35,24 @@ class MoreInfoGroup extends PolymerElement {
 
   static get properties() {
     return {
-      hass : {
-        type : Object,
+      hass: {
+        type: Object,
       },
 
-      stateObj : {
-        type : Object,
+      stateObj: {
+        type: Object,
       },
 
-      states : {
-        type : Array,
-        computed : "computeStates(stateObj, hass)",
+      states: {
+        type: Array,
+        computed: "computeStates(stateObj, hass)",
       },
     };
   }
 
-  static get observers() { return [ "statesChanged(stateObj, states)" ]; }
+  static get observers() {
+    return ["statesChanged(stateObj, states)"];
+  }
 
   computeStates(stateObj, hass) {
     var states = [];
@@ -80,8 +82,8 @@ class MoreInfoGroup extends PolymerElement {
       if (groupDomain !== "group") {
         groupDomainStateObj = {
           ...baseStateObj,
-          entity_id : stateObj.entity_id,
-          attributes : {...baseStateObj.attributes},
+          entity_id: stateObj.entity_id,
+          attributes: { ...baseStateObj.attributes },
         };
 
         for (let i = 0; i < states.length; i++) {
@@ -99,9 +101,11 @@ class MoreInfoGroup extends PolymerElement {
         el.removeChild(el.lastChild);
       }
     } else {
-      dynamicContentUpdater(this.$.groupedControlDetails,
-                            "MORE-INFO-" + groupDomain.toUpperCase(),
-                            {stateObj : groupDomainStateObj, hass : this.hass});
+      dynamicContentUpdater(
+        this.$.groupedControlDetails,
+        "MORE-INFO-" + groupDomain.toUpperCase(),
+        { stateObj: groupDomainStateObj, hass: this.hass }
+      );
     }
   }
 }

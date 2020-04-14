@@ -1,15 +1,14 @@
 import "@polymer/polymer/lib/utils/debounce";
 import "./entity/ha-chart-base";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {formatDateTimeWithSeconds} from "../common/datetime/format_date_time";
+import { formatDateTimeWithSeconds } from "../common/datetime/format_date_time";
 import LocalizeMixin from "../mixins/localize-mixin";
 
-class StateHistoryChartLine extends LocalizeMixin
-(PolymerElement) {
+class StateHistoryChartLine extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -31,28 +30,28 @@ class StateHistoryChartLine extends LocalizeMixin
 
   static get properties() {
     return {
-      chartData : Object,
-      data : Object,
-      names : Object,
-      unit : String,
-      identifier : String,
+      chartData: Object,
+      data: Object,
+      names: Object,
+      unit: String,
+      identifier: String,
 
-      isSingleDevice : {
-        type : Boolean,
-        value : false,
+      isSingleDevice: {
+        type: Boolean,
+        value: false,
       },
 
-      endTime : Object,
-      rendered : {
-        type : Boolean,
-        value : false,
-        observer : "_onRenderedChanged",
+      endTime: Object,
+      rendered: {
+        type: Boolean,
+        value: false,
+        observer: "_onRenderedChanged",
       },
     };
   }
 
   static get observers() {
-    return [ "dataChanged(data, endTime, isSingleDevice)" ];
+    return ["dataChanged(data, endTime, isSingleDevice)"];
   }
 
   connectedCallback() {
@@ -61,17 +60,20 @@ class StateHistoryChartLine extends LocalizeMixin
     this.drawChart();
   }
 
-  dataChanged() { this.drawChart(); }
+  dataChanged() {
+    this.drawChart();
+  }
 
   _onRenderedChanged(rendered) {
-    if (rendered)
-      this.animateHeight();
+    if (rendered) this.animateHeight();
   }
 
   animateHeight() {
-    requestAnimationFrame(
-        () => requestAnimationFrame(
-            () => { this.style.height = this.$.chart.scrollHeight + "px"; }));
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        this.style.height = this.$.chart.scrollHeight + "px";
+      })
+    );
   }
 
   drawChart() {
@@ -94,13 +96,17 @@ class StateHistoryChartLine extends LocalizeMixin
     }
 
     endTime =
-        this.endTime ||
-        // Get the highest date from the last date of each device
-        new Date(Math.max.apply(
-            null,
-            deviceStates.map(
-                (devSts) => new Date(
-                    devSts.states[devSts.states.length - 1].last_changed))));
+      this.endTime ||
+      // Get the highest date from the last date of each device
+      new Date(
+        Math.max.apply(
+          null,
+          deviceStates.map(
+            (devSts) =>
+              new Date(devSts.states[devSts.states.length - 1].last_changed)
+          )
+        )
+      );
     if (endTime > new Date()) {
       endTime = new Date();
     }
@@ -114,16 +120,16 @@ class StateHistoryChartLine extends LocalizeMixin
       const data = [];
 
       function pushData(timestamp, datavalues) {
-        if (!datavalues)
-          return;
+        if (!datavalues) return;
         if (timestamp > endTime) {
           // Drop datapoints that are after the requested endTime. This could
           // happen if endTime is "now" and client time is not in sync with
           // server time.
           return;
         }
-        data.forEach(
-            (d, i) => { d.data.push({x : timestamp, y : datavalues[i]}); });
+        data.forEach((d, i) => {
+          d.data.push({ x: timestamp, y: datavalues[i] });
+        });
         prevValues = datavalues;
       }
 
@@ -137,28 +143,32 @@ class StateHistoryChartLine extends LocalizeMixin
           dataStep = "before";
         }
         data.push({
-          label : nameY,
-          fill : dataFill,
-          steppedLine : dataStep,
-          pointRadius : 0,
-          data : [],
-          unitText : unit,
+          label: nameY,
+          fill: dataFill,
+          steppedLine: dataStep,
+          pointRadius: 0,
+          data: [],
+          unitText: unit,
         });
       }
 
-      if (domain === "thermostat" || domain === "climate" ||
-          domain === "water_heater") {
+      if (
+        domain === "thermostat" ||
+        domain === "climate" ||
+        domain === "water_heater"
+      ) {
         const hasHvacAction = states.states.some(
-            (state) => state.attributes && state.attributes.hvac_action);
+          (state) => state.attributes && state.attributes.hvac_action
+        );
 
-        const isHeating = domain === "climate" && hasHvacAction
-                              ? (state) =>
-                                    state.attributes.hvac_action === "heating"
-                              : (state) => state.state === "heat";
-        const isCooling = domain === "climate" && hasHvacAction
-                              ? (state) =>
-                                    state.attributes.hvac_action === "cooling"
-                              : (state) => state.state === "cool";
+        const isHeating =
+          domain === "climate" && hasHvacAction
+            ? (state) => state.attributes.hvac_action === "heating"
+            : (state) => state.state === "heat";
+        const isCooling =
+          domain === "climate" && hasHvacAction
+            ? (state) => state.attributes.hvac_action === "cooling"
+            : (state) => state.state === "cool";
 
         const hasHeat = states.states.some(isHeating);
         const hasCool = states.states.some(isCooling);
@@ -166,56 +176,76 @@ class StateHistoryChartLine extends LocalizeMixin
         // range versus ones that have just a target temperature
 
         // Using step chart by step-before so manually interpolation not needed.
-        const hasTargetRange =
-            states.states.some((state) => state.attributes &&
-                                          state.attributes.target_temp_high !==
-                                              state.attributes.target_temp_low);
+        const hasTargetRange = states.states.some(
+          (state) =>
+            state.attributes &&
+            state.attributes.target_temp_high !==
+              state.attributes.target_temp_low
+        );
 
-        addColumn(`${
-                      this.hass.localize("ui.card.climate.current_temperature",
-                                         "name", name)}`,
-                  true);
+        addColumn(
+          `${this.hass.localize(
+            "ui.card.climate.current_temperature",
+            "name",
+            name
+          )}`,
+          true
+        );
         if (hasHeat) {
           addColumn(
-              `${this.hass.localize("ui.card.climate.heating", "name", name)}`,
-              true, true);
+            `${this.hass.localize("ui.card.climate.heating", "name", name)}`,
+            true,
+            true
+          );
           // The "heating" series uses steppedArea to shade the area below the
           // current temperature when the thermostat is calling for heat.
         }
         if (hasCool) {
           addColumn(
-              `${this.hass.localize("ui.card.climate.cooling", "name", name)}`,
-              true, true);
+            `${this.hass.localize("ui.card.climate.cooling", "name", name)}`,
+            true,
+            true
+          );
           // The "cooling" series uses steppedArea to shade the area below the
           // current temperature when the thermostat is calling for heat.
         }
 
         if (hasTargetRange) {
-          addColumn(`${
-                        this.hass.localize(
-                            "ui.card.climate.target_temperature_mode", "name",
-                            name, "mode",
-                            this.hass.localize("ui.card.climate.high"))}`,
-                    true);
-          addColumn(`${
-                        this.hass.localize(
-                            "ui.card.climate.target_temperature_mode", "name",
-                            name, "mode",
-                            this.hass.localize("ui.card.climate.low"))}`,
-                    true);
+          addColumn(
+            `${this.hass.localize(
+              "ui.card.climate.target_temperature_mode",
+              "name",
+              name,
+              "mode",
+              this.hass.localize("ui.card.climate.high")
+            )}`,
+            true
+          );
+          addColumn(
+            `${this.hass.localize(
+              "ui.card.climate.target_temperature_mode",
+              "name",
+              name,
+              "mode",
+              this.hass.localize("ui.card.climate.low")
+            )}`,
+            true
+          );
         } else {
-          addColumn(`${
-                        this.hass.localize(
-                            "ui.card.climate.target_temperature_entity", "name",
-                            name)}`,
-                    true);
+          addColumn(
+            `${this.hass.localize(
+              "ui.card.climate.target_temperature_entity",
+              "name",
+              name
+            )}`,
+            true
+          );
         }
 
         states.states.forEach((state) => {
-          if (!state.attributes)
-            return;
+          if (!state.attributes) return;
           const curTemp = safeParseFloat(state.attributes.current_temperature);
-          const series = [ curTemp ];
+          const series = [curTemp];
           if (hasHeat) {
             series.push(isHeating(state) ? curTemp : null);
           }
@@ -223,8 +253,9 @@ class StateHistoryChartLine extends LocalizeMixin
             series.push(isCooling(state) ? curTemp : null);
           }
           if (hasTargetRange) {
-            const targetHigh =
-                safeParseFloat(state.attributes.target_temp_high);
+            const targetHigh = safeParseFloat(
+              state.attributes.target_temp_high
+            );
             const targetLow = safeParseFloat(state.attributes.target_temp_low);
             series.push(targetHigh, targetLow);
             pushData(new Date(state.last_changed), series);
@@ -253,21 +284,25 @@ class StateHistoryChartLine extends LocalizeMixin
             const lastNullDateTime = lastNullDate.getTime();
             const lastDateTime = lastDate.getTime();
             const tmpValue =
-                (value - lastValue) * ((lastNullDateTime - lastDateTime) /
-                                       (dateTime - lastDateTime)) +
-                lastValue;
-            pushData(lastNullDate, [ tmpValue ]);
-            pushData(new Date(lastNullDateTime + 1), [ null ]);
-            pushData(date, [ value ]);
+              (value - lastValue) *
+                ((lastNullDateTime - lastDateTime) /
+                  (dateTime - lastDateTime)) +
+              lastValue;
+            pushData(lastNullDate, [tmpValue]);
+            pushData(new Date(lastNullDateTime + 1), [null]);
+            pushData(date, [value]);
             lastDate = date;
             lastValue = value;
             lastNullDate = null;
           } else if (value !== null && lastNullDate === null) {
-            pushData(date, [ value ]);
+            pushData(date, [value]);
             lastDate = date;
             lastValue = value;
-          } else if (value === null && lastNullDate === null &&
-                     lastValue !== null) {
+          } else if (
+            value === null &&
+            lastNullDate === null &&
+            lastValue !== null
+          ) {
             lastNullDate = date;
           }
         });
@@ -288,62 +323,62 @@ class StateHistoryChartLine extends LocalizeMixin
     };
 
     const chartOptions = {
-      type : "line",
-      unit : unit,
-      legend : !this.isSingleDevice,
-      options : {
-        scales : {
-          xAxes : [
+      type: "line",
+      unit: unit,
+      legend: !this.isSingleDevice,
+      options: {
+        scales: {
+          xAxes: [
             {
-              type : "time",
-              ticks : {
-                major : {
-                  fontStyle : "bold",
+              type: "time",
+              ticks: {
+                major: {
+                  fontStyle: "bold",
                 },
               },
             },
           ],
-          yAxes : [
+          yAxes: [
             {
-              ticks : {
-                maxTicksLimit : 7,
+              ticks: {
+                maxTicksLimit: 7,
               },
             },
           ],
         },
-        tooltips : {
-          mode : "neareach",
-          callbacks : {
-            title : formatTooltipTitle,
+        tooltips: {
+          mode: "neareach",
+          callbacks: {
+            title: formatTooltipTitle,
           },
         },
-        hover : {
-          mode : "neareach",
+        hover: {
+          mode: "neareach",
         },
-        layout : {
-          padding : {
-            top : 5,
+        layout: {
+          padding: {
+            top: 5,
           },
         },
-        elements : {
-          line : {
-            tension : 0.1,
-            pointRadius : 0,
-            borderWidth : 1.5,
+        elements: {
+          line: {
+            tension: 0.1,
+            pointRadius: 0,
+            borderWidth: 1.5,
           },
-          point : {
-            hitRadius : 5,
+          point: {
+            hitRadius: 5,
           },
         },
-        plugins : {
-          filler : {
-            propagate : true,
+        plugins: {
+          filler: {
+            propagate: true,
           },
         },
       },
-      data : {
-        labels : [],
-        datasets : datasets,
+      data: {
+        labels: [],
+        datasets: datasets,
       },
     };
     this.chartData = chartOptions;

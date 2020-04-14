@@ -5,18 +5,17 @@ import "../../../layouts/hass-tabs-subpage";
 import "../../../resources/ha-style";
 import "./ha-config-section-server-control";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
-import {configSections} from "../ha-panel-config";
+import { configSections } from "../ha-panel-config";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaConfigServerControl extends LocalizeMixin
-(PolymerElement) {
+class HaConfigServerControl extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -56,17 +55,21 @@ class HaConfigServerControl extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      isWide : Boolean,
-      narrow : Boolean,
-      route : Object,
-      showAdvanced : Boolean,
+      hass: Object,
+      isWide: Boolean,
+      narrow: Boolean,
+      route: Object,
+      showAdvanced: Boolean,
     };
   }
 
-  _computeTabs() { return configSections.general; }
+  _computeTabs() {
+    return configSections.general;
+  }
 
-  computeClasses(isWide) { return isWide ? "content" : "content narrow"; }
+  computeClasses(isWide) {
+    return isWide ? "content" : "content narrow";
+  }
 }
 
 customElements.define("ha-config-server-control", HaConfigServerControl);

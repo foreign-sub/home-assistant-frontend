@@ -2,9 +2,9 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "../components/entity/state-info";
 import "../components/ha-water_heater-state";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class StateCardWaterHeater extends PolymerElement {
   static get template() {
@@ -44,11 +44,11 @@ class StateCardWaterHeater extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : Object,
-      inDialog : {
-        type : Boolean,
-        value : false,
+      hass: Object,
+      stateObj: Object,
+      inDialog: {
+        type: Boolean,
+        value: false,
       },
     };
   }

@@ -3,17 +3,16 @@ import "@polymer/paper-spinner/paper-spinner";
 import "../../components/dialog/ha-paper-dialog";
 import "../../resources/ha-style";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaDialogShowAudioMessage extends LocalizeMixin
-(PolymerElement) {
+class HaDialogShowAudioMessage extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="ha-style-dialog">
@@ -81,26 +80,26 @@ class HaDialogShowAudioMessage extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
+      hass: Object,
 
-      _currentMessage : Object,
+      _currentMessage: Object,
 
       // Error message when can't talk to server etc
-      _errorMsg : String,
+      _errorMsg: String,
 
-      _loading : {
-        type : Boolean,
-        value : false,
+      _loading: {
+        type: Boolean,
+        value: false,
       },
 
-      _opened : {
-        type : Boolean,
-        value : false,
+      _opened: {
+        type: Boolean,
+        value: false,
       },
     };
   }
 
-  showDialog({hass, message}) {
+  showDialog({ hass, message }) {
     this.hass = hass;
     this._errorMsg = null;
     this._currentMessage = message;
@@ -113,25 +112,26 @@ class HaDialogShowAudioMessage extends LocalizeMixin
       this._showLoading(true);
       mp3.src = null;
       const url = `/api/mailbox/media/${platform.name}/${message.sha}`;
-      this.hass.fetchWithAuth(url)
-          .then((response) => {
-            if (response.ok) {
-              return response.blob();
-            }
-            return Promise.reject({
-              status : response.status,
-              statusText : response.statusText,
-            });
-          })
-          .then((blob) => {
-            this._showLoading(false);
-            mp3.src = window.URL.createObjectURL(blob);
-            mp3.play();
-          })
-          .catch((err) => {
-            this._showLoading(false);
-            this._errorMsg = `Error loading audio: ${err.statusText}`;
+      this.hass
+        .fetchWithAuth(url)
+        .then((response) => {
+          if (response.ok) {
+            return response.blob();
+          }
+          return Promise.reject({
+            status: response.status,
+            statusText: response.statusText,
           });
+        })
+        .then((blob) => {
+          this._showLoading(false);
+          mp3.src = window.URL.createObjectURL(blob);
+          mp3.play();
+        })
+        .catch((err) => {
+          this._showLoading(false);
+          this._errorMsg = `Error loading audio: ${err.statusText}`;
+        });
     } else {
       mp3.style.display = "none";
       this._showLoading(false);
@@ -146,18 +146,20 @@ class HaDialogShowAudioMessage extends LocalizeMixin
 
   deleteSelected() {
     const msg = this._currentMessage;
-    this.hass.callApi("DELETE",
-                      `mailbox/delete/${msg.platform.name}/${msg.sha}`);
+    this.hass.callApi(
+      "DELETE",
+      `mailbox/delete/${msg.platform.name}/${msg.sha}`
+    );
     this._dialogDone();
   }
 
   _dialogDone() {
     this.$.mp3.pause();
     this.setProperties({
-      _currentMessage : null,
-      _errorMsg : null,
-      _loading : false,
-      _opened : false,
+      _currentMessage: null,
+      _errorMsg: null,
+      _loading: false,
+      _opened: false,
     });
   }
 

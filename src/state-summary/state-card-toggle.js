@@ -2,9 +2,9 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "../components/entity/ha-entity-toggle";
 import "../components/entity/state-info";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class StateCardToggle extends PolymerElement {
   static get template() {
@@ -39,11 +39,11 @@ class StateCardToggle extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : Object,
-      inDialog : {
-        type : Boolean,
-        value : false,
+      hass: Object,
+      stateObj: Object,
+      inDialog: {
+        type: Boolean,
+        value: false,
       },
     };
   }

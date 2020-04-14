@@ -1,8 +1,8 @@
 import "@material/mwc-button";
 import "@polymer/paper-spinner/paper-spinner";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class HaProgressButton extends PolymerElement {
   static get template() {
@@ -56,18 +56,18 @@ class HaProgressButton extends PolymerElement {
 
   static get properties() {
     return {
-      hass : {
-        type : Object,
+      hass: {
+        type: Object,
       },
 
-      progress : {
-        type : Boolean,
-        value : false,
+      progress: {
+        type: Boolean,
+        value: false,
       },
 
-      disabled : {
-        type : Boolean,
-        value : false,
+      disabled: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -75,7 +75,9 @@ class HaProgressButton extends PolymerElement {
   tempClass(className) {
     var classList = this.$.container.classList;
     classList.add(className);
-    setTimeout(() => { classList.remove(className); }, 1000);
+    setTimeout(() => {
+      classList.remove(className);
+    }, 1000);
   }
 
   ready() {
@@ -84,15 +86,20 @@ class HaProgressButton extends PolymerElement {
   }
 
   buttonTapped(ev) {
-    if (this.progress)
-      ev.stopPropagation();
+    if (this.progress) ev.stopPropagation();
   }
 
-  actionSuccess() { this.tempClass("success"); }
+  actionSuccess() {
+    this.tempClass("success");
+  }
 
-  actionError() { this.tempClass("error"); }
+  actionError() {
+    this.tempClass("error");
+  }
 
-  computeDisabled(disabled, progress) { return disabled || progress; }
+  computeDisabled(disabled, progress) {
+    return disabled || progress;
+  }
 }
 
 customElements.define("ha-progress-button", HaProgressButton);

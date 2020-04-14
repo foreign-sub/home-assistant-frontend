@@ -3,17 +3,16 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "../components/entity/ha-entity-toggle";
 import "../components/entity/state-info";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class StateCardScript extends LocalizeMixin
-(PolymerElement) {
+class StateCardScript extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -58,11 +57,11 @@ class StateCardScript extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : Object,
-      inDialog : {
-        type : Boolean,
-        value : false,
+      hass: Object,
+      stateObj: Object,
+      inDialog: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -70,7 +69,7 @@ class StateCardScript extends LocalizeMixin
   fireScript(ev) {
     ev.stopPropagation();
     this.hass.callService("script", "turn_on", {
-      entity_id : this.stateObj.entity_id,
+      entity_id: this.stateObj.entity_id,
     });
   }
 }

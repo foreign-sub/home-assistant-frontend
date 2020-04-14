@@ -11,11 +11,11 @@ import "../../../../layouts/hass-subpage";
 import "../../../../resources/ha-style";
 import "../../ha-config-section";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {EventsMixin} from "../../../../mixins/events-mixin";
+import { EventsMixin } from "../../../../mixins/events-mixin";
 import LocalizeMixin from "../../../../mixins/localize-mixin";
 import NavigateMixin from "../../../../mixins/navigate-mixin";
 
@@ -24,8 +24,9 @@ import NavigateMixin from "../../../../mixins/navigate-mixin";
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class CloudLogin extends LocalizeMixin
-(NavigateMixin(EventsMixin(PolymerElement))) {
+class CloudLogin extends LocalizeMixin(
+  NavigateMixin(EventsMixin(PolymerElement))
+) {
   static get template() {
     return html`
       <style include="iron-flex ha-style">
@@ -175,36 +176,39 @@ class CloudLogin extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      isWide : Boolean,
-      email : {
-        type : String,
-        notify : true,
+      hass: Object,
+      isWide: Boolean,
+      email: {
+        type: String,
+        notify: true,
       },
-      _password : {
-        type : String,
-        value : "",
+      _password: {
+        type: String,
+        value: "",
       },
-      _requestInProgress : {
-        type : Boolean,
-        value : false,
+      _requestInProgress: {
+        type: Boolean,
+        value: false,
       },
-      flashMessage : {
-        type : String,
-        notify : true,
+      flashMessage: {
+        type: String,
+        notify: true,
       },
-      _error : String,
+      _error: String,
     };
   }
 
-  static get observers() { return [ "_inputChanged(email, _password)" ]; }
+  static get observers() {
+    return ["_inputChanged(email, _password)"];
+  }
 
   connectedCallback() {
     super.connectedCallback();
     if (this.flashMessage) {
       // Wait for DOM to be drawn
-      requestAnimationFrame(() => requestAnimationFrame(
-                                () => this.$.flashRipple.simulatedRipple()));
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => this.$.flashRipple.simulatedRipple())
+      );
     }
   }
 
@@ -240,50 +244,53 @@ class CloudLogin extends LocalizeMixin
       }
     }
 
-    if (invalid)
-      return;
+    if (invalid) return;
 
     this._requestInProgress = true;
 
     this.hass
-        .callApi("post", "cloud/login", {
-          email : this.email,
-          password : this._password,
-        })
-        .then(
-            () => {
-              this.fire("ha-refresh-cloud-status");
-              this.setProperties({
-                email : "",
-                _password : "",
-              });
-            },
-            (err) => {
-              // Do this before setProperties because changing it clears errors.
-              this._password = "";
+      .callApi("post", "cloud/login", {
+        email: this.email,
+        password: this._password,
+      })
+      .then(
+        () => {
+          this.fire("ha-refresh-cloud-status");
+          this.setProperties({
+            email: "",
+            _password: "",
+          });
+        },
+        (err) => {
+          // Do this before setProperties because changing it clears errors.
+          this._password = "";
 
-              const errCode = err && err.body && err.body.code;
-              if (errCode === "PasswordChangeRequired") {
-                alert(
-                    "[[localize('ui.panel.config.cloud.login.alert_password_change_required')]]");
-                this.navigate("/config/cloud/forgot-password");
-                return;
-              }
+          const errCode = err && err.body && err.body.code;
+          if (errCode === "PasswordChangeRequired") {
+            alert(
+              "[[localize('ui.panel.config.cloud.login.alert_password_change_required')]]"
+            );
+            this.navigate("/config/cloud/forgot-password");
+            return;
+          }
 
-              const props = {
-                _requestInProgress : false,
-                _error : err && err.body && err.body.message ? err.body.message
-                                                             : "Unknown error",
-              };
+          const props = {
+            _requestInProgress: false,
+            _error:
+              err && err.body && err.body.message
+                ? err.body.message
+                : "Unknown error",
+          };
 
-              if (errCode === "UserNotConfirmed") {
-                props._error =
-                    "[[localize('ui.panel.config.cloud.login.alert_email_confirm_necessary')]]";
-              }
+          if (errCode === "UserNotConfirmed") {
+            props._error =
+              "[[localize('ui.panel.config.cloud.login.alert_email_confirm_necessary')]]";
+          }
 
-              this.setProperties(props);
-              this.$.email.focus();
-            });
+          this.setProperties(props);
+          this.$.email.focus();
+        }
+      );
   }
 
   _handleRegister() {
@@ -298,7 +305,9 @@ class CloudLogin extends LocalizeMixin
 
   _dismissFlash() {
     // give some time to let the ripple finish.
-    setTimeout(() => { this.flashMessage = ""; }, 200);
+    setTimeout(() => {
+      this.flashMessage = "";
+    }, 200);
   }
 }
 

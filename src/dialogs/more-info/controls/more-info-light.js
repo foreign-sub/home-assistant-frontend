@@ -6,26 +6,25 @@ import "../../../components/ha-color-picker";
 import "../../../components/ha-labeled-slider";
 import "../../../components/ha-paper-dropdown-menu";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {featureClassNames} from "../../../common/entity/feature_class_names";
-import {EventsMixin} from "../../../mixins/events-mixin";
+import { featureClassNames } from "../../../common/entity/feature_class_names";
+import { EventsMixin } from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 const FEATURE_CLASS_NAMES = {
-  1 : "has-brightness",
-  2 : "has-color_temp",
-  4 : "has-effect_list",
-  16 : "has-color",
-  128 : "has-white_value",
+  1: "has-brightness",
+  2: "has-color_temp",
+  4: "has-effect_list",
+  16: "has-color",
+  128: "has-white_value",
 };
 /*
  * @appliesMixin EventsMixin
  */
-class MoreInfoLight extends LocalizeMixin
-(EventsMixin(PolymerElement)) {
+class MoreInfoLight extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -210,49 +209,49 @@ class MoreInfoLight extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : {
-        type : Object,
+      hass: {
+        type: Object,
       },
 
-      stateObj : {
-        type : Object,
-        observer : "stateObjChanged",
+      stateObj: {
+        type: Object,
+        observer: "stateObjChanged",
       },
 
-      brightnessSliderValue : {
-        type : Number,
-        value : 0,
+      brightnessSliderValue: {
+        type: Number,
+        value: 0,
       },
 
-      ctSliderValue : {
-        type : Number,
-        value : 0,
+      ctSliderValue: {
+        type: Number,
+        value: 0,
       },
 
-      wvSliderValue : {
-        type : Number,
-        value : 0,
+      wvSliderValue: {
+        type: Number,
+        value: 0,
       },
 
-      hueSegments : {
-        type : Number,
-        value : 24,
+      hueSegments: {
+        type: Number,
+        value: 24,
       },
 
-      saturationSegments : {
-        type : Number,
-        value : 8,
+      saturationSegments: {
+        type: Number,
+        value: 8,
       },
 
-      colorPickerColor : {
-        type : Object,
+      colorPickerColor: {
+        type: Object,
       },
     };
   }
 
   stateObjChanged(newVal, oldVal) {
     const props = {
-      brightnessSliderValue : 0,
+      brightnessSliderValue: 0,
     };
 
     if (newVal && newVal.state === "on") {
@@ -261,8 +260,8 @@ class MoreInfoLight extends LocalizeMixin
       props.wvSliderValue = newVal.attributes.white_value;
       if (newVal.attributes.hs_color) {
         props.colorPickerColor = {
-          h : newVal.attributes.hs_color[0],
-          s : newVal.attributes.hs_color[1] / 100,
+          h: newVal.attributes.hs_color[0],
+          s: newVal.attributes.hs_color[1] / 100,
         };
       }
     }
@@ -270,12 +269,14 @@ class MoreInfoLight extends LocalizeMixin
     this.setProperties(props);
 
     if (oldVal) {
-      setTimeout(() => { this.fire("iron-resize"); }, 500);
+      setTimeout(() => {
+        this.fire("iron-resize");
+      }, 500);
     }
   }
 
   computeClassNames(stateObj) {
-    const classes = [ featureClassNames(stateObj, FEATURE_CLASS_NAMES) ];
+    const classes = [featureClassNames(stateObj, FEATURE_CLASS_NAMES)];
     if (stateObj && stateObj.state === "on") {
       classes.push("is-on");
     }
@@ -289,63 +290,59 @@ class MoreInfoLight extends LocalizeMixin
     var oldVal = this.stateObj.attributes.effect;
     var newVal = ev.detail.value;
 
-    if (!newVal || oldVal === newVal)
-      return;
+    if (!newVal || oldVal === newVal) return;
 
     this.hass.callService("light", "turn_on", {
-      entity_id : this.stateObj.entity_id,
-      effect : newVal,
+      entity_id: this.stateObj.entity_id,
+      effect: newVal,
     });
   }
 
   brightnessSliderChanged(ev) {
     var bri = parseInt(ev.target.value, 10);
 
-    if (isNaN(bri))
-      return;
+    if (isNaN(bri)) return;
 
     this.hass.callService("light", "turn_on", {
-      entity_id : this.stateObj.entity_id,
-      brightness : bri,
+      entity_id: this.stateObj.entity_id,
+      brightness: bri,
     });
   }
 
   ctSliderChanged(ev) {
     var ct = parseInt(ev.target.value, 10);
 
-    if (isNaN(ct))
-      return;
+    if (isNaN(ct)) return;
 
     this.hass.callService("light", "turn_on", {
-      entity_id : this.stateObj.entity_id,
-      color_temp : ct,
+      entity_id: this.stateObj.entity_id,
+      color_temp: ct,
     });
   }
 
   wvSliderChanged(ev) {
     var wv = parseInt(ev.target.value, 10);
 
-    if (isNaN(wv))
-      return;
+    if (isNaN(wv)) return;
 
     this.hass.callService("light", "turn_on", {
-      entity_id : this.stateObj.entity_id,
-      white_value : wv,
+      entity_id: this.stateObj.entity_id,
+      white_value: wv,
     });
   }
 
   segmentClick() {
     if (this.hueSegments === 24 && this.saturationSegments === 8) {
-      this.setProperties({hueSegments : 0, saturationSegments : 0});
+      this.setProperties({ hueSegments: 0, saturationSegments: 0 });
     } else {
-      this.setProperties({hueSegments : 24, saturationSegments : 8});
+      this.setProperties({ hueSegments: 24, saturationSegments: 8 });
     }
   }
 
   serviceChangeColor(hass, entityId, color) {
     hass.callService("light", "turn_on", {
-      entity_id : entityId,
-      hs_color : [ color.h, color.s * 100 ],
+      entity_id: entityId,
+      hs_color: [color.h, color.s * 100],
     });
   }
 

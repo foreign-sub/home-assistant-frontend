@@ -1,7 +1,7 @@
 import "@polymer/paper-input/paper-input";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class HaCustomizeString extends PolymerElement {
   static get template() {
@@ -17,9 +17,9 @@ class HaCustomizeString extends PolymerElement {
 
   static get properties() {
     return {
-      item : {
-        type : Object,
-        notifies : true,
+      item: {
+        type: Object,
+        notifies: true,
       },
     };
   }

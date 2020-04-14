@@ -5,9 +5,9 @@ import "@polymer/paper-listbox/paper-listbox";
 import "../../../components/buttons/ha-call-service-button";
 import "../../../components/ha-card";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class ZwaveUsercodes extends PolymerElement {
   static get template() {
@@ -90,47 +90,49 @@ class ZwaveUsercodes extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
+      hass: Object,
 
-      nodes : Array,
+      nodes: Array,
 
-      selectedNode : {
-        type : Number,
-        observer : "_selectedNodeChanged",
+      selectedNode: {
+        type: Number,
+        observer: "_selectedNodeChanged",
       },
 
-      userCodes : Object,
+      userCodes: Object,
 
-      _selectedUserCode : {
-        type : Number,
-        value : -1,
-        observer : "_selectedUserCodeChanged",
+      _selectedUserCode: {
+        type: Number,
+        value: -1,
+        observer: "_selectedUserCodeChanged",
       },
 
-      _selectedUserCodeValue : String,
+      _selectedUserCodeValue: String,
 
-      _computedCodeOutput : {
-        type : String,
-        value : "",
+      _computedCodeOutput: {
+        type: String,
+        value: "",
       },
     };
   }
 
   ready() {
     super.ready();
-    this.addEventListener("hass-service-called",
-                          (ev) => this.serviceCalled(ev));
+    this.addEventListener("hass-service-called", (ev) =>
+      this.serviceCalled(ev)
+    );
   }
 
   serviceCalled(ev) {
     if (ev.detail.success) {
-      setTimeout(() => { this._refreshUserCodes(this.selectedNode); }, 5000);
+      setTimeout(() => {
+        this._refreshUserCodes(this.selectedNode);
+      }, 5000);
     }
   }
 
   _isUserCodeSelected(selectedUserCode) {
-    if (selectedUserCode === -1)
-      return false;
+    if (selectedUserCode === -1) return false;
     return true;
   }
 
@@ -139,51 +141,50 @@ class ZwaveUsercodes extends PolymerElement {
   }
 
   _selectedUserCodeChanged(selectedUserCode) {
-    if (this._selectedUserCode === -1 || selectedUserCode === -1)
-      return;
+    if (this._selectedUserCode === -1 || selectedUserCode === -1) return;
     const value = this.userCodes[selectedUserCode].value.code;
     this.setProperties({
-      _selectedUserCodeValue : this._a2hex(value),
-      _computedCodeOutput : `[${this._hex2a(this._a2hex(value))}]`,
+      _selectedUserCodeValue: this._a2hex(value),
+      _computedCodeOutput: `[${this._hex2a(this._a2hex(value))}]`,
     });
   }
 
   _computeUserCodeServiceData(selectedUserCodeValue, type) {
-    if (this.selectedNode === -1 || !selectedUserCodeValue)
-      return -1;
+    if (this.selectedNode === -1 || !selectedUserCodeValue) return -1;
     let serviceData = null;
     let valueData = null;
     if (type === "Add") {
       valueData = this._hex2a(selectedUserCodeValue);
       this._computedCodeOutput = `[${valueData}]`;
       serviceData = {
-        node_id : this.nodes[this.selectedNode].attributes.node_id,
-        code_slot : this._selectedUserCode,
-        usercode : valueData,
+        node_id: this.nodes[this.selectedNode].attributes.node_id,
+        code_slot: this._selectedUserCode,
+        usercode: valueData,
       };
     }
     if (type === "Delete") {
       serviceData = {
-        node_id : this.nodes[this.selectedNode].attributes.node_id,
-        code_slot : this._selectedUserCode,
+        node_id: this.nodes[this.selectedNode].attributes.node_id,
+        code_slot: this._selectedUserCode,
       };
     }
     return serviceData;
   }
 
   async _refreshUserCodes(selectedNode) {
-    this.setProperties({_selectedUserCodeValue : ""});
+    this.setProperties({ _selectedUserCodeValue: "" });
     const userCodes = [];
     const userCodeData = await this.hass.callApi(
-        "GET",
-        `zwave/usercodes/${this.nodes[selectedNode].attributes.node_id}`);
+      "GET",
+      `zwave/usercodes/${this.nodes[selectedNode].attributes.node_id}`
+    );
     Object.keys(userCodeData).forEach((key) => {
       userCodes.push({
         key,
-        value : userCodeData[key],
+        value: userCodeData[key],
       });
     });
-    this.setProperties({userCodes : userCodes});
+    this.setProperties({ userCodes: userCodes });
     this._selectedUserCodeChanged(this._selectedUserCode);
   }
 
@@ -213,9 +214,8 @@ class ZwaveUsercodes extends PolymerElement {
   }
 
   _selectedNodeChanged() {
-    if (this.selectedNode === -1)
-      return;
-    this.setProperties({_selecteduserCode : -1});
+    if (this.selectedNode === -1) return;
+    this.setProperties({ _selecteduserCode: -1 });
   }
 }
 

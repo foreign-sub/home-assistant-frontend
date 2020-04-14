@@ -1,12 +1,12 @@
 import "../ha-relative-time";
 import "./state-badge";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {computeStateName} from "../../common/entity/compute_state_name";
-import {computeRTL} from "../../common/util/compute_rtl";
+import { computeStateName } from "../../common/entity/compute_state_name";
+import { computeRTL } from "../../common/util/compute_rtl";
 
 class StateInfo extends PolymerElement {
   static get template() {
@@ -64,7 +64,9 @@ class StateInfo extends PolymerElement {
   }
 
   static get stateBadgeTemplate() {
-    return html` <state-badge state-obj="[[stateObj]]"></state-badge> `;
+    return html`
+      <state-badge state-obj="[[stateObj]]"></state-badge>
+    `;
   }
 
   static get infoTemplate() {
@@ -91,23 +93,27 @@ class StateInfo extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : Object,
-      inDialog : {
-        type : Boolean,
-        value : () => false,
+      hass: Object,
+      stateObj: Object,
+      inDialog: {
+        type: Boolean,
+        value: () => false,
       },
-      rtl : {
-        type : Boolean,
-        reflectToAttribute : true,
-        computed : "computeRTL(hass)",
+      rtl: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: "computeRTL(hass)",
       },
     };
   }
 
-  computeStateName(stateObj) { return computeStateName(stateObj); }
+  computeStateName(stateObj) {
+    return computeStateName(stateObj);
+  }
 
-  computeRTL(hass) { return computeRTL(hass); }
+  computeRTL(hass) {
+    return computeRTL(hass);
+  }
 }
 
 customElements.define("state-info", StateInfo);

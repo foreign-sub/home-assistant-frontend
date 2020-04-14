@@ -2,19 +2,18 @@ import "@polymer/paper-item/paper-item";
 import "@polymer/paper-listbox/paper-listbox";
 import "../../components/ha-paper-dropdown-menu";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {EventsMixin} from "../../mixins/events-mixin";
+import { EventsMixin } from "../../mixins/events-mixin";
 import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  * @appliesMixin EventsMixin
  */
-class HaPickThemeRow extends LocalizeMixin
-(EventsMixin(PolymerElement)) {
+class HaPickThemeRow extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -54,33 +53,40 @@ class HaPickThemeRow extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      narrow : Boolean,
-      _hasThemes : {
-        type : Boolean,
-        computed : "_compHasThemes(hass)",
+      hass: Object,
+      narrow: Boolean,
+      _hasThemes: {
+        type: Boolean,
+        computed: "_compHasThemes(hass)",
       },
-      themes : {
-        type : Array,
-        computed : "_computeThemes(hass)",
+      themes: {
+        type: Array,
+        computed: "_computeThemes(hass)",
       },
-      selectedTheme : {
-        type : Number,
+      selectedTheme: {
+        type: Number,
       },
     };
   }
 
-  static get observers() { return [ "selectionChanged(hass, selectedTheme)" ]; }
+  static get observers() {
+    return ["selectionChanged(hass, selectedTheme)"];
+  }
 
   _compHasThemes(hass) {
-    return (hass.themes && hass.themes.themes &&
-            Object.keys(hass.themes.themes).length);
+    return (
+      hass.themes &&
+      hass.themes.themes &&
+      Object.keys(hass.themes.themes).length
+    );
   }
 
   ready() {
     super.ready();
-    if (this.hass.selectedTheme &&
-        this.themes.indexOf(this.hass.selectedTheme) > 0) {
+    if (
+      this.hass.selectedTheme &&
+      this.themes.indexOf(this.hass.selectedTheme) > 0
+    ) {
       this.selectedTheme = this.themes.indexOf(this.hass.selectedTheme);
     } else if (!this.hass.selectedTheme) {
       this.selectedTheme = 0;
@@ -88,10 +94,10 @@ class HaPickThemeRow extends LocalizeMixin
   }
 
   _computeThemes(hass) {
-    if (!hass)
-      return [];
-    return [ "Backend-selected", "default" ].concat(
-        Object.keys(hass.themes.themes).sort());
+    if (!hass) return [];
+    return ["Backend-selected", "default"].concat(
+      Object.keys(hass.themes.themes).sort()
+    );
   }
 
   selectionChanged(hass, selection) {

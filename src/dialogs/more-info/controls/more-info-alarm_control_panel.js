@@ -1,14 +1,13 @@
 import "@material/mwc-button";
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-input/paper-input";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
-import {fireEvent} from "../../../common/dom/fire_event";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { fireEvent } from "../../../common/dom/fire_event";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
-class MoreInfoAlarmControlPanel extends LocalizeMixin
-(PolymerElement) {
+class MoreInfoAlarmControlPanel extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex"></style>
@@ -172,35 +171,35 @@ class MoreInfoAlarmControlPanel extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : {
-        type : Object,
-        observer : "_stateObjChanged",
+      hass: Object,
+      stateObj: {
+        type: Object,
+        observer: "_stateObjChanged",
       },
-      _enteredCode : {
-        type : String,
-        value : "",
+      _enteredCode: {
+        type: String,
+        value: "",
       },
-      _codeFormat : {
-        type : String,
-        value : "",
+      _codeFormat: {
+        type: String,
+        value: "",
       },
-      _codeValid : {
-        type : Boolean,
-        computed :
-            "_validateCode(_enteredCode,  _codeFormat,  _armVisible, _codeArmRequired)",
+      _codeValid: {
+        type: Boolean,
+        computed:
+          "_validateCode(_enteredCode,  _codeFormat,  _armVisible, _codeArmRequired)",
       },
-      _disarmVisible : {
-        type : Boolean,
-        value : false,
+      _disarmVisible: {
+        type: Boolean,
+        value: false,
       },
-      _armVisible : {
-        type : Boolean,
-        value : false,
+      _armVisible: {
+        type: Boolean,
+        value: false,
       },
-      _inputEnabled : {
-        type : Boolean,
-        value : false,
+      _inputEnabled: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -219,22 +218,28 @@ class MoreInfoAlarmControlPanel extends LocalizeMixin
     if (newVal) {
       const state = newVal.state;
       const props = {
-        _codeFormat : newVal.attributes.code_format,
-        _armVisible : state === "disarmed",
-        _codeArmRequired : newVal.attributes.code_arm_required,
-        _disarmVisible : this._armedStates.includes(state) ||
-                             state === "pending" || state === "triggered" ||
-                             state === "arming",
+        _codeFormat: newVal.attributes.code_format,
+        _armVisible: state === "disarmed",
+        _codeArmRequired: newVal.attributes.code_arm_required,
+        _disarmVisible:
+          this._armedStates.includes(state) ||
+          state === "pending" ||
+          state === "triggered" ||
+          state === "arming",
       };
       props._inputEnabled = props._disarmVisible || props._armVisible;
       this.setProperties(props);
     }
     if (oldVal) {
-      setTimeout(() => { fireEvent(this, "iron-resize"); }, 500);
+      setTimeout(() => {
+        fireEvent(this, "iron-resize");
+      }, 500);
     }
   }
 
-  _isNumber(format) { return format === "Number"; }
+  _isNumber(format) {
+    return format === "Number";
+  }
 
   _validateCode(code, format, armVisible, codeArmRequired) {
     return !format || code.length > 0 || (armVisible && !codeArmRequired);
@@ -244,17 +249,22 @@ class MoreInfoAlarmControlPanel extends LocalizeMixin
     this._enteredCode += ev.target.getAttribute("data-digit");
   }
 
-  _clearEnteredCode() { this._enteredCode = ""; }
+  _clearEnteredCode() {
+    this._enteredCode = "";
+  }
 
   _callService(ev) {
     const service = ev.target.getAttribute("data-service");
     const data = {
-      entity_id : this.stateObj.entity_id,
-      code : this._enteredCode,
+      entity_id: this.stateObj.entity_id,
+      code: this._enteredCode,
     };
-    this.hass.callService("alarm_control_panel", service, data)
-        .then(() => { this._enteredCode = ""; });
+    this.hass.callService("alarm_control_panel", service, data).then(() => {
+      this._enteredCode = "";
+    });
   }
 }
-customElements.define("more-info-alarm_control_panel",
-                      MoreInfoAlarmControlPanel);
+customElements.define(
+  "more-info-alarm_control_panel",
+  MoreInfoAlarmControlPanel
+);

@@ -4,11 +4,11 @@ import "@polymer/paper-listbox/paper-listbox";
 import "../../../components/buttons/ha-call-service-button";
 import "../../../components/ha-card";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {computeStateName} from "../../../common/entity/compute_state_name";
+import { computeStateName } from "../../../common/entity/compute_state_name";
 
 class ZwaveGroups extends PolymerElement {
   static get template() {
@@ -126,107 +126,106 @@ class ZwaveGroups extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
+      hass: Object,
 
-      nodes : Array,
+      nodes: Array,
 
-      groups : Array,
+      groups: Array,
 
-      selectedNode : {
-        type : Number,
-        observer : "_selectedNodeChanged",
+      selectedNode: {
+        type: Number,
+        observer: "_selectedNodeChanged",
       },
 
-      _selectedTargetNode : {
-        type : Number,
-        value : -1,
-        observer : "_selectedTargetNodeChanged",
+      _selectedTargetNode: {
+        type: Number,
+        value: -1,
+        observer: "_selectedTargetNodeChanged",
       },
 
-      _selectedGroup : {
-        type : Number,
-        value : -1,
+      _selectedGroup: {
+        type: Number,
+        value: -1,
       },
 
-      _otherGroupNodes : {
-        type : Array,
-        value : -1,
-        computed : "_computeOtherGroupNodes(_selectedGroup)",
+      _otherGroupNodes: {
+        type: Array,
+        value: -1,
+        computed: "_computeOtherGroupNodes(_selectedGroup)",
       },
 
-      _maxAssociations : {
-        type : String,
-        value : "",
-        computed : "_computeMaxAssociations(_selectedGroup)",
+      _maxAssociations: {
+        type: String,
+        value: "",
+        computed: "_computeMaxAssociations(_selectedGroup)",
       },
 
-      _noAssociationsLeft : {
-        type : Boolean,
-        value : true,
-        computed : "_computeAssociationsLeft(_selectedGroup)",
+      _noAssociationsLeft: {
+        type: Boolean,
+        value: true,
+        computed: "_computeAssociationsLeft(_selectedGroup)",
       },
 
-      _addAssocServiceData : {
-        type : String,
-        value : "",
+      _addAssocServiceData: {
+        type: String,
+        value: "",
       },
 
-      _removeAssocServiceData : {
-        type : String,
-        value : "",
+      _removeAssocServiceData: {
+        type: String,
+        value: "",
       },
 
-      _removeBroadcastNodeServiceData : {
-        type : String,
-        value : "",
+      _removeBroadcastNodeServiceData: {
+        type: String,
+        value: "",
       },
 
-      _isBroadcastNodeInGroup : {
-        type : Boolean,
-        value : false,
+      _isBroadcastNodeInGroup: {
+        type: Boolean,
+        value: false,
       },
     };
   }
 
   static get observers() {
-    return [ "_selectedGroupChanged(groups, _selectedGroup)" ];
+    return ["_selectedGroupChanged(groups, _selectedGroup)"];
   }
 
   ready() {
     super.ready();
-    this.addEventListener("hass-service-called",
-                          (ev) => this.serviceCalled(ev));
+    this.addEventListener("hass-service-called", (ev) =>
+      this.serviceCalled(ev)
+    );
   }
 
   serviceCalled(ev) {
     if (ev.detail.success) {
-      setTimeout(() => { this._refreshGroups(this.selectedNode); }, 5000);
+      setTimeout(() => {
+        this._refreshGroups(this.selectedNode);
+      }, 5000);
     }
   }
 
   _computeAssociationsLeft(selectedGroup) {
-    if (selectedGroup === -1)
-      return true;
+    if (selectedGroup === -1) return true;
     return this._maxAssociations === this._otherGroupNodes.length;
   }
 
   _computeMaxAssociations(selectedGroup) {
-    if (selectedGroup === -1)
-      return -1;
+    if (selectedGroup === -1) return -1;
     const maxAssociations = this.groups[selectedGroup].value.max_associations;
-    if (!maxAssociations)
-      return "None";
+    if (!maxAssociations) return "None";
     return maxAssociations;
   }
 
   _computeOtherGroupNodes(selectedGroup) {
-    if (selectedGroup === -1)
-      return -1;
-    this.setProperties({_isBroadcastNodeInGroup : false});
-    const associations =
-        Object.values(this.groups[selectedGroup].value.association_instances);
-    if (!associations.length)
-      return [ "None" ];
+    if (selectedGroup === -1) return -1;
+    this.setProperties({ _isBroadcastNodeInGroup: false });
+    const associations = Object.values(
+      this.groups[selectedGroup].value.association_instances
+    );
+    if (!associations.length) return ["None"];
     return associations.map((assoc) => {
       if (!assoc.length || assoc.length !== 2) {
         return `Unknown Node: ${assoc}`;
@@ -236,18 +235,17 @@ class ZwaveGroups extends PolymerElement {
       const node = this.nodes.find((n) => n.attributes.node_id === id);
       if (id === 255) {
         this.setProperties({
-          _isBroadcastNodeInGroup : true,
-          _removeBroadcastNodeServiceData : {
-            node_id : this.nodes[this.selectedNode].attributes.node_id,
-            association : "remove",
-            target_node_id : 255,
-            group : this.groups[selectedGroup].key,
+          _isBroadcastNodeInGroup: true,
+          _removeBroadcastNodeServiceData: {
+            node_id: this.nodes[this.selectedNode].attributes.node_id,
+            association: "remove",
+            target_node_id: 255,
+            group: this.groups[selectedGroup].key,
           },
         });
       }
       if (!node) {
-        return `Unknown Node (${id}: (${instance} ? ${id}.${instance} : ${
-            id}))`;
+        return `Unknown Node (${id}: (${instance} ? ${id}.${instance} : ${id}))`;
       }
       let caption = this._computeSelectCaption(node);
       if (instance) {
@@ -258,14 +256,16 @@ class ZwaveGroups extends PolymerElement {
   }
 
   _computeTargetInGroup(selectedGroup, selectedTargetNode) {
-    if (selectedGroup === -1 || selectedTargetNode === -1)
-      return false;
-    const associations =
-        Object.values(this.groups[selectedGroup].value.associations);
-    if (!associations.length)
-      return false;
-    return (associations.indexOf(
-                this.nodes[selectedTargetNode].attributes.node_id) !== -1);
+    if (selectedGroup === -1 || selectedTargetNode === -1) return false;
+    const associations = Object.values(
+      this.groups[selectedGroup].value.associations
+    );
+    if (!associations.length) return false;
+    return (
+      associations.indexOf(
+        this.nodes[selectedTargetNode].attributes.node_id
+      ) !== -1
+    );
   }
 
   _computeSelectCaption(stateObj) {
@@ -287,71 +287,80 @@ class ZwaveGroups extends PolymerElement {
   }
 
   _computeAssocServiceData(selectedGroup, type) {
-    if (!this.groups === -1 || selectedGroup === -1 ||
-        this.selectedNode === -1 || this._selectedTargetNode === -1)
+    if (
+      !this.groups === -1 ||
+      selectedGroup === -1 ||
+      this.selectedNode === -1 ||
+      this._selectedTargetNode === -1
+    )
       return -1;
     return {
-      node_id : this.nodes[this.selectedNode].attributes.node_id,
-      association : type,
-      target_node_id : this.nodes[this._selectedTargetNode].attributes.node_id,
-      group : this.groups[selectedGroup].key,
+      node_id: this.nodes[this.selectedNode].attributes.node_id,
+      association: type,
+      target_node_id: this.nodes[this._selectedTargetNode].attributes.node_id,
+      group: this.groups[selectedGroup].key,
     };
   }
 
   async _refreshGroups(selectedNode) {
     const groupData = [];
     const groups = await this.hass.callApi(
-        "GET", `zwave/groups/${this.nodes[selectedNode].attributes.node_id}`);
+      "GET",
+      `zwave/groups/${this.nodes[selectedNode].attributes.node_id}`
+    );
     Object.keys(groups).forEach((key) => {
       groupData.push({
         key,
-        value : groups[key],
+        value: groups[key],
       });
     });
     this.setProperties({
-      groups : groupData,
-      _maxAssociations : groupData[this._selectedGroup].value.max_associations,
-      _otherGroupNodes :
-          Object.values(groupData[this._selectedGroup].value.associations),
-      _isBroadcastNodeInGroup : false,
+      groups: groupData,
+      _maxAssociations: groupData[this._selectedGroup].value.max_associations,
+      _otherGroupNodes: Object.values(
+        groupData[this._selectedGroup].value.associations
+      ),
+      _isBroadcastNodeInGroup: false,
     });
     const oldGroup = this._selectedGroup;
-    this.setProperties({_selectedGroup : -1});
-    this.setProperties({_selectedGroup : oldGroup});
+    this.setProperties({ _selectedGroup: -1 });
+    this.setProperties({ _selectedGroup: oldGroup });
   }
 
   _selectedGroupChanged() {
-    if (this._selectedGroup === -1)
-      return;
+    if (this._selectedGroup === -1) return;
     this.setProperties({
-      _maxAssociations :
-          this.groups[this._selectedGroup].value.max_associations,
-      _otherGroupNodes :
-          Object.values(this.groups[this._selectedGroup].value.associations),
+      _maxAssociations: this.groups[this._selectedGroup].value.max_associations,
+      _otherGroupNodes: Object.values(
+        this.groups[this._selectedGroup].value.associations
+      ),
     });
   }
 
   _selectedTargetNodeChanged() {
-    if (this._selectedGroup === -1)
-      return;
-    if (this._computeTargetInGroup(this._selectedGroup,
-                                   this._selectedTargetNode)) {
+    if (this._selectedGroup === -1) return;
+    if (
+      this._computeTargetInGroup(this._selectedGroup, this._selectedTargetNode)
+    ) {
       this.setProperties({
-        _removeAssocServiceData :
-            this._computeAssocServiceData(this._selectedGroup, "remove"),
+        _removeAssocServiceData: this._computeAssocServiceData(
+          this._selectedGroup,
+          "remove"
+        ),
       });
     } else {
       this.setProperties({
-        _addAssocServiceData :
-            this._computeAssocServiceData(this._selectedGroup, "add"),
+        _addAssocServiceData: this._computeAssocServiceData(
+          this._selectedGroup,
+          "add"
+        ),
       });
     }
   }
 
   _selectedNodeChanged() {
-    if (this.selectedNode === -1)
-      return;
-    this.setProperties({_selectedTargetNode : -1, _selectedGroup : -1});
+    if (this.selectedNode === -1) return;
+    this.setProperties({ _selectedTargetNode: -1, _selectedGroup: -1 });
   }
 }
 

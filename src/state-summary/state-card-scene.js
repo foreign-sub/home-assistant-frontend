@@ -2,18 +2,17 @@ import "@material/mwc-button";
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "../components/entity/state-info";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {activateScene} from "../data/scene";
+import { activateScene } from "../data/scene";
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class StateCardScene extends LocalizeMixin
-(PolymerElement) {
+class StateCardScene extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -46,11 +45,11 @@ class StateCardScene extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : Object,
-      inDialog : {
-        type : Boolean,
-        value : false,
+      hass: Object,
+      stateObj: Object,
+      inDialog: {
+        type: Boolean,
+        value: false,
       },
     };
   }

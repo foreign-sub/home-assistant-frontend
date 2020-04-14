@@ -1,15 +1,14 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/paper-icon-button/paper-icon-button";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
-import {EventsMixin} from "../mixins/events-mixin";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { EventsMixin } from "../mixins/events-mixin";
 
 /*
  * @appliesMixin EventsMixin
  */
-class HaClimateControl extends EventsMixin
-(PolymerElement) {
+class HaClimateControl extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style include="iron-flex iron-flex-alignment"></style>
@@ -59,22 +58,22 @@ class HaClimateControl extends EventsMixin
 
   static get properties() {
     return {
-      value : {
-        type : Number,
-        observer : "valueChanged",
+      value: {
+        type: Number,
+        observer: "valueChanged",
       },
-      units : {
-        type : String,
+      units: {
+        type: String,
       },
-      min : {
-        type : Number,
+      min: {
+        type: Number,
       },
-      max : {
-        type : Number,
+      max: {
+        type: Number,
       },
-      step : {
-        type : Number,
-        value : 1,
+      step: {
+        type: Number,
+        value: 1,
       },
     };
   }

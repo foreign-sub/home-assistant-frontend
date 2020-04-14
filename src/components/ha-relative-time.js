@@ -1,28 +1,27 @@
-import {dom} from "@polymer/polymer/lib/legacy/polymer.dom";
+import { dom } from "@polymer/polymer/lib/legacy/polymer.dom";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 import relativeTime from "../common/datetime/relative_time";
 import LocalizeMixin from "../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaRelativeTime extends LocalizeMixin
-(PolymerElement) {
+class HaRelativeTime extends LocalizeMixin(PolymerElement) {
   static get properties() {
     return {
-      hass : Object,
-      datetime : {
-        type : String,
-        observer : "datetimeChanged",
+      hass: Object,
+      datetime: {
+        type: String,
+        observer: "datetimeChanged",
       },
 
-      datetimeObj : {
-        type : Object,
-        observer : "datetimeObjChanged",
+      datetimeObj: {
+        type: Object,
+        observer: "datetimeObjChanged",
       },
 
-      parsedDateTime : Object,
+      parsedDateTime: Object,
     };
   }
 

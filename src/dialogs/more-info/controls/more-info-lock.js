@@ -2,17 +2,16 @@ import "@material/mwc-button";
 import "@polymer/paper-input/paper-input";
 import "../../../components/ha-attributes";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class MoreInfoLock extends LocalizeMixin
-(PolymerElement) {
+class MoreInfoLock extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -50,16 +49,16 @@ class MoreInfoLock extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : {
-        type : Object,
-        observer : "stateObjChanged",
+      hass: Object,
+      stateObj: {
+        type: Object,
+        observer: "stateObjChanged",
       },
-      enteredCode : {
-        type : String,
-        value : "",
+      enteredCode: {
+        type: String,
+        value: "",
       },
-      isLocked : Boolean,
+      isLocked: Boolean,
     };
   }
 
@@ -72,8 +71,8 @@ class MoreInfoLock extends LocalizeMixin
   callService(ev) {
     const service = ev.target.getAttribute("data-service");
     const data = {
-      entity_id : this.stateObj.entity_id,
-      code : this.enteredCode,
+      entity_id: this.stateObj.entity_id,
+      code: this.enteredCode,
     };
     this.hass.callService("lock", service, data);
   }

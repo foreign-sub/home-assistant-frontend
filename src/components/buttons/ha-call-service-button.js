@@ -1,17 +1,16 @@
 import "./ha-progress-button";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {showConfirmationDialog} from "../../dialogs/generic/show-dialog-box";
-import {EventsMixin} from "../../mixins/events-mixin";
+import { showConfirmationDialog } from "../../dialogs/generic/show-dialog-box";
+import { EventsMixin } from "../../mixins/events-mixin";
 
 /*
  * @appliesMixin EventsMixin
  */
-class HaCallServiceButton extends EventsMixin
-(PolymerElement) {
+class HaCallServiceButton extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <ha-progress-button
@@ -26,30 +25,30 @@ class HaCallServiceButton extends EventsMixin
 
   static get properties() {
     return {
-      hass : {
-        type : Object,
+      hass: {
+        type: Object,
       },
 
-      progress : {
-        type : Boolean,
-        value : false,
+      progress: {
+        type: Boolean,
+        value: false,
       },
 
-      domain : {
-        type : String,
+      domain: {
+        type: String,
       },
 
-      service : {
-        type : String,
+      service: {
+        type: String,
       },
 
-      serviceData : {
-        type : Object,
-        value : {},
+      serviceData: {
+        type: Object,
+        value: {},
       },
 
-      confirmation : {
-        type : String,
+      confirmation: {
+        type: String,
       },
     };
   }
@@ -59,31 +58,35 @@ class HaCallServiceButton extends EventsMixin
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     var el = this;
     var eventData = {
-      domain : this.domain,
-      service : this.service,
-      serviceData : this.serviceData,
+      domain: this.domain,
+      service: this.service,
+      serviceData: this.serviceData,
     };
 
-    this.hass.callService(this.domain, this.service, this.serviceData)
-        .then(
-            function() {
-              el.progress = false;
-              el.$.progress.actionSuccess();
-              eventData.success = true;
-            },
-            function() {
-              el.progress = false;
-              el.$.progress.actionError();
-              eventData.success = false;
-            })
-        .then(function() { el.fire("hass-service-called", eventData); });
+    this.hass
+      .callService(this.domain, this.service, this.serviceData)
+      .then(
+        function() {
+          el.progress = false;
+          el.$.progress.actionSuccess();
+          eventData.success = true;
+        },
+        function() {
+          el.progress = false;
+          el.$.progress.actionError();
+          eventData.success = false;
+        }
+      )
+      .then(function() {
+        el.fire("hass-service-called", eventData);
+      });
   }
 
   buttonTapped() {
     if (this.confirmation) {
       showConfirmationDialog(this, {
-        text : this.confirmation,
-        confirm : () => this.callService(),
+        text: this.confirmation,
+        confirm: () => this.callService(),
       });
     } else {
       this.callService();

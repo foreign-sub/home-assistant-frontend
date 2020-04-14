@@ -2,19 +2,18 @@ import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "@polymer/iron-label/iron-label";
 import "./ha-settings-row";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {isComponentLoaded} from "../../common/config/is_component_loaded";
-import {pushSupported} from "../../components/ha-push-notifications-toggle";
+import { isComponentLoaded } from "../../common/config/is_component_loaded";
+import { pushSupported } from "../../components/ha-push-notifications-toggle";
 import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin LocalizeMixin
  */
-class HaPushNotificationsRow extends LocalizeMixin
-(PolymerElement) {
+class HaPushNotificationsRow extends LocalizeMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -45,24 +44,26 @@ class HaPushNotificationsRow extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      narrow : Boolean,
-      _platformLoaded : {
-        type : Boolean,
-        computed : "_compPlatformLoaded(hass)",
+      hass: Object,
+      narrow: Boolean,
+      _platformLoaded: {
+        type: Boolean,
+        computed: "_compPlatformLoaded(hass)",
       },
-      _pushSupported : {
-        type : Boolean,
-        value : pushSupported,
+      _pushSupported: {
+        type: Boolean,
+        value: pushSupported,
       },
-      _error : {
-        type : Boolean,
-        computed : "_compError(_platformLoaded, _pushSupported)",
+      _error: {
+        type: Boolean,
+        computed: "_compError(_platformLoaded, _pushSupported)",
       },
     };
   }
 
-  _compPlatformLoaded(hass) { return isComponentLoaded(hass, "notify.html5"); }
+  _compPlatformLoaded(hass) {
+    return isComponentLoaded(hass, "notify.html5");
+  }
 
   _compError(platformLoaded, pushSupported_) {
     return !platformLoaded || !pushSupported_;

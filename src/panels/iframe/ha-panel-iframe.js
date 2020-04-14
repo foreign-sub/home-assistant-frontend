@@ -2,9 +2,9 @@ import "@polymer/app-layout/app-toolbar/app-toolbar";
 import "../../components/ha-menu-button";
 import "../../resources/ha-style";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class HaPanelIframe extends PolymerElement {
   static get template() {
@@ -35,9 +35,9 @@ class HaPanelIframe extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
-      narrow : Boolean,
-      panel : Object,
+      hass: Object,
+      narrow: Boolean,
+      panel: Object,
     };
   }
 }

@@ -5,19 +5,18 @@ import "../../../../layouts/hass-subpage";
 import "../../../../resources/ha-style";
 import "../../ha-config-section";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {EventsMixin} from "../../../../mixins/events-mixin";
+import { EventsMixin } from "../../../../mixins/events-mixin";
 import LocalizeMixin from "../../../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class CloudRegister extends LocalizeMixin
-(EventsMixin(PolymerElement)) {
+class CloudRegister extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
     <style include="iron-flex ha-style">
@@ -104,29 +103,31 @@ class CloudRegister extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      isWide : Boolean,
-      email : {
-        type : String,
-        notify : true,
+      hass: Object,
+      isWide: Boolean,
+      email: {
+        type: String,
+        notify: true,
       },
 
-      _requestInProgress : {
-        type : Boolean,
-        value : false,
+      _requestInProgress: {
+        type: Boolean,
+        value: false,
       },
-      _password : {
-        type : String,
-        value : "",
+      _password: {
+        type: String,
+        value: "",
       },
-      _error : {
-        type : String,
-        value : "",
+      _error: {
+        type: String,
+        value: "",
       },
     };
   }
 
-  static get observers() { return [ "_inputChanged(email, _password)" ]; }
+  static get observers() {
+    return ["_inputChanged(email, _password)"];
+  }
 
   _inputChanged() {
     this._error = "";
@@ -160,26 +161,30 @@ class CloudRegister extends LocalizeMixin
       }
     }
 
-    if (invalid)
-      return;
+    if (invalid) return;
 
     this._requestInProgress = true;
 
     this.hass
-        .callApi("post", "cloud/register", {
-          email : this.email,
-          password : this._password,
-        })
-        .then(() => this._verificationEmailSent(), (err) => {
+      .callApi("post", "cloud/register", {
+        email: this.email,
+        password: this._password,
+      })
+      .then(
+        () => this._verificationEmailSent(),
+        (err) => {
           // Do this before setProperties because changing it clears errors.
           this._password = "";
 
           this.setProperties({
-            _requestInProgress : false,
-            _error : err && err.body && err.body.message ? err.body.message
-                                                         : "Unknown error",
+            _requestInProgress: false,
+            _error:
+              err && err.body && err.body.message
+                ? err.body.message
+                : "Unknown error",
           });
-        });
+        }
+      );
   }
 
   _handleResendVerifyEmail() {
@@ -189,23 +194,30 @@ class CloudRegister extends LocalizeMixin
     }
 
     this.hass
-        .callApi("post", "cloud/resend_confirm", {
-          email : this.email,
-        })
-        .then(() => this._verificationEmailSent(), (err) => this.setProperties({
-          _error : err && err.body && err.body.message ? err.body.message
-                                                       : "Unknown error",
-        }));
+      .callApi("post", "cloud/resend_confirm", {
+        email: this.email,
+      })
+      .then(
+        () => this._verificationEmailSent(),
+        (err) =>
+          this.setProperties({
+            _error:
+              err && err.body && err.body.message
+                ? err.body.message
+                : "Unknown error",
+          })
+      );
   }
 
   _verificationEmailSent() {
     this.setProperties({
-      _requestInProgress : false,
-      _password : "",
+      _requestInProgress: false,
+      _password: "",
     });
     this.fire("cloud-done", {
-      flashMessage :
-          this.hass.localize("ui.panel.config.cloud.register.account_created"),
+      flashMessage: this.hass.localize(
+        "ui.panel.config.cloud.register.account_created"
+      ),
     });
   }
 }

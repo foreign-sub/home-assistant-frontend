@@ -2,14 +2,13 @@ import "@polymer/paper-dialog-scrollable/paper-dialog-scrollable";
 import "../../../components/dialog/ha-paper-dialog";
 import "../../../resources/ha-style";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {EventsMixin} from "../../../mixins/events-mixin";
+import { EventsMixin } from "../../../mixins/events-mixin";
 
-class ZwaveLogDialog extends EventsMixin
-(PolymerElement) {
+class ZwaveLogDialog extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
     <style include="ha-style-dialog">
@@ -25,31 +24,32 @@ class ZwaveLogDialog extends EventsMixin
 
   static get properties() {
     return {
-      hass : Object,
-      _ozwLog : String,
+      hass: Object,
+      _ozwLog: String,
 
-      _dialogClosedCallback : Function,
+      _dialogClosedCallback: Function,
 
-      _opened : {
-        type : Boolean,
-        value : false,
+      _opened: {
+        type: Boolean,
+        value: false,
       },
 
-      _intervalId : String,
+      _intervalId: String,
 
-      _numLogLines : {
-        type : Number,
+      _numLogLines: {
+        type: Number,
       },
     };
   }
 
   ready() {
     super.ready();
-    this.addEventListener("iron-overlay-closed",
-                          (ev) => this._dialogClosed(ev));
+    this.addEventListener("iron-overlay-closed", (ev) =>
+      this._dialogClosed(ev)
+    );
   }
 
-  showDialog({_ozwLog, hass, _tail, _numLogLines, dialogClosedCallback}) {
+  showDialog({ _ozwLog, hass, _tail, _numLogLines, dialogClosedCallback }) {
     this.hass = hass;
     this._ozwLog = _ozwLog;
     this._opened = true;
@@ -58,15 +58,19 @@ class ZwaveLogDialog extends EventsMixin
     setTimeout(() => this.$.pwaDialog.center(), 0);
     if (_tail) {
       this.setProperties({
-        _intervalId : setInterval(() => { this._refreshLog(); }, 1500),
+        _intervalId: setInterval(() => {
+          this._refreshLog();
+        }, 1500),
       });
     }
   }
 
   async _refreshLog() {
-    const info = await this.hass.callApi("GET", "zwave/ozwlog?lines=" +
-                                                    this._numLogLines);
-    this.setProperties({_ozwLog : info});
+    const info = await this.hass.callApi(
+      "GET",
+      "zwave/ozwlog?lines=" + this._numLogLines
+    );
+    this.setProperties({ _ozwLog: info });
   }
 
   _dialogClosed(ev) {
@@ -74,7 +78,7 @@ class ZwaveLogDialog extends EventsMixin
       clearInterval(this._intervalId);
       this._opened = false;
       const closedEvent = true;
-      this._dialogClosedCallback({closedEvent});
+      this._dialogClosedCallback({ closedEvent });
       this._dialogClosedCallback = null;
     }
   }

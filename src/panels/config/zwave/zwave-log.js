@@ -4,18 +4,17 @@ import "@polymer/paper-input/paper-input";
 import "../../../components/ha-card";
 import "../ha-config-section";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import isPwa from "../../../common/config/is_pwa";
-import {EventsMixin} from "../../../mixins/events-mixin";
+import { EventsMixin } from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 let registeredDialog = false;
 
-class OzwLog extends LocalizeMixin
-(EventsMixin(PolymerElement)) {
+class OzwLog extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
     <style include="iron-flex ha-style">
@@ -57,46 +56,50 @@ class OzwLog extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
+      hass: Object,
 
-      isWide : {
-        type : Boolean,
-        value : false,
+      isWide: {
+        type: Boolean,
+        value: false,
       },
 
-      _ozwLogs : String,
+      _ozwLogs: String,
 
-      _completeLog : {
-        type : Boolean,
-        value : true,
+      _completeLog: {
+        type: Boolean,
+        value: true,
       },
 
-      numLogLines : {
-        type : Number,
-        value : 0,
-        observer : "_isCompleteLog",
+      numLogLines: {
+        type: Number,
+        value: 0,
+        observer: "_isCompleteLog",
       },
 
-      _intervalId : String,
+      _intervalId: String,
 
-      tail : Boolean,
+      tail: Boolean,
     };
   }
 
   async _tailLog() {
-    this.setProperties({tail : true});
+    this.setProperties({ tail: true });
     const ozwWindow = await this._openLogWindow();
     if (!isPwa()) {
       this.setProperties({
-        _intervalId : setInterval(() => { this._refreshLog(ozwWindow); }, 1500),
+        _intervalId: setInterval(() => {
+          this._refreshLog(ozwWindow);
+        }, 1500),
       });
     }
   }
 
   async _openLogWindow() {
-    const info = await this.hass.callApi("GET", "zwave/ozwlog?lines=" +
-                                                    this.numLogLines);
-    this.setProperties({_ozwLogs : info});
+    const info = await this.hass.callApi(
+      "GET",
+      "zwave/ozwlog?lines=" + this.numLogLines
+    );
+    this.setProperties({ _ozwLogs: info });
     if (isPwa()) {
       this._showOzwlogDialog();
       return -1;
@@ -109,20 +112,22 @@ class OzwLog extends LocalizeMixin
   async _refreshLog(ozwWindow) {
     if (ozwWindow.closed === true) {
       clearInterval(this._intervalId);
-      this.setProperties({_intervalId : null});
+      this.setProperties({ _intervalId: null });
     } else {
-      const info = await this.hass.callApi("GET", "zwave/ozwlog?lines=" +
-                                                      this.numLogLines);
-      this.setProperties({_ozwLogs : info});
+      const info = await this.hass.callApi(
+        "GET",
+        "zwave/ozwlog?lines=" + this.numLogLines
+      );
+      this.setProperties({ _ozwLogs: info });
       ozwWindow.document.body.innerHTML = `<pre>${this._ozwLogs}</pre>`;
     }
   }
 
   _isCompleteLog() {
     if (this.numLogLines !== "0") {
-      this.setProperties({_completeLog : false});
+      this.setProperties({ _completeLog: false });
     } else {
-      this.setProperties({_completeLog : true});
+      this.setProperties({ _completeLog: true });
     }
   }
 
@@ -131,27 +136,29 @@ class OzwLog extends LocalizeMixin
     if (!registeredDialog) {
       registeredDialog = true;
       this.fire("register-dialog", {
-        dialogShowEvent : "show-ozwlog-dialog",
-        dialogTag : "zwave-log-dialog",
-        dialogImport : () => import(
-            /* webpackChunkName: "zwave-log-dialog" */ "./zwave-log-dialog"),
+        dialogShowEvent: "show-ozwlog-dialog",
+        dialogTag: "zwave-log-dialog",
+        dialogImport: () =>
+          import(
+            /* webpackChunkName: "zwave-log-dialog" */ "./zwave-log-dialog"
+          ),
       });
     }
   }
 
   _showOzwlogDialog() {
     this.fire("show-ozwlog-dialog", {
-      hass : this.hass,
-      _numLogLines : this.numLogLines,
-      _ozwLog : this._ozwLogs,
-      _tail : this.tail,
-      dialogClosedCallback : () => this._dialogClosed(),
+      hass: this.hass,
+      _numLogLines: this.numLogLines,
+      _ozwLog: this._ozwLogs,
+      _tail: this.tail,
+      dialogClosedCallback: () => this._dialogClosed(),
     });
   }
 
   _dialogClosed() {
     this.setProperties({
-      tail : false,
+      tail: false,
     });
   }
 }

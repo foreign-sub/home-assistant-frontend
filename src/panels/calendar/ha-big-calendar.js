@@ -1,8 +1,8 @@
 import "../../resources/ha-style";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 import moment from "moment";
 // eslint-disable-next-line
 // import/no-duplicates,import/no-extraneous-dependencies
@@ -10,16 +10,15 @@ import React from "react";
 import BigCalendar from "react-big-calendar";
 // eslint-disable-next-line
 // import/no-duplicates,import/no-extraneous-dependencies
-import {render} from "react-dom";
+import { render } from "react-dom";
 
-import {EventsMixin} from "../../mixins/events-mixin";
+import { EventsMixin } from "../../mixins/events-mixin";
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 
 const DEFAULT_VIEW = "month";
 
-class HaBigCalendar extends EventsMixin
-(PolymerElement) {
+class HaBigCalendar extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <link
@@ -38,9 +37,9 @@ class HaBigCalendar extends EventsMixin
 
   static get properties() {
     return {
-      events : {
-        type : Array,
-        observer : "_update",
+      events: {
+        type: Array,
+        observer: "_update",
       },
     };
   }
@@ -49,14 +48,14 @@ class HaBigCalendar extends EventsMixin
     const allViews = BigCalendar.Views.values;
 
     const BCElement = React.createElement(BigCalendar, {
-      events : events,
-      views : allViews,
-      popup : true,
-      onNavigate : (date, viewName) => this.fire("navigate", {date, viewName}),
-      onView : (viewName) => this.fire("view-changed", {viewName}),
-      eventPropGetter : this._setEventStyle,
-      defaultView : DEFAULT_VIEW,
-      defaultDate : new Date(),
+      events: events,
+      views: allViews,
+      popup: true,
+      onNavigate: (date, viewName) => this.fire("navigate", { date, viewName }),
+      onView: (viewName) => this.fire("view-changed", { viewName }),
+      eventPropGetter: this._setEventStyle,
+      defaultView: DEFAULT_VIEW,
+      defaultDate: new Date(),
     });
     render(BCElement, this.$.root);
   }
@@ -67,7 +66,7 @@ class HaBigCalendar extends EventsMixin
     if (event.color) {
       newStyle.backgroundColor = event.color;
     }
-    return {style : newStyle};
+    return { style: newStyle };
   }
 }
 

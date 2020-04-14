@@ -1,8 +1,8 @@
 import "@polymer/iron-icon/iron-icon";
 import "@polymer/paper-input/paper-input";
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class HaCustomizeIcon extends PolymerElement {
   static get template() {
@@ -30,9 +30,9 @@ class HaCustomizeIcon extends PolymerElement {
 
   static get properties() {
     return {
-      item : {
-        type : Object,
-        notifies : true,
+      item: {
+        type: Object,
+        notifies: true,
       },
     };
   }

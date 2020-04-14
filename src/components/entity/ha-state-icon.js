@@ -1,25 +1,29 @@
 import "../ha-icon";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {stateIcon} from "../../common/entity/state_icon";
+import { stateIcon } from "../../common/entity/state_icon";
 
 class HaStateIcon extends PolymerElement {
   static get template() {
-    return html` <ha-icon icon="[[computeIcon(stateObj)]]"></ha-icon> `;
+    return html`
+      <ha-icon icon="[[computeIcon(stateObj)]]"></ha-icon>
+    `;
   }
 
   static get properties() {
     return {
-      stateObj : {
-        type : Object,
+      stateObj: {
+        type: Object,
       },
     };
   }
 
-  computeIcon(stateObj) { return stateIcon(stateObj); }
+  computeIcon(stateObj) {
+    return stateIcon(stateObj);
+  }
 }
 
 customElements.define("ha-state-icon", HaStateIcon);

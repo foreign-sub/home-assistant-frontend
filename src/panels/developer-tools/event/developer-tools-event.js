@@ -6,13 +6,13 @@ import "../../../resources/ha-style";
 import "./event-subscribe-card";
 import "./events-list";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
-import {safeLoad} from "js-yaml";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
+import { safeLoad } from "js-yaml";
 
-import {showAlertDialog} from "../../../dialogs/generic/show-dialog-box";
-import {EventsMixin} from "../../../mixins/events-mixin";
+import { showAlertDialog } from "../../../dialogs/generic/show-dialog-box";
+import { EventsMixin } from "../../../mixins/events-mixin";
 import LocalizeMixin from "../../../mixins/localize-mixin";
 
 const ERROR_SENTINEL = {};
@@ -20,8 +20,7 @@ const ERROR_SENTINEL = {};
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class HaPanelDevEvent extends EventsMixin
-(LocalizeMixin(PolymerElement)) {
+class HaPanelDevEvent extends EventsMixin(LocalizeMixin(PolymerElement)) {
   static get template() {
     return html`
       <style include="ha-style iron-flex iron-positioning"></style>
@@ -111,33 +110,35 @@ class HaPanelDevEvent extends EventsMixin
 
   static get properties() {
     return {
-      hass : {
-        type : Object,
+      hass: {
+        type: Object,
       },
 
-      eventType : {
-        type : String,
-        value : "",
+      eventType: {
+        type: String,
+        value: "",
       },
 
-      eventData : {
-        type : String,
-        value : "",
+      eventData: {
+        type: String,
+        value: "",
       },
 
-      parsedJSON : {
-        type : Object,
-        computed : "_computeParsedEventData(eventData)",
+      parsedJSON: {
+        type: Object,
+        computed: "_computeParsedEventData(eventData)",
       },
 
-      validJSON : {
-        type : Boolean,
-        computed : "_computeValidJSON(parsedJSON)",
+      validJSON: {
+        type: Boolean,
+        computed: "_computeValidJSON(parsedJSON)",
       },
     };
   }
 
-  eventSelected(ev) { this.eventType = ev.detail.eventType; }
+  eventSelected(ev) {
+    this.eventType = ev.detail.eventType;
+  }
 
   _computeParsedEventData(eventData) {
     try {
@@ -147,29 +148,39 @@ class HaPanelDevEvent extends EventsMixin
     }
   }
 
-  _computeValidJSON(parsedJSON) { return parsedJSON !== ERROR_SENTINEL; }
+  _computeValidJSON(parsedJSON) {
+    return parsedJSON !== ERROR_SENTINEL;
+  }
 
-  _yamlChanged(ev) { this.eventData = ev.detail.value; }
+  _yamlChanged(ev) {
+    this.eventData = ev.detail.value;
+  }
 
   fireEvent() {
     if (!this.eventType) {
       showAlertDialog(this, {
-        text : this.hass.localize(
-            "ui.panel.developer-tools.tabs.events.alert_event_type"),
+        text: this.hass.localize(
+          "ui.panel.developer-tools.tabs.events.alert_event_type"
+        ),
       });
       return;
     }
-    this.hass.callApi("POST", "events/" + this.eventType, this.parsedJSON)
-        .then(function() {
-          this.fire("hass-notification", {
-            message : this.hass.localize(
-                "ui.panel.developer-tools.tabs.events.notification_event_fired",
-                "type", this.eventType),
-          });
-        }.bind(this));
+    this.hass.callApi("POST", "events/" + this.eventType, this.parsedJSON).then(
+      function() {
+        this.fire("hass-notification", {
+          message: this.hass.localize(
+            "ui.panel.developer-tools.tabs.events.notification_event_fired",
+            "type",
+            this.eventType
+          ),
+        });
+      }.bind(this)
+    );
   }
 
-  computeFormClasses(narrow) { return narrow ? "" : "layout horizontal"; }
+  computeFormClasses(narrow) {
+    return narrow ? "" : "layout horizontal";
+  }
 }
 
 customElements.define("developer-tools-event", HaPanelDevEvent);

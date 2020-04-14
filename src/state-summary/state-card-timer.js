@@ -1,12 +1,12 @@
 import "@polymer/iron-flex-layout/iron-flex-layout-classes";
 import "../components/entity/state-info";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 import secondsToDuration from "../common/datetime/seconds_to_duration";
-import {timerTimeRemaining} from "../common/entity/timer_time_remaining";
+import { timerTimeRemaining } from "../common/entity/timer_time_remaining";
 
 class StateCardTimer extends PolymerElement {
   static get template() {
@@ -42,15 +42,15 @@ class StateCardTimer extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
-      stateObj : {
-        type : Object,
-        observer : "stateObjChanged",
+      hass: Object,
+      stateObj: {
+        type: Object,
+        observer: "stateObjChanged",
       },
-      timeRemaining : Number,
-      inDialog : {
-        type : Boolean,
-        value : false,
+      timeRemaining: Number,
+      inDialog: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -65,7 +65,9 @@ class StateCardTimer extends PolymerElement {
     this.clearInterval();
   }
 
-  stateObjChanged(stateObj) { this.startInterval(stateObj); }
+  stateObjChanged(stateObj) {
+    this.startInterval(stateObj);
+  }
 
   clearInterval() {
     if (this._updateRemaining) {
@@ -79,8 +81,10 @@ class StateCardTimer extends PolymerElement {
     this.calculateRemaining(stateObj);
 
     if (stateObj.state === "active") {
-      this._updateRemaining =
-          setInterval(() => this.calculateRemaining(this.stateObj), 1000);
+      this._updateRemaining = setInterval(
+        () => this.calculateRemaining(this.stateObj),
+        1000
+      );
     }
   }
 
@@ -88,6 +92,8 @@ class StateCardTimer extends PolymerElement {
     this.timeRemaining = timerTimeRemaining(stateObj);
   }
 
-  _secondsToDuration(time) { return secondsToDuration(time); }
+  _secondsToDuration(time) {
+    return secondsToDuration(time);
+  }
 }
 customElements.define("state-card-timer", StateCardTimer);

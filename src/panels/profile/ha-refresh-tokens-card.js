@@ -3,20 +3,19 @@ import "@polymer/paper-tooltip/paper-tooltip";
 import "../../components/ha-card";
 import "./ha-settings-row";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {formatDateTime} from "../../common/datetime/format_date_time";
-import {EventsMixin} from "../../mixins/events-mixin";
+import { formatDateTime } from "../../common/datetime/format_date_time";
+import { EventsMixin } from "../../mixins/events-mixin";
 import LocalizeMixin from "../../mixins/localize-mixin";
 
 /*
  * @appliesMixin EventsMixin
  * @appliesMixin LocalizeMixin
  */
-class HaRefreshTokens extends LocalizeMixin
-(EventsMixin(PolymerElement)) {
+class HaRefreshTokens extends LocalizeMixin(EventsMixin(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -56,8 +55,8 @@ class HaRefreshTokens extends LocalizeMixin
 
   static get properties() {
     return {
-      hass : Object,
-      refreshTokens : Array,
+      hass: Object,
+      refreshTokens: Array,
     };
   }
 
@@ -66,34 +65,49 @@ class HaRefreshTokens extends LocalizeMixin
   }
 
   _formatTitle(clientId) {
-    return this.localize("ui.panel.profile.refresh_tokens.token_title",
-                         "clientId", clientId);
+    return this.localize(
+      "ui.panel.profile.refresh_tokens.token_title",
+      "clientId",
+      clientId
+    );
   }
 
   _formatCreatedAt(created) {
-    return this.localize("ui.panel.profile.refresh_tokens.created_at", "date",
-                         formatDateTime(new Date(created), this.hass.language));
+    return this.localize(
+      "ui.panel.profile.refresh_tokens.created_at",
+      "date",
+      formatDateTime(new Date(created), this.hass.language)
+    );
   }
 
   _formatLastUsed(item) {
     return item.last_used_at
-               ? this.localize("ui.panel.profile.refresh_tokens.last_used",
-                               "date",
-                               formatDateTime(new Date(item.last_used_at),
-                                              this.hass.language),
-                               "location", item.last_used_ip)
-               : this.localize("ui.panel.profile.refresh_tokens.not_used");
+      ? this.localize(
+          "ui.panel.profile.refresh_tokens.last_used",
+          "date",
+          formatDateTime(new Date(item.last_used_at), this.hass.language),
+          "location",
+          item.last_used_ip
+        )
+      : this.localize("ui.panel.profile.refresh_tokens.not_used");
   }
 
   async _handleDelete(ev) {
-    if (!confirm(this.localize("ui.panel.profile.refresh_tokens.confirm_delete",
-                               "name", ev.model.item.client_id))) {
+    if (
+      !confirm(
+        this.localize(
+          "ui.panel.profile.refresh_tokens.confirm_delete",
+          "name",
+          ev.model.item.client_id
+        )
+      )
+    ) {
       return;
     }
     try {
       await this.hass.callWS({
-        type : "auth/delete_refresh_token",
-        refresh_token_id : ev.model.item.id,
+        type: "auth/delete_refresh_token",
+        refresh_token_id: ev.model.item.id,
       });
       this.fire("hass-refresh-tokens");
     } catch (err) {

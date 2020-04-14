@@ -5,9 +5,9 @@ import "@polymer/paper-listbox/paper-listbox";
 import "../../../components/buttons/ha-call-api-button";
 import "../../../components/ha-card";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
 class ZwaveNodeProtection extends PolymerElement {
   static get template() {
@@ -58,53 +58,55 @@ class ZwaveNodeProtection extends PolymerElement {
 
   static get properties() {
     return {
-      hass : Object,
+      hass: Object,
 
-      nodes : Array,
+      nodes: Array,
 
-      selectedNode : {
-        type : Number,
-        value : -1,
+      selectedNode: {
+        type: Number,
+        value: -1,
       },
 
-      protectionNode : {
-        type : Boolean,
-        value : false,
+      protectionNode: {
+        type: Boolean,
+        value: false,
       },
 
-      _protectionValueID : {
-        type : Number,
-        value : -1,
+      _protectionValueID: {
+        type: Number,
+        value: -1,
       },
 
-      _selectedProtectionParameter : {
-        type : Number,
-        value : -1,
-        observer : "_computeProtectionData",
+      _selectedProtectionParameter: {
+        type: Number,
+        value: -1,
+        observer: "_computeProtectionData",
       },
 
-      _protectionOptions : Array,
+      _protectionOptions: Array,
 
-      _protection : {
-        type : Array,
-        value : () => [],
+      _protection: {
+        type: Array,
+        value: () => [],
       },
 
-      _loadedProtectionValue : {
-        type : String,
-        value : "",
+      _loadedProtectionValue: {
+        type: String,
+        value: "",
       },
 
-      _protectionData : {
-        type : Object,
-        value : {},
+      _protectionData: {
+        type: Object,
+        value: {},
       },
 
-      _nodePath : String,
+      _nodePath: String,
     };
   }
 
-  static get observers() { return [ "_nodesChanged(nodes, selectedNode)" ]; }
+  static get observers() {
+    return ["_nodesChanged(nodes, selectedNode)"];
+  }
 
   ready() {
     super.ready();
@@ -113,22 +115,23 @@ class ZwaveNodeProtection extends PolymerElement {
 
   apiCalled(ev) {
     if (ev.detail.success) {
-      setTimeout(() => { this._refreshProtection(this.selectedNode); }, 5000);
+      setTimeout(() => {
+        this._refreshProtection(this.selectedNode);
+      }, 5000);
     }
   }
 
   _nodesChanged() {
-    if (!this.nodes)
-      return;
+    if (!this.nodes) return;
     if (this.protection) {
       if (this.protection.length === 0) {
         return;
       }
       this.setProperties({
-        protectionNode : true,
-        _protectionOptions : this.protection[0].value,
-        _loadedProtectionValue : this.protection[1].value,
-        _protectionValueID : this.protection[2].value,
+        protectionNode: true,
+        _protectionOptions: this.protection[0].value,
+        _loadedProtectionValue: this.protection[1].value,
+        _protectionValueID: this.protection[2].value,
       });
     }
   }
@@ -136,30 +139,31 @@ class ZwaveNodeProtection extends PolymerElement {
   async _refreshProtection(selectedNode) {
     const protectionValues = [];
     const protections = await this.hass.callApi(
-        "GET",
-        `zwave/protection/${this.nodes[selectedNode].attributes.node_id}`);
+      "GET",
+      `zwave/protection/${this.nodes[selectedNode].attributes.node_id}`
+    );
     Object.keys(protections).forEach((key) => {
       protectionValues.push({
         key,
-        value : protections[key],
+        value: protections[key],
       });
     });
     this.setProperties({
-      _protection : protectionValues,
-      _selectedProtectionParameter : -1,
-      _loadedProtectionValue : this.protection[1].value,
+      _protection: protectionValues,
+      _selectedProtectionParameter: -1,
+      _loadedProtectionValue: this.protection[1].value,
     });
   }
 
   _computeProtectionData(selectedProtectionParameter) {
-    if (this.selectedNode === -1 || selectedProtectionParameter === -1)
-      return;
+    if (this.selectedNode === -1 || selectedProtectionParameter === -1) return;
     this._protectionData = {
-      selection : this._protectionOptions[selectedProtectionParameter],
-      value_id : this._protectionValueID,
+      selection: this._protectionOptions[selectedProtectionParameter],
+      value_id: this._protectionValueID,
     };
-    this._nodePath =
-        `zwave/protection/${this.nodes[this.selectedNode].attributes.node_id}`;
+    this._nodePath = `zwave/protection/${
+      this.nodes[this.selectedNode].attributes.node_id
+    }`;
   }
 }
 

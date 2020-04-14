@@ -3,14 +3,13 @@ import "@polymer/paper-input/paper-input";
 import "@polymer/paper-item/paper-item";
 import "@vaadin/vaadin-combo-box/theme/material/vaadin-combo-box-light";
 
-import {html} from "@polymer/polymer/lib/utils/html-tag";
+import { html } from "@polymer/polymer/lib/utils/html-tag";
 /* eslint-plugin-disable lit */
-import {PolymerElement} from "@polymer/polymer/polymer-element";
+import { PolymerElement } from "@polymer/polymer/polymer-element";
 
-import {EventsMixin} from "../mixins/events-mixin";
+import { EventsMixin } from "../mixins/events-mixin";
 
-class HaComboBox extends EventsMixin
-(PolymerElement) {
+class HaComboBox extends EventsMixin(PolymerElement) {
   static get template() {
     return html`
       <style>
@@ -69,24 +68,24 @@ class HaComboBox extends EventsMixin
 
   static get properties() {
     return {
-      allowCustomValue : Boolean,
-      items : {
-        type : Object,
-        observer : "_itemsChanged",
+      allowCustomValue: Boolean,
+      items: {
+        type: Object,
+        observer: "_itemsChanged",
       },
-      _items : Object,
-      itemLabelPath : String,
-      itemValuePath : String,
-      autofocus : Boolean,
-      label : String,
-      opened : {
-        type : Boolean,
-        value : false,
-        observer : "_openedChanged",
+      _items: Object,
+      itemLabelPath: String,
+      itemValuePath: String,
+      autofocus: Boolean,
+      label: String,
+      opened: {
+        type: Boolean,
+        value: false,
+        observer: "_openedChanged",
       },
-      value : {
-        type : String,
-        notify : true,
+      value: {
+        type: String,
+        notify: true,
       },
     };
   }
