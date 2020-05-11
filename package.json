@@ -128,7 +128,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-typescript": "^7.9.0",
     "@types/chai": "^4.1.7",
-    "@types/chromecast-caf-receiver": "^3.0.12",
+    "@types/chromecast-caf-receiver": "^5.0.4",
     "@types/codemirror": "^0.0.78",
     "@types/hls.js": "^0.12.3",
     "@types/js-yaml": "^3.12.1",

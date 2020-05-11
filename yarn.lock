@@ -2686,10 +2686,10 @@
   resolved "https://registry.yarnpkg.com/@types/chalk/-/chalk-0.4.31.tgz#a31d74241a6b1edbb973cf36d97a2896834a51f9"
   integrity sha1-ox10JBprHtu5c8822XooloNKUfk=
 
-"@types/chromecast-caf-receiver@^3.0.12":
-  version "3.0.17"
-  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-3.0.17.tgz#adc791f501cd8940e5b328c038b9164bf7d07f04"
-  integrity sha512-hQeEPuK1rM9q7pMdcsjrEy0MgTxnHWbmc+fDiZ/anbp4jLi/hdmG5uWKYepeCq7XOE0p8oSN93V/HfGqUJLzDg==
+"@types/chromecast-caf-receiver@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-5.0.4.tgz#588a884ad3034d8ba0f9a86b4c7220a9d4c12692"
+  integrity sha512-LlgMrB5k8Cx5uULMtRqZtV4sHefBRiYYMbENfplRahA0UIu2x525ez9gBJtVwPY4GrLRQIVlJidLduuiQcrmGA==
 
 "@types/clean-css@*":
   version "4.2.1"
