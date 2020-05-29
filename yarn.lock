@@ -2409,10 +2409,10 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.11.tgz#d3614d6c5f500142358e6ed24e1bf16657536c50"
   integrity sha512-t7uW6eFafjO+qJ3BIV2gGUyZs27egcNRkUdalkud+Qa3+kg//f129iuOFivHDXQ+vnU3fDXuwgv0cqMCbcE8sw==
 
-"@types/chromecast-caf-receiver@^3.0.12":
-  version "3.0.17"
-  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-3.0.17.tgz#adc791f501cd8940e5b328c038b9164bf7d07f04"
-  integrity sha512-hQeEPuK1rM9q7pMdcsjrEy0MgTxnHWbmc+fDiZ/anbp4jLi/hdmG5uWKYepeCq7XOE0p8oSN93V/HfGqUJLzDg==
+"@types/chromecast-caf-receiver@^5.0.5":
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-5.0.5.tgz#9cc73a4fdf9ce9ddda8a61fd5007b358668c0315"
+  integrity sha512-l3cw/MdDxK8UGtB9FSh1JvTfKmwkTPKsjVk1JdGQqSbuw9L0P0dTB1C2oQpa4UvHBkG8GiCqPhNtp2U31/+NLA==
 
 "@types/codemirror@^0.0.78":
   version "0.0.78"
