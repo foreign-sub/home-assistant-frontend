@@ -2455,10 +2455,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/hls.js@^0.12.3":
-  version "0.12.3"
-  resolved "https://registry.yarnpkg.com/@types/hls.js/-/hls.js-0.12.3.tgz#09d5d1dbcd78d7dd46deff6db02bd2af9721a4cf"
-  integrity sha512-1QbxVTp7v9bn8MjvbMXV4YbMntC9Dv8v9bI9LgWxfg9Mgib0/jI2XITUEKGgG5Cde48ktyA1UHTSWld7QKKNnQ==
+"@types/hls.js@^0.12.6":
+  version "0.12.6"
+  resolved "https://registry.yarnpkg.com/@types/hls.js/-/hls.js-0.12.6.tgz#89f3e8dc7bae293e78ceb17c0c884922fe2b870b"
+  integrity sha512-WCyEefzkQwurOYREGL4vzS2ikXhPfwS2gl+29iB5mG9xEGG5ZunfTowcEBuMsYIjkEhEC7Agx66N76R+oUnpjw==
 
 "@types/js-yaml@^3.12.1":
   version "3.12.1"
