@@ -194,7 +194,7 @@
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9",
+    "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-manifest-plugin": "^2.0.4",
     "workbox-build": "^5.1.3",
