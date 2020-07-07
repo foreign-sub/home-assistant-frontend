@@ -2384,10 +2384,10 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.2.11.tgz#d3614d6c5f500142358e6ed24e1bf16657536c50"
   integrity sha512-t7uW6eFafjO+qJ3BIV2gGUyZs27egcNRkUdalkud+Qa3+kg//f129iuOFivHDXQ+vnU3fDXuwgv0cqMCbcE8sw==
 
-"@types/chromecast-caf-receiver@^3.0.12":
-  version "3.0.17"
-  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-3.0.17.tgz#adc791f501cd8940e5b328c038b9164bf7d07f04"
-  integrity sha512-hQeEPuK1rM9q7pMdcsjrEy0MgTxnHWbmc+fDiZ/anbp4jLi/hdmG5uWKYepeCq7XOE0p8oSN93V/HfGqUJLzDg==
+"@types/chromecast-caf-receiver@^5.0.6":
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-5.0.6.tgz#4b69c99f604afd155ef993c2aaa1f9dbb47ef04e"
+  integrity sha512-UgQd3xjSkyeNU1h1hSN1vxxNVrDlAjaFU16/gsHCgZNi+XG6U+Lkl3oMEJIy05UFI7XL3ss16RUrdccsrR2AeA==
 
 "@types/codemirror@^0.0.78":
   version "0.0.78"
