@@ -2520,10 +2520,10 @@
     "@types/filesystem" "*"
     "@types/har-format" "*"
 
-"@types/chromecast-caf-receiver@^3.0.12":
-  version "3.0.17"
-  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-3.0.17.tgz#adc791f501cd8940e5b328c038b9164bf7d07f04"
-  integrity sha512-hQeEPuK1rM9q7pMdcsjrEy0MgTxnHWbmc+fDiZ/anbp4jLi/hdmG5uWKYepeCq7XOE0p8oSN93V/HfGqUJLzDg==
+"@types/chromecast-caf-receiver@^5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@types/chromecast-caf-receiver/-/chromecast-caf-receiver-5.0.7.tgz#51f790f11af6e23fdf224e8966350aff7785b2ab"
+  integrity sha512-QpLsNKzj4pfrnCH8qkWuZUSY2fpKZOAhuWDrJwxBhq30Py6scfKOAb3fkLM1ibQmd9DmC/zLs6oLoNJQPNVciQ==
 
 "@types/chromecast-caf-sender@^1.0.3":
   version "1.0.3"
