@@ -2590,10 +2590,10 @@
   resolved "https://registry.yarnpkg.com/@types/har-format/-/har-format-1.2.4.tgz#3275842095abb60d14b47fa798cc9ff708dab6d4"
   integrity sha512-iUxzm1meBm3stxUMzRqgOVHjj4Kgpgu5w9fm4X7kPRfSgVRzythsucEN7/jtOo8SQzm+HfcxWWzJS0mJDH/3DQ==
 
-"@types/hls.js@^0.12.3":
-  version "0.12.3"
-  resolved "https://registry.yarnpkg.com/@types/hls.js/-/hls.js-0.12.3.tgz#09d5d1dbcd78d7dd46deff6db02bd2af9721a4cf"
-  integrity sha512-1QbxVTp7v9bn8MjvbMXV4YbMntC9Dv8v9bI9LgWxfg9Mgib0/jI2XITUEKGgG5Cde48ktyA1UHTSWld7QKKNnQ==
+"@types/hls.js@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@types/hls.js/-/hls.js-0.13.0.tgz#d935854833708a0eabf19abe33c623517986c870"
+  integrity sha512-zeW+kWWUvMF7x8/M1kLRCX6C41UcKyDZC/Xy6biGqLhd+rkpv2juVO+tCwPSQPQuqL1VtseoQYdONCOxUZ38Sw==
 
 "@types/js-yaml@^3.12.1":
   version "3.12.1"
