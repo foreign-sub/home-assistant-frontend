@@ -26,7 +26,7 @@
     "@formatjs/intl-pluralrules": "^3.4.10",
     "@fullcalendar/common": "5.1.0",
     "@fullcalendar/core": "5.1.0",
-    "@fullcalendar/daygrid": "5.1.0",
+    "@fullcalendar/daygrid": "5.5.0",
     "@fullcalendar/interaction": "5.1.0",
     "@fullcalendar/list": "5.1.0",
     "@material/chips": "=9.0.0-canary.1c156d69d.0",
