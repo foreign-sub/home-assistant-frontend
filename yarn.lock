@@ -2092,6 +2092,13 @@
   dependencies:
     tslib "^2.0.0"
 
+"@fullcalendar/common@~5.6.0":
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/common/-/common-5.6.0.tgz#27206084df07fbab33a67478b0d9b05542b09b79"
+  integrity sha512-4i4kZDVpRvfdKoJHRljDHsoYu466Odor9FhekP+67dIUoNnXSDTnQRmGfURwiF4RwaTsdWKe2+B7gors9G7zZA==
+  dependencies:
+    tslib "^2.0.3"
+
 "@fullcalendar/core@5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-5.1.0.tgz#0d9813b0564f24fe6285e31f8313d9366c6db411"
@@ -2101,13 +2108,13 @@
     preact "^10.0.5"
     tslib "^2.0.0"
 
-"@fullcalendar/daygrid@5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-5.1.0.tgz#4f8cb30e99ff00600f064645942d21e8f668c946"
-  integrity sha512-zdO/EFer8wWrr+kvkMfyizPi/F7yvOCpGOb6Arz6QqyOgFl1ffNUQoRf1iQf7h2PnIEvZWZdZs+3wuMwwmhb3g==
+"@fullcalendar/daygrid@5.6.0":
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-5.6.0.tgz#705508a7e7c5d560d01877485283f370c3c70780"
+  integrity sha512-UaNn6/vKQ3zI4/sDhrMACkIHOSZb/MA0JGlvvw3OTYFULqE5TISuYYnDbo9S1Wdz3AbTBvCzYy5Qk1vZQFsGwg==
   dependencies:
-    "@fullcalendar/common" "~5.1.0"
-    tslib "^2.0.0"
+    "@fullcalendar/common" "~5.6.0"
+    tslib "^2.0.3"
 
 "@fullcalendar/interaction@5.1.0":
   version "5.1.0"
@@ -13394,15 +13401,10 @@ tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
 
-tslib@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
-  integrity sha512-lTqkx847PI7xEDYJntxZH89L2/aXInsyF2luSafe/+0fHOMjlBNXdH6th7f70qxLDhul7KZK0zC8V5ZIyHl0/g==
-
-tslib@^2.0.1:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
-  integrity sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==
+tslib@^2.0.0, tslib@^2.0.1, tslib@^2.0.3:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
+  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
 tsparticles@^1.19.2:
   version "1.19.2"
