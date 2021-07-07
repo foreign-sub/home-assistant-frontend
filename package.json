@@ -82,7 +82,7 @@
     "@polymer/paper-progress": "^3.0.1",
     "@polymer/paper-radio-button": "^3.0.1",
     "@polymer/paper-radio-group": "^3.0.1",
-    "@polymer/paper-ripple": "^3.0.1",
+    "@polymer/paper-ripple": "^3.0.2",
     "@polymer/paper-slider": "^3.0.1",
     "@polymer/paper-styles": "^3.0.1",
     "@polymer/paper-tabs": "^3.0.1",
