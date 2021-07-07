@@ -39,7 +39,7 @@
     "@formatjs/intl-pluralrules": "^4.0.22",
     "@fullcalendar/common": "5.1.0",
     "@fullcalendar/core": "5.1.0",
-    "@fullcalendar/daygrid": "5.1.0",
+    "@fullcalendar/daygrid": "5.8.0",
     "@fullcalendar/interaction": "5.1.0",
     "@fullcalendar/list": "5.1.0",
     "@lit-labs/virtualizer": "^0.6.0",
